@@ -7,3 +7,29 @@ body {
   overflow-y: auto;
   box-sizing: border-box;
 }
+
+.ant-tabs-tab-btn {
+  color: #212529 !important;
+}
+
+.ant-tabs-tab {
+  border-right: 1px solid #6f6f6f !important;
+  padding: 10px 10px !important;
+  min-width: 130px;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.ant-tabs-ink-bar {
+  background-color: transparent !important;
+}
+
+.ant-tabs-tab-active {
+  background: #e4e4e4 !important;
+}
+
+.ant-tabs-nav-more {
+  display: none !important;
+}

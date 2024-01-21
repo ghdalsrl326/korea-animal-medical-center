@@ -1,9 +1,11 @@
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import React from "react";
 import Image from "next/image";
-import { Button, Flex, Layout } from "antd";
+import { Button, Layout } from "antd";
 import Title from "antd/es/typography/Title";
 import SettingForm from "@/components/SettingForm";
+import NavigationTab from "@/components/NavigationTab";
+import LogoutButton from "@/components/LogoutButton";
 
 const page = () => {
   return (
@@ -18,7 +20,7 @@ const page = () => {
         }}
       >
         <Image src="/images/logo.png" alt="logo" width={197} height={27} />
-        <Button type="default">로그아웃</Button>
+        <LogoutButton />
       </Header>
       <Content
         style={{
@@ -27,11 +29,10 @@ const page = () => {
           height: "calc(100vh - 64px)",
         }}
       >
-        {/* <Flex vertical justify="center"> */}
         <Title level={3}>환자정보</Title>
         <SettingForm />
-        {/* </Flex> */}
       </Content>
+      <NavigationTab />
     </Layout>
   );
 };
