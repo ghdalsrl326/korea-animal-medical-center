@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { Button, Checkbox, Flex, Form, Input } from "antd";
+import { useRouter } from "next/navigation";
 
 type FieldType = {
   userID?: string;
@@ -9,8 +10,15 @@ type FieldType = {
 };
 
 const LoginForm = () => {
-  const onFinish = (values: any) => {
+  const router = useRouter();
+
+  const onFinish = (values: FieldType) => {
     console.log("Success:", values);
+    if (values.userID === "admin" && values.userPW === "admin") {
+      router.push("/setting");
+    } else {
+      alert("아이디와 비밀번호를 확인해주세요");
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
