@@ -2,8 +2,7 @@ import React from "react";
 import Image from "next/image";
 import LoginForm from "@/components/LoginForm";
 import Title from "antd/es/typography/Title";
-import { Layout, Flex } from "antd";
-import { Content, Footer, Header } from "antd/es/layout/layout";
+import { Flex } from "antd";
 
 const headerStyle: React.CSSProperties = {
   textAlign: "center",
