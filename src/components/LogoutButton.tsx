@@ -1,4 +1,5 @@
 "use client";
+import { URL } from "@/app/data/url";
 import { Button } from "antd";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -7,7 +8,7 @@ const LogoutButton = () => {
   const router = useRouter();
 
   const handleLogout = () => {
-    router.push("/login");
+    router.push(URL.LOGIN);
   };
 
   return (
