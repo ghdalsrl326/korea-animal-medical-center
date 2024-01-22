@@ -1,22 +1,20 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Divider, Tabs } from "antd";
+import React, { useState } from "react";
+import { Tabs } from "antd";
 import Image from "next/image";
-import { NavigationItem, navigation } from "@/app/data/navigation";
+import { navigation } from "@/app/data/navigation";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const NavigationTab = () => {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<NavigationItem>(navigation[0]);
+  const pathname = usePathname();
   const [visible, setVisible] = useState(true);
 
   const toggleVisibility = () => {
     setVisible(!visible);
   };
-
-  useEffect(() => {
-    router.push(activeTab.path);
-  }, [activeTab, router]);
 
   return (
     <div>
@@ -47,12 +45,13 @@ const NavigationTab = () => {
       </span>
       {visible && (
         <Tabs
+          activeKey={pathname}
           type="line"
           tabPosition="bottom"
           items={navigation.map((tab) => {
             return {
-              label: tab.name,
-              key: tab.name,
+              label: <Link href={tab.path}>{tab.name}</Link>,
+              key: tab.path,
             };
           })}
           style={{
@@ -63,12 +62,11 @@ const NavigationTab = () => {
           }}
           tabBarStyle={{
             borderTop: "5px solid black",
+            background: "#fff",
           }}
           tabBarGutter={0}
-          onTabClick={(tab) => {
-            setActiveTab(
-              navigation.find((item) => item.name === tab) ?? navigation[0]
-            );
+          onTabClick={(key) => {
+            router.push(key);
           }}
         />
       )}

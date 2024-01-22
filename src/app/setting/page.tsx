@@ -1,7 +1,7 @@
-import { Content, Footer, Header } from "antd/es/layout/layout";
+import { Content, Header } from "antd/es/layout/layout";
 import React from "react";
 import Image from "next/image";
-import { Button, Layout } from "antd";
+import { Layout } from "antd";
 import Title from "antd/es/typography/Title";
 import SettingForm from "@/components/SettingForm";
 import NavigationTab from "@/components/NavigationTab";

@@ -3,6 +3,9 @@ import React from "react";
 import { Button, Form, Input, Radio, Space, Upload } from "antd";
 import RequiredMark from "./RequiredMark";
 import { UploadOutlined } from "@ant-design/icons";
+import { useAtom } from "jotai";
+import { settingAtom } from "@/app/data/settingStore";
+import { useRouter } from "next/navigation";
 
 type FieldType = {
   name?: string;
@@ -11,12 +14,25 @@ type FieldType = {
   age?: string;
   date?: string;
   examinationType?: "first" | "second";
-  signature?: Blob;
+  signature?: [];
 };
 
 const SettingForm = () => {
-  const onFinish = (values: any) => {
+  const router = useRouter();
+  const [setting, setSetting] = useAtom(settingAtom);
+
+  const onFinish = (values: FieldType) => {
     console.log("Success:", values);
+    setSetting({
+      name: values.name || "",
+      breed: values.breed || "",
+      ownerName: values.ownerName || "",
+      age: values.age || "",
+      date: values.date || "",
+      examinationType: values.examinationType || "",
+      signature: values.signature || [],
+    });
+    router.push("/cover");
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -25,10 +41,9 @@ const SettingForm = () => {
 
   const normFile = (e: any) => {
     console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
+    const fileList = Array.isArray(e) ? e : e?.fileList;
+    setSetting((current) => ({ ...current, signatureFiles: fileList }));
+    return fileList;
   };
 
   const customRequest = async ({ file, onSuccess, onError }: any) => {
@@ -49,7 +64,7 @@ const SettingForm = () => {
         border: "1px solid var(--Gray_3, #DEE2E6)",
         background: "var(--White, #FFF)",
         padding: "20px 40px",
-        width: "80%",
+        maxWidth: "80%",
       }}
     >
       <Form
@@ -67,7 +82,8 @@ const SettingForm = () => {
           label="환자정보"
           name="name"
           rules={[{ required: true, message: "환자정보 입력해주세요" }]}
-          style={{ width: "480px", marginBottom: "10px" }}
+          style={{ maxWidth: "480px", marginBottom: "10px" }}
+          initialValue={setting.name}
         >
           <Input size="large" />
         </Form.Item>
@@ -76,7 +92,8 @@ const SettingForm = () => {
           label="견종"
           name="breed"
           rules={[{ required: true, message: "견종을 입력해주세요" }]}
-          style={{ width: "480px", marginBottom: "10px" }}
+          style={{ maxWidth: "480px", marginBottom: "10px" }}
+          initialValue={setting.breed}
         >
           <Input size="large" />
         </Form.Item>
@@ -85,7 +102,8 @@ const SettingForm = () => {
           label="보호자 성함"
           name="ownerName"
           rules={[{ required: true, message: "보호자 성함을 입력해주세요" }]}
-          style={{ width: "480px", marginBottom: "10px" }}
+          style={{ maxWidth: "480px", marginBottom: "10px" }}
+          initialValue={setting.ownerName}
         >
           <Input size="large" />
         </Form.Item>
@@ -94,7 +112,8 @@ const SettingForm = () => {
           label="나이"
           name="age"
           rules={[{ required: true, message: "나이를 입력해주세요" }]}
-          style={{ width: "480px", marginBottom: "10px" }}
+          style={{ maxWidth: "480px", marginBottom: "10px" }}
+          initialValue={setting.age}
         >
           <Input size="large" />
         </Form.Item>
@@ -103,7 +122,8 @@ const SettingForm = () => {
           label="측정일"
           name="date"
           rules={[{ required: true, message: "측정일을 입력해주세요" }]}
-          style={{ width: "480px", marginBottom: "10px" }}
+          style={{ maxWidth: "480px", marginBottom: "10px" }}
+          initialValue={setting.date}
         >
           <Input size="large" />
         </Form.Item>
@@ -112,7 +132,8 @@ const SettingForm = () => {
           label="초진/재진"
           name="examinationType"
           rules={[{ required: true, message: "검사종류를 선택해주세요" }]}
-          style={{ width: "480px", marginBottom: "10px" }}
+          style={{ maxWidth: "480px", marginBottom: "10px" }}
+          initialValue={setting.examinationType}
         >
           <Radio.Group>
             <Radio value="first">초진</Radio>
@@ -120,12 +141,14 @@ const SettingForm = () => {
           </Radio.Group>
         </Form.Item>
 
-        <Form.Item
+        <Form.Item<FieldType>
           label="수의사 서명 등록"
+          name="signature"
           valuePropName="fileList"
           getValueFromEvent={normFile}
           rules={[{ required: true, message: "서명을 업로드해주세요" }]}
-          style={{ width: "480px", marginBottom: "40px" }}
+          style={{ maxWidth: "480px", marginBottom: "40px" }}
+          initialValue={setting.signature}
         >
           <Upload
             name="signature"
@@ -143,7 +166,7 @@ const SettingForm = () => {
               type="primary"
               htmlType="submit"
               size="large"
-              style={{ width: "210px" }}
+              style={{ maxWidth: "210px" }}
             >
               저장하기
             </Button>

@@ -11,6 +11,10 @@ export const navigation: NavigationItem[] = [
     path: URL.SETTING,
   },
   {
+    name: "표지",
+    path: URL.COVER,
+  },
+  {
     name: "건강검진 문진표",
     path: URL.QUESTIONNAIRE,
   },
