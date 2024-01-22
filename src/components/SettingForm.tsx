@@ -136,8 +136,8 @@ const SettingForm = () => {
           initialValue={setting.examinationType}
         >
           <Radio.Group>
-            <Radio value="first">초진</Radio>
-            <Radio value="second">재진</Radio>
+            <Radio value="초진">초진</Radio>
+            <Radio value="재진">재진</Radio>
           </Radio.Group>
         </Form.Item>
 

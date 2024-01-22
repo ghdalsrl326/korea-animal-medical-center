@@ -23,11 +23,16 @@ const SectionCard = () => {
             width: "100%",
             height: "100%",
             lineHeight: "0",
+            fontWeight: "bold",
           }}
         >
           <Flex align="center" gap="large">
             <h4>환자정보</h4>
-            <h5>{setting.name}</h5>
+            <h5>
+              {setting.name &&
+                setting.breed &&
+                `${setting.name} / ${setting.breed}`}
+            </h5>
           </Flex>
           <Flex align="center" gap="large">
             <h4>보호자성함</h4>

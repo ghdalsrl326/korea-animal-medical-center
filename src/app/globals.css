@@ -17,6 +17,26 @@ a {
   }
 }
 
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  border-style: dotted;
+}
+
+th {
+  padding: 20px;
+}
+
+th > p {
+  font-weight: bolder;
+}
+
+td {
+  padding: 10px;
+}
+
 .ant-tabs-tab-btn {
   color: #212529 !important;
 }

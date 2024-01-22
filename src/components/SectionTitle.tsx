@@ -30,7 +30,6 @@ const SectionTitle = ({ title }: Props) => {
         <Title
           level={2}
           style={{
-            fontWeight: "bold",
             color: "#fff",
           }}
         >
