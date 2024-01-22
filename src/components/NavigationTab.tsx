@@ -22,7 +22,7 @@ const NavigationTab = () => {
         onClick={toggleVisibility}
         style={{
           position: "fixed",
-          right: "45%",
+          right: "48%",
           bottom: visible ? "20px" : "-20px",
           zIndex: 1,
         }}
