@@ -16,6 +16,9 @@ a {
     color: inherit;
   }
 }
+img {
+  display: block;
+}
 
 table,
 th,

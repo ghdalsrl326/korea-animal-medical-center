@@ -30,8 +30,8 @@ const SectionSubTitle = ({ title }: Props) => {
           style={{
             margin: 0,
             color: "white",
-            paddingLeft: "50px",
-            paddingRight: "50px",
+            paddingLeft: "70px",
+            paddingRight: "70px",
           }}
         >
           {title}
