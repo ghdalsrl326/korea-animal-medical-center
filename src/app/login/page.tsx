@@ -3,30 +3,25 @@ import Image from "next/image";
 import LoginForm from "@/components/LoginForm";
 import Title from "antd/es/typography/Title";
 import { Flex } from "antd";
-
 const headerStyle: React.CSSProperties = {
   textAlign: "center",
 };
-
 const contentStyle: React.CSSProperties = {
   textAlign: "center",
   padding: "50px 0",
 };
-
 const layoutStyle: React.CSSProperties = {
-  backgroundColor: "#fff",
+  backgroundColor: "
   borderRadius: 8,
   overflow: "hidden",
   width: "600px",
   height: "522px",
   boxShadow: "0 4px 24px 0 rgba(34, 60, 80, 0.2)",
 };
-
 const containerStyle: React.CSSProperties = {
-  backgroundColor: "#F3F9FF",
+  backgroundColor: "
   height: "100vh",
 };
-
 const LoginPage = () => {
   return (
     <Flex
@@ -54,5 +49,4 @@ const LoginPage = () => {
     </Flex>
   );
 };
-
 export default LoginPage;

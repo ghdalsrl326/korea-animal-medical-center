@@ -58,9 +58,9 @@ const SectionTitle = ({ title }: Props) => {
         justify="center"
         style={{
           position: "absolute",
-          width: "100%",
+          width: "30%",
           top: "30px",
-          left: "400px",
+          right: "20px",
         }}
       >
         <SectionCard />
