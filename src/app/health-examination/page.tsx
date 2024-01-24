@@ -1,11 +1,9 @@
 import HealthExamDetailTable from "@/components/HealthExamDetailTable";
 import HealthExamSummaryTable from "@/components/HealthExamSummaryTable";
 import NavigationTab from "@/components/NavigationTab";
-import QuestionnaireTable from "@/components/QuestionnaireTable";
 import SectionSubTitle from "@/components/SectionSubTitle";
 import SectionTitle from "@/components/SectionTitle";
-import { Flex, Input } from "antd";
-import Title from "antd/es/typography/Title";
+import { Flex } from "antd";
 import React from "react";
 
 const page = () => {
