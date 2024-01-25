@@ -23,7 +23,7 @@ const NavigationTab = () => {
         style={{
           position: "fixed",
           right: "48%",
-          bottom: visible ? "20px" : "-20px",
+          bottom: visible ? "22px" : "-20px",
           zIndex: 1,
         }}
       >

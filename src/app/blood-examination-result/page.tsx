@@ -4,7 +4,7 @@ import ContentTitle from "@/components/ContentTitle";
 import NavigationTab from "@/components/NavigationTab";
 import SectionSubTitle from "@/components/SectionSubTitle";
 import SectionTitle from "@/components/SectionTitle";
-import { Flex, Input } from "antd";
+import { Flex } from "antd";
 import React from "react";
 
 const page = () => {
@@ -14,7 +14,7 @@ const page = () => {
         <div
           style={{
             width: "1128px",
-            height: "2000px",
+            height: "1200px",
             position: "relative",
           }}
         >
@@ -37,7 +37,7 @@ const page = () => {
           <BloodExamTable />
           <ContentTitle
             title="혈청화학검사 (장기기능검사/ wet 장비, dry 장비)"
-            top="2000px"
+            top="1300px"
           />
           <ContentDescription
             description="흔히 알고 있는 콩팥, 간, 혈청단백질, 혈당 등을 검사하는 검사입니다. 아이들은 장기의 기능이 특정수준
@@ -48,7 +48,7 @@ const page = () => {
             가진 반려동물들을 건강하게 관리하는데 매우 중요합니다. 수치의 이상 정도에 따라 추가적인 영상검사들이
             추천될 수 있습니다. 혈액의 용혈이나 고지혈증에 따라 수치들은 영향을 받을 수 있으며 식 후 예민하게 변하는
             수치들이 있으므로, 금식한 상태에서의 혈액검사를 추천 드립니다."
-            top="2040px"
+            top="1340px"
           />
         </div>
       </Flex>

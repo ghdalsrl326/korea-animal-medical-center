@@ -11,7 +11,6 @@ const contentStyle: React.CSSProperties = {
   padding: "50px 0",
 };
 const layoutStyle: React.CSSProperties = {
-  backgroundColor: "
   borderRadius: 8,
   overflow: "hidden",
   width: "600px",
@@ -19,7 +18,6 @@ const layoutStyle: React.CSSProperties = {
   boxShadow: "0 4px 24px 0 rgba(34, 60, 80, 0.2)",
 };
 const containerStyle: React.CSSProperties = {
-  backgroundColor: "
   height: "100vh",
 };
 const LoginPage = () => {

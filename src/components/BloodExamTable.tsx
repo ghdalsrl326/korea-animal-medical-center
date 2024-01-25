@@ -1,7 +1,103 @@
-import { Input } from "antd";
+"use client";
 import React from "react";
+import { useAtom } from "jotai";
+import { Input } from "antd";
+import { bloodExamResultAtom } from "@/app/data/bloodExamResultStore";
+
+const cellStyle: React.CSSProperties = { textAlign: "center" };
+const abnormalCellStyle: React.CSSProperties = {
+  backgroundColor: "#f9eded",
+  color: "#ca4a42",
+  fontWeight: 700,
+};
+const refRangeStyle: React.CSSProperties = { backgroundColor: "#e6e8ea" };
+
+const isAbnormal = (value: string, min: number, max: number) =>
+  parseFloat(value) < min || parseFloat(value) > max;
+
+const TableCell = ({
+  value,
+  range,
+  onChange,
+}: {
+  value: string;
+  range: number[];
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => {
+  const style: React.CSSProperties = isAbnormal(value, range[0], range[1])
+    ? { ...cellStyle, ...abnormalCellStyle }
+    : cellStyle;
+
+  return (
+    <td style={style}>
+      <Input
+        size="large"
+        variant="borderless"
+        style={style}
+        value={value}
+        onChange={onChange}
+      />
+    </td>
+  );
+};
 
 const BloodExamTable = () => {
+  const [result, setResult] = useAtom(bloodExamResultAtom);
+  const tests = [
+    { key: "pH", label: "pH (산/염기균형)", range: [7.31, 7.46] },
+    {
+      key: "pCO2",
+      label: "pCO2 (이산화탄소분압)",
+      range: [27, 50],
+      unit: "mmHg",
+    },
+    { key: "pO2", label: "pO2 (산소분압)", range: [24, 48], unit: "mmHg" },
+    { key: "Na", label: "Na+ (나트륨)", range: [135, 145], unit: "mmol/L" },
+    { key: "K", label: "K+ (칼륨)", range: [3.5, 5.1], unit: "mmol/L" },
+    { key: "Cl", label: "Cl- (염소)", range: [98, 107], unit: "mmol/L" },
+    {
+      key: "iCa",
+      label: "iCa (이온화칼슘)",
+      range: [1.16, 1.4],
+      unit: "mmol/L",
+    },
+    {
+      key: "HCT",
+      label: "HCT (적혈구용적/빈혈)",
+      range: [37.5, 51.0],
+      unit: "%",
+    },
+    {
+      key: "Glucose",
+      label: "Glucose (혈당)",
+      range: [70, 110],
+      unit: "mg/dL",
+    },
+    {
+      key: "Lactate",
+      label: "Lactate (젖산)",
+      range: [0.5, 2.2],
+      unit: "mmol/L",
+    },
+    {
+      key: "AnionGap",
+      label: "Anion Gap (음이온차이)",
+      range: [8, 16],
+      unit: "mmol/L",
+    },
+    {
+      key: "HCO3",
+      label: "HCO3- (중탄산이온)",
+      range: [22, 29],
+      unit: "mmol/L",
+    },
+  ];
+
+  const handleChange =
+    (key: string, part: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setResult({ ...result, [`${key}${part}`]: e.target.value });
+    };
+
   return (
     <div
       style={{
@@ -13,12 +109,7 @@ const BloodExamTable = () => {
     >
       <table style={{ width: "100%", border: "3px solid #E6A2A7" }}>
         <thead>
-          <tr
-            style={{
-              backgroundColor: "#E6A2A7",
-              color: "#fff",
-            }}
-          >
+          <tr style={{ backgroundColor: "#E6A2A7", color: "#fff" }}>
             <th>검사항목</th>
             <th colSpan={2}>참고범위</th>
             <th>
@@ -39,462 +130,24 @@ const BloodExamTable = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>WBC (백혈구수)</td>
-            <td>6-17</td>
-            <td>K/ul</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
+          {tests.map((test) => (
+            <tr key={test.key}>
+              <td>{test.label}</td>
+              <td style={refRangeStyle}>{test.range.join("-")}</td>
+              <td style={refRangeStyle}>{test.unit}</td>
+              <TableCell
+                value={result[`${test.key}First` as keyof typeof result]}
+                range={test.range}
+                onChange={handleChange(test.key, "First")}
               />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
+              <TableCell
+                value={result[`${test.key}Second` as keyof typeof result]}
+                range={test.range}
+                onChange={handleChange(test.key, "Second")}
               />
-            </td>
-          </tr>
-          <tr>
-            <td>RBC (적혈구수)</td>
-            <td>5.5-8.5</td>
-            <td>M/ul</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>HGB (혈색소)</td>
-            <td>12-18</td>
-            <td>g/dl</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>HCT (적혈구용적)</td>
-            <td>37-55</td>
-            <td>%</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>MCV (평균적혈구용적)</td>
-            <td>60-77</td>
-            <td>fl</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>MCH (평균적혈구혈색소량)</td>
-            <td>19.5-24.5</td>
-            <td>pg</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>MCHC (평균적혈구혈색소농도)</td>
-            <td>32-36</td>
-            <td>g/dl</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>PLT (혈소판)</td>
-            <td>200-500</td>
-            <td>1000/mm3</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>%BASO (호염구)</td>
-            <td>&nbsp;</td>
-            <td>%</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>BASO (호염구)</td>
-            <td>0-0.1</td>
-            <td>K/uL</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>%EOS (호산구)</td>
-            <td>&nbsp;</td>
-            <td>%</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>EOS (호산구)</td>
-            <td>0.06-1.23</td>
-            <td>K/uL</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>%LYM (림프구)</td>
-            <td>&nbsp;</td>
-            <td>%</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>LYM (림프구)</td>
-            <td>1.05-5.1</td>
-            <td>K/uL</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>%MONO (단핵구)</td>
-            <td>&nbsp;</td>
-            <td>%</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>MONO (단핵구)</td>
-            <td>0.16-1.12</td>
-            <td>K/uL</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>%NEU (호중구)</td>
-            <td>&nbsp;</td>
-            <td>%</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>NEU (호중구)</td>
-            <td>2.7-12.5</td>
-            <td>K/uL</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>%RETIC (세망적혈구)</td>
-            <td>&nbsp;</td>
-            <td>%</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>RETIC (세망적혈구)</td>
-            <td>10-110</td>
-            <td>%</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>MPV</td>
-            <td>8.7-13.2</td>
-            <td>fL</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>PCT</td>
-            <td>0.14-0.46</td>
-            <td>%</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>PDW</td>
-            <td>13.6-21.7</td>
-            <td>fL</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>RDW</td>
-            <td>13.6-21.7</td>
-            <td>%</td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-            <td>
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center" }}
-              />
-            </td>
-          </tr>
+            </tr>
+          ))}
+          {/* Render other static rows here if needed */}
         </tbody>
       </table>
     </div>
