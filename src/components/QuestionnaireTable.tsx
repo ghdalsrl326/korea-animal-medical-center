@@ -1,13 +1,32 @@
 "use client";
+import { questionnaireAtom } from "@/app/data/questionnaireStore";
 import { settingAtom } from "@/app/data/settingStore";
-import { Input, Space } from "antd";
+import { Input } from "antd";
 import Checkbox from "antd/es/checkbox/Checkbox";
-import Title from "antd/es/typography/Title";
 import { useAtom } from "jotai";
-import React, { useState } from "react";
+import React from "react";
 
 const QuestionnaireTable = () => {
   const [setting] = useAtom(settingAtom);
+  const [result, setResult] = useAtom(questionnaireAtom);
+
+  const handleSingleChoiceChange = (questionKey: string, option: string) => {
+    setResult((prev) => ({ ...prev, [questionKey]: option }));
+  };
+
+  const handleMultiChoiceChange = (questionKey: string, option: string) => {
+    setResult((prev) => {
+      const currentValues = prev[questionKey] || [];
+      const newValues = currentValues.includes(option)
+        ? currentValues.filter((value: string) => value !== option)
+        : [...currentValues, option];
+      return { ...prev, [questionKey]: newValues };
+    });
+  };
+
+  const handleInputChange = (questionKey: string, value: string) => {
+    setResult((prev) => ({ ...prev, [questionKey]: value }));
+  };
 
   return (
     <div
@@ -52,6 +71,8 @@ const QuestionnaireTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={result.sex}
+                onChange={(e) => setResult({ ...result, sex: e.target.value })}
               />
             </th>
             <th>
@@ -59,6 +80,10 @@ const QuestionnaireTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
+                value={result.neutered}
+                onChange={(e) =>
+                  setResult({ ...result, neutered: e.target.value })
+                }
               />
             </th>
             <th>
@@ -66,6 +91,10 @@ const QuestionnaireTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
+                value={result.childBirth}
+                onChange={(e) =>
+                  setResult({ ...result, childBirth: e.target.value })
+                }
               />
             </th>
           </tr>
@@ -73,129 +102,268 @@ const QuestionnaireTable = () => {
         <tbody>
           <tr>
             <td>건강검진 해본적이 있나요?</td>
-            <td>
-              <Checkbox /> 없음
-            </td>
-            <td>
-              <Checkbox /> 최근 6개월 이내
-            </td>
-            <td>
-              <Checkbox /> 최근 1-2년 이내
-            </td>
-            <td>
-              <Checkbox /> 2년 이상 경과
-            </td>
+            {[
+              "없음",
+              "최근 6개월 이내",
+              "최근 1-2년 이내",
+              "2년 이상 경과",
+            ].map((option, index) => (
+              <td key={index}>
+                <Checkbox
+                  checked={result.healthCheck === option}
+                  onChange={() =>
+                    handleSingleChoiceChange("healthCheck", option)
+                  }
+                >
+                  {option}
+                </Checkbox>
+              </td>
+            ))}
             <td>&nbsp;</td>
           </tr>
           <tr>
             <td>진단된 병명이 있나요?</td>
-            <td>
-              <Checkbox /> 없음
-            </td>
-            <td colSpan={4}>
-              <Checkbox /> 있음 (진단명:
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center", width: "30%" }}
-              />
-              ) <br />
-              언제 진단 되었나요? (
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center", width: "10%" }}
-              />
-              ) 관리중인가요? (
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center", width: "10%" }}
-              />
+            {["없음", "있음"].map((option, index) =>
+              option === "없음" ? (
+                <td key={index}>
+                  <Checkbox
+                    checked={result.diagnosedDisease === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("diagnosedDisease", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              ) : (
+                <td key={index} colSpan={4}>
+                  <Checkbox
+                    checked={result.diagnosedDisease === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("diagnosedDisease", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                  (진단명:
+                  <Input
+                    size="large"
+                    variant="borderless"
+                    style={{ textAlign: "center", width: "30%" }}
+                    value={result.diagnosedDiseaseName}
+                    onChange={(e) =>
+                      handleInputChange("diagnosedDiseaseName", e.target.value)
+                    }
+                  />
+                  ) <br />
+                  언제 진단 되었나요? (
+                  <Input
+                    size="large"
+                    variant="borderless"
+                    style={{ textAlign: "center", width: "10%" }}
+                    value={result.diagnosedDiseaseDate}
+                    onChange={(e) =>
+                      handleInputChange("diagnosedDiseaseDate", e.target.value)
+                    }
+                  />
+                  ) 관리중인가요? (
+                  <Input
+                    size="large"
+                    variant="borderless"
+                    style={{ textAlign: "center", width: "10%" }}
+                    value={result.diagnosedDiseaseManagement}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "diagnosedDiseaseManagement",
+                        e.target.value
+                      )
+                    }
+                  />
+                  )
+                </td>
               )
-            </td>
+            )}
           </tr>
           <tr>
             <td>복용중인 처방약이 있나요?</td>
-            <td>
-              <Checkbox /> 없음
-            </td>
-            <td colSpan={4}>
-              <Checkbox /> 있음 (
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center", width: "30%" }}
-              />
+            {["없음", "있음"].map((option, index) =>
+              option === "없음" ? (
+                <td key={index}>
+                  <Checkbox
+                    checked={result.prescriptionMedicine === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("prescriptionMedicine", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              ) : (
+                <td key={index} colSpan={4}>
+                  <Checkbox
+                    checked={result.prescriptionMedicine === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("prescriptionMedicine", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                  (
+                  <Input
+                    size="large"
+                    variant="borderless"
+                    style={{ textAlign: "center", width: "30%" }}
+                    value={result.prescriptionMedicineName}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "prescriptionMedicineName",
+                        e.target.value
+                      )
+                    }
+                  />
+                  )
+                </td>
               )
-            </td>
+            )}
           </tr>
           <tr>
             <td>수술이력이 있나요?</td>
-            <td>
-              <Checkbox /> 없음
-            </td>
-            <td colSpan={4}>
-              <Checkbox /> 있음 (
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center", width: "30%" }}
-              />
+            {["없음", "있음"].map((option, index) =>
+              option === "없음" ? (
+                <td key={index}>
+                  <Checkbox
+                    checked={result.surgeryHistory === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("surgeryHistory", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              ) : (
+                <td key={index} colSpan={4}>
+                  <Checkbox
+                    checked={result.surgeryHistory === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("surgeryHistory", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                  (
+                  <Input
+                    size="large"
+                    variant="borderless"
+                    style={{ textAlign: "center", width: "30%" }}
+                    value={result.surgeryHistoryName}
+                    onChange={(e) =>
+                      handleInputChange("surgeryHistoryName", e.target.value)
+                    }
+                  />
+                  )
+                </td>
               )
-            </td>
+            )}
           </tr>
           <tr>
             <td>주사나 약 부작용이 있나요?</td>
-            <td>
-              <Checkbox /> 없음
-            </td>
-            <td colSpan={4}>
-              <Checkbox /> 있음 (
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center", width: "30%" }}
-              />
+            {["없음", "있음"].map((option, index) =>
+              option === "없음" ? (
+                <td key={index}>
+                  <Checkbox
+                    checked={result.sideEffect === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("sideEffect", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              ) : (
+                <td key={index} colSpan={4}>
+                  <Checkbox
+                    checked={result.sideEffect === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("sideEffect", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                  (
+                  <Input
+                    size="large"
+                    variant="borderless"
+                    style={{ textAlign: "center", width: "30%" }}
+                    value={result.sideEffectName}
+                    onChange={(e) =>
+                      handleInputChange("sideEffectName", e.target.value)
+                    }
+                  />
+                  )
+                </td>
               )
-            </td>
+            )}
           </tr>
           <tr>
             <td>동거중인 다른 동물이 있나요?</td>
-            <td>
-              <Checkbox /> 없음
-            </td>
-            <td colSpan={4}>
-              <Checkbox /> 있음 (
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center", width: "30%" }}
-              />
+            {["없음", "있음"].map((option, index) =>
+              option === "없음" ? (
+                <td key={index}>
+                  <Checkbox
+                    checked={result.otherAnimal === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("otherAnimal", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              ) : (
+                <td key={index} colSpan={4}>
+                  <Checkbox
+                    checked={result.otherAnimal === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("otherAnimal", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                  (
+                  <Input
+                    size="large"
+                    variant="borderless"
+                    style={{ textAlign: "center", width: "30%" }}
+                    value={result.otherAnimalName}
+                    onChange={(e) =>
+                      handleInputChange("otherAnimalName", e.target.value)
+                    }
+                  />
+                  )
+                </td>
               )
-            </td>
+            )}
           </tr>
           <tr>
             <td>
               호흡기 증상이 있나요? <br />
               (복수 선택 가능)
             </td>
-            <td>
-              <Checkbox /> 없음
-            </td>
-            <td>
-              <Checkbox /> 재채기
-            </td>
-            <td>
-              <Checkbox /> 맑은콧물
-            </td>
-            <td>
-              <Checkbox /> 농성콧물
-            </td>
-            <td>
-              <Checkbox /> 기침
-            </td>
+            {["없음", "재채기", "맑은콧물", "농성콧물", "기침"].map(
+              (option, index) => (
+                <td key={index}>
+                  <Checkbox
+                    checked={result.respiratorySymptoms.includes(option)}
+                    onChange={() =>
+                      handleMultiChoiceChange("respiratorySymptoms", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              )
+            )}
           </tr>
+
           <tr>
             <td>산책은 얼마나 하나요?</td>
             <td colSpan={5}>
@@ -204,12 +372,20 @@ const QuestionnaireTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center", width: "10%" }}
+                value={result.walkingFrequency}
+                onChange={(e) =>
+                  handleInputChange("walkingFrequency", e.target.value)
+                }
               />
               )번 산책시간 (
               <Input
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center", width: "10%" }}
+                value={result.walkingTime}
+                onChange={(e) =>
+                  handleInputChange("walkingTime", e.target.value)
+                }
               />
               )
             </td>
@@ -217,33 +393,33 @@ const QuestionnaireTable = () => {
           <tr>
             <td rowSpan={3}>예방접종을 하고 있나요?</td>
             <td>예방접종주사</td>
-            <td>
-              <Checkbox /> 한적없음
-            </td>
-            <td>
-              <Checkbox /> 어렸을 때만
-            </td>
-            <td>
-              <Checkbox /> 간혹
-            </td>
-            <td>
-              <Checkbox /> 매년
-            </td>
+            {["한적없음", "어렸을 때만", "간혹", "매년"].map(
+              (option, index) => (
+                <td key={index}>
+                  <Checkbox
+                    checked={result.vaccination.includes(option)}
+                    onChange={() =>
+                      handleSingleChoiceChange("vaccination", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              )
+            )}
           </tr>
           <tr>
             <td>심장사상충</td>
-            <td>
-              <Checkbox /> 한적없음
-            </td>
-            <td>
-              <Checkbox /> 간혹
-            </td>
-            <td>
-              <Checkbox /> 여름에만
-            </td>
-            <td>
-              <Checkbox /> 매달
-            </td>
+            {["한적없음", "간혹", "여름에만", "매달"].map((option, index) => (
+              <td key={index}>
+                <Checkbox
+                  checked={result.heartworm.includes(option)}
+                  onChange={() => handleSingleChoiceChange("heartworm", option)}
+                >
+                  {option}
+                </Checkbox>
+              </td>
+            ))}
           </tr>
           <tr
             style={{
@@ -251,36 +427,39 @@ const QuestionnaireTable = () => {
             }}
           >
             <td>외부기생충</td>
-            <td>
-              <Checkbox /> 한적없음
-            </td>
-            <td>
-              <Checkbox /> 간혹
-            </td>
-            <td>
-              <Checkbox /> 여름에만
-            </td>
-            <td>
-              <Checkbox /> 매달
-            </td>
+            {["한적없음", "간혹", "여름에만", "매달"].map((option, index) => (
+              <td key={index}>
+                <Checkbox
+                  checked={result.externalParasite.includes(option)}
+                  onChange={() =>
+                    handleSingleChoiceChange("externalParasite", option)
+                  }
+                >
+                  {option}
+                </Checkbox>
+              </td>
+            ))}
           </tr>
           <tr>
             <td rowSpan={2}>물은 어느정도 마시나요?</td>
-            <td style={{ width: "15%" }}>
-              <Checkbox /> 잘 안마시는 편
-            </td>
-            <td>
-              <Checkbox /> 잘 마시는 편
-            </td>
-            <td>
-              <Checkbox /> 많이 마시는 편
-            </td>
-            <td>
-              <Checkbox /> 강제로 추가음수중
-            </td>
-            <td>
-              <Checkbox /> 피하수액중
-            </td>
+            {[
+              "잘 안마시는 편",
+              "잘 마시는 편",
+              "많이 마시는 편",
+              "강제로 추가음수중",
+              "피하수액중",
+            ].map((option, index) => (
+              <td key={index}>
+                <Checkbox
+                  checked={result.waterIntake.includes(option)}
+                  onChange={() =>
+                    handleSingleChoiceChange("waterIntake", option)
+                  }
+                >
+                  {option}
+                </Checkbox>
+              </td>
+            ))}
           </tr>
           <tr>
             <td colSpan={5}>
@@ -289,237 +468,304 @@ const QuestionnaireTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center", width: "10%" }}
+                value={result.waterIntakeAmount}
+                onChange={(e) =>
+                  handleInputChange("waterIntakeAmount", e.target.value)
+                }
               />
               )컵
             </td>
           </tr>
           <tr>
             <td>식욕은 어떤가요?</td>
-            <td>
-              <Checkbox /> 원래 입이 짧음
-            </td>
-            <td>
-              <Checkbox /> 보통
-            </td>
-            <td>
-              <Checkbox /> 식탐 있는 편
-            </td>
+            {["원래 입이 짧음", "보통", "식탐 있는 편"].map((option, index) => (
+              <td key={index}>
+                <Checkbox
+                  checked={result.appetite.includes(option)}
+                  onChange={() => handleSingleChoiceChange("appetite", option)}
+                >
+                  {option}
+                </Checkbox>
+              </td>
+            ))}
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
           <tr>
             <td>식욕의 변화가 있나요?</td>
-            <td>
-              <Checkbox /> 변화없음
-            </td>
-            <td>
-              <Checkbox /> 최근 줄었음
-            </td>
-            <td>
-              <Checkbox /> 최근 늘었음
-            </td>
+            {["변화없음", "최근 줄었음", "최근 늘었음"].map((option, index) => (
+              <td key={index}>
+                <Checkbox
+                  checked={result.appetiteChange.includes(option)}
+                  onChange={() =>
+                    handleSingleChoiceChange("appetiteChange", option)
+                  }
+                >
+                  {option}
+                </Checkbox>
+              </td>
+            ))}
             <td>&nbsp;</td>
             <td>&nbsp;</td>
           </tr>
           <tr>
             <td rowSpan={3}>사료 종류/급여량을 알려주세요</td>
-            <td>
-              <Checkbox /> 건식
-            </td>
-            <td>
-              <Checkbox /> 습식
-            </td>
-            <td>
-              <Checkbox /> 반습식
-            </td>
-            <td>
-              <Checkbox /> 화식
-            </td>
-            <td>
-              <Checkbox /> 생식
-            </td>
+            {["건식", "습식", "반습식", "화식", "생식"].map((option, index) => (
+              <td key={index}>
+                <Checkbox
+                  checked={result.foodTypeAndAmount.includes(option)}
+                  onChange={() =>
+                    handleMultiChoiceChange("foodTypeAndAmount", option)
+                  }
+                >
+                  {option}
+                </Checkbox>
+              </td>
+            ))}
           </tr>
           <tr>
-            <td>
-              <Checkbox /> 자율급식
-            </td>
-            <td>
-              <Checkbox /> 제한 급식 (
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center", width: "50%" }}
-              />
+            {["자율급식", "제한 급식", "강제 급여"].map((option, index) =>
+              option === "자율급식" ? (
+                <td key={index}>
+                  <Checkbox
+                    checked={result.foodTypeAndAmount.includes(option)}
+                    onChange={() =>
+                      handleMultiChoiceChange("foodTypeAndAmount", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              ) : (
+                <td key={index} colSpan={2}>
+                  <Checkbox
+                    checked={result.foodTypeAndAmount.includes(option)}
+                    onChange={() =>
+                      handleMultiChoiceChange("foodTypeAndAmount", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                  (
+                  <Input
+                    size="large"
+                    variant="borderless"
+                    style={{ textAlign: "center", width: "50%" }}
+                    value={
+                      option === "제한 급식"
+                        ? result.restrictFeeding
+                        : result.forceFeeding
+                    }
+                    onChange={(e) =>
+                      option === "제한 급식"
+                        ? handleInputChange("restrictFeeding", e.target.value)
+                        : handleInputChange("forceFeeding", e.target.value)
+                    }
+                  />
+                  )
+                </td>
               )
-            </td>
-            <td>
-              <Checkbox /> 강제 급여 (
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center", width: "50%" }}
-              />
-              )
-            </td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            )}
           </tr>
           <tr>
-            <td colSpan={2}>
-              사료이름 (
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center", width: "50%" }}
-              />
-              )
-            </td>
-            <td colSpan={3}>
-              하루주는양/종이컵기준 (
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center", width: "50%" }}
-              />
-              )
-            </td>
+            {
+              <td colSpan={2}>
+                사료이름 (
+                <Input
+                  size="large"
+                  variant="borderless"
+                  style={{ textAlign: "center", width: "50%" }}
+                  value={result.foodName}
+                  onChange={(e) =>
+                    handleInputChange("foodName", e.target.value)
+                  }
+                />
+                )
+              </td>
+            }
+            {
+              <td colSpan={3}>
+                하루주는양/종이컵기준 (
+                <Input
+                  size="large"
+                  variant="borderless"
+                  style={{ textAlign: "center", width: "50%" }}
+                  value={result.foodAmount}
+                  onChange={(e) =>
+                    handleInputChange("foodAmount", e.target.value)
+                  }
+                />
+                )
+              </td>
+            }
           </tr>
           <tr>
             <td rowSpan={2}>간식 종류/급여량을 알려주세요</td>
             <td colSpan={5}>
-              <Checkbox /> 간식 종류 (
+              간식 종류 (
               <Input
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center", width: "30%" }}
+                value={result.snackType}
+                onChange={(e) => handleInputChange("snackType", e.target.value)}
               />
               )
             </td>
           </tr>
           <tr>
-            <td>
-              <Checkbox /> 2주 이상에 한 번
-            </td>
-            <td>
-              <Checkbox /> 1주에 2-3번
-            </td>
-            <td colSpan={3}>
-              <Checkbox /> 매일
-            </td>
+            {["2주 이상에 한 번", "1주에 2-3번", "매일"].map(
+              (option, index) => (
+                <td key={index}>
+                  <Checkbox
+                    checked={result.snackAmount === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("snackAmount", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              )
+            )}
           </tr>
           <tr>
             <td>영양제를 먹고 있나요?</td>
-            <td colSpan={5}>
-              <Checkbox /> 영양제 이름 (
-              <Input
-                size="large"
-                variant="borderless"
-                style={{ textAlign: "center", width: "30%" }}
-              />
-              )
-            </td>
+            {
+              <td colSpan={5}>
+                영양제 이름 (
+                <Input
+                  size="large"
+                  variant="borderless"
+                  style={{ textAlign: "center", width: "30%" }}
+                  value={result.supplements}
+                  onChange={(e) =>
+                    handleInputChange("supplements", e.target.value)
+                  }
+                />
+                )
+              </td>
+            }
           </tr>
           <tr>
             <td>구토를 하는 편인가요?</td>
-            <td>
-              <Checkbox /> 거의 안함
-            </td>
-            <td>
-              <Checkbox /> 1달에 1~2회
-            </td>
-            <td>
-              <Checkbox /> 1-2주에 1회
-            </td>
-            <td colSpan={2}>
-              <Checkbox /> 2-3일에 한 번
-            </td>
+            {["거의 안함", "1달에 1~2회", "1-2주에 1회", "2-3일에 한 번"].map(
+              (option, index) => (
+                <td key={index}>
+                  <Checkbox
+                    checked={result.vomiting === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("vomiting", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              )
+            )}
           </tr>
           <tr>
             <td>양치를 하고 있나요?</td>
-            <td>
-              <Checkbox /> 거의 안함
-            </td>
-            <td>
-              <Checkbox /> 1달에 1~2회
-            </td>
-            <td>
-              <Checkbox /> 1-2주에 3번 이내
-            </td>
-            <td colSpan={2}>
-              <Checkbox /> 매일
-            </td>
+            {["거의 안함", "1달에 1~2회", "1-2주에 3번 이내", "매일"].map(
+              (option, index) => (
+                <td key={index}>
+                  <Checkbox
+                    checked={result.toothbrushing === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("toothbrushing", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              )
+            )}
           </tr>
           <tr>
             <td rowSpan={2}>소변은 어떤가요?</td>
             <td>배뇨양상:</td>
-            <td>
-              <Checkbox /> 묽은 편
-            </td>
-            <td>
-              <Checkbox /> 정상
-            </td>
-            <td>
-              <Checkbox /> 진한 편
-            </td>
-            <td>
-              <Checkbox /> 간혹 혈뇨
-            </td>
+            {["묽은 편", "정상", "진한 편", "간혹 혈뇨"].map(
+              (option, index) => (
+                <td key={index}>
+                  <Checkbox
+                    checked={result.urineState === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("urineState", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              )
+            )}
           </tr>
           <tr>
             <td>배뇨횟수:</td>
-            <td>
-              <Checkbox /> 1일 1-2회
-            </td>
-            <td>
-              <Checkbox /> 1일 3-4회
-            </td>
-            <td>
-              <Checkbox /> 1일 5회 이상
-            </td>
+            {["1일 1-2회", "1일 3-4회", "1일 5회 이상"].map((option, index) => (
+              <td key={index}>
+                <Checkbox
+                  checked={result.urineFrequency === option}
+                  onChange={() =>
+                    handleSingleChoiceChange("urineFrequency", option)
+                  }
+                >
+                  {option}
+                </Checkbox>
+              </td>
+            ))}
             <td>&nbsp;</td>
           </tr>
           <tr>
             <td rowSpan={2}>배변 양상 / 횟수를 알려주세요</td>
-            <td>
-              <Checkbox />
-              묽은 편
-            </td>
-            <td>
-              <Checkbox /> 가끔 점액변
-            </td>
-            <td>
-              <Checkbox /> 정상변
-            </td>
-            <td>
-              <Checkbox /> 딱딱한 변
-            </td>
+            {["묽은 편", "가끔 점액변", "정상변", "딱딱한 변"].map(
+              (option, index) => (
+                <td key={index}>
+                  <Checkbox
+                    checked={result.defecationState === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("defecationState", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              )
+            )}
             <td>&nbsp;</td>
           </tr>
           <tr>
-            <td>
-              <Checkbox /> 1일 3회 이상
-            </td>
-            <td>
-              <Checkbox /> 1일 1-2회
-            </td>
-            <td>
-              <Checkbox /> 2일 1회
-            </td>
-            <td>
-              <Checkbox /> 3-4일 1회
-            </td>
+            {["1일 3회 이상", "1일 1-2회", "2일 1회", "3-4일 1회"].map(
+              (option, index) => (
+                <td key={index}>
+                  <Checkbox
+                    checked={result.defecationFrequency === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("defecationFrequency", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              )
+            )}
             <td>&nbsp;</td>
           </tr>
           <tr>
             <td>혈액형 검사 시 추가비용 6만원 발생합니다</td>
-            <td>
-              <Checkbox /> 검사를 원합니다
-            </td>
-            <td>
-              <Checkbox /> 검사를 원치 않습니다
-            </td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            {["검사를 원합니다", "검사를 원치 않습니다"].map(
+              (option, index) => (
+                <td key={index} colSpan={2}>
+                  <Checkbox
+                    checked={result.bloodTypeTestInterest === option}
+                    onChange={() =>
+                      handleSingleChoiceChange("bloodTypeTestInterest", option)
+                    }
+                  >
+                    {option}
+                  </Checkbox>
+                </td>
+              )
+            )}
             <td>&nbsp;</td>
           </tr>
           <tr>
@@ -529,6 +775,10 @@ const QuestionnaireTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center", width: "100%" }}
+                value={result.additional}
+                onChange={(e) =>
+                  handleInputChange("additional", e.target.value)
+                }
               />
             </td>
           </tr>

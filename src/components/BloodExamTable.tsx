@@ -147,7 +147,6 @@ const BloodExamTable = () => {
               />
             </tr>
           ))}
-          {/* Render other static rows here if needed */}
         </tbody>
       </table>
     </div>
