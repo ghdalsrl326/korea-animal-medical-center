@@ -16,7 +16,7 @@ const page = () => {
           }}
         >
           <SectionTitle title="건강검진결과" />
-          <SectionSubTitle title="고려메디컬센터의 혈액검사" />
+          <SectionSubTitle title="방사선검사결과" />
         </div>
       </Flex>
       <NavigationTab />

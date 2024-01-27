@@ -155,6 +155,7 @@ const SettingForm = () => {
             listType="picture"
             customRequest={customRequest} // Mock upload
             // action="your-upload-endpoint" // 서버 개발 후 customRequest 대체
+            maxCount={1}
           >
             <Button icon={<UploadOutlined />}>서명 업로드</Button>
           </Upload>
