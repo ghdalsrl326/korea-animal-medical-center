@@ -1,13 +1,13 @@
 "use client";
 import { Checkbox, Input } from "antd";
-import React, { useState, useCallback } from "react";
+import React from "react";
 import { useDropzone } from "react-dropzone";
 import { useAtom } from "jotai";
 import { healthExamDetailAtom } from "@/app/data/healthExamDetailStore";
 
 const HealthExamDetailTable = () => {
   const [detail, setDetail] = useAtom(healthExamDetailAtom);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+
   const { imgCellWidth, imgCellHeight } = {
     imgCellWidth: 170,
     imgCellHeight: 241,
@@ -21,19 +21,57 @@ const HealthExamDetailTable = () => {
     setDetail((prev) => ({ ...prev, [questionKey]: option }));
   };
 
-  const onDrop = useCallback((acceptedFiles: any[]) => {
+  const onDrop = (imageKey: keyof typeof detail) => (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
-
     const reader = new FileReader();
     reader.onload = () => {
-      setUploadedImage(reader.result as string);
+      setDetail((prev) => ({ ...prev, [imageKey]: reader.result as string }));
     };
     reader.readAsDataURL(file);
-  }, []);
+  };
 
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-  });
+  const dropzoneProps1 = useDropzone({ onDrop: onDrop("skinImage1") });
+  const dropzoneProps2 = useDropzone({ onDrop: onDrop("skinImage2") });
+  const dropzoneProps3 = useDropzone({ onDrop: onDrop("skinImage3") });
+  const dropzoneProps4 = useDropzone({ onDrop: onDrop("eyeImage1") });
+  const dropzoneProps5 = useDropzone({ onDrop: onDrop("eyeImage2") });
+  const dropzoneProps6 = useDropzone({ onDrop: onDrop("eyeImage3") });
+  const dropzoneProps7 = useDropzone({ onDrop: onDrop("toothImage1") });
+  const dropzoneProps8 = useDropzone({ onDrop: onDrop("toothImage2") });
+  const dropzoneProps9 = useDropzone({ onDrop: onDrop("toothImage3") });
+
+  const renderDropZoneCell = (
+    dropzoneProps: ReturnType<typeof useDropzone>,
+    imageSrc: string | null,
+    rowSpan: number
+  ) => (
+    <td
+      {...dropzoneProps.getRootProps()}
+      style={{
+        cursor: "pointer",
+        border: "1px dashed grey",
+        textAlign: "center",
+      }}
+      width={imgCellWidth}
+      height={imgCellHeight}
+      rowSpan={rowSpan}
+    >
+      <input {...dropzoneProps.getInputProps()} />
+      {imageSrc ? (
+        <img
+          src={imageSrc}
+          alt="Uploaded"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+          }}
+        />
+      ) : (
+        <p>이미지 업로드</p>
+      )}
+    </td>
+  );
 
   return (
     <div
@@ -78,84 +116,9 @@ const HealthExamDetailTable = () => {
                 onChange={(e) => setDetail({ ...detail, skin: e.target.value })}
               />
             </td>
-            <td
-              rowSpan={4}
-              {...getRootProps()}
-              style={{
-                cursor: "pointer",
-                border: "1px dashed grey",
-                textAlign: "center",
-              }}
-              width={imgCellWidth}
-              height={imgCellHeight}
-            >
-              <input {...getInputProps()} />
-              {uploadedImage ? (
-                <img
-                  src={uploadedImage}
-                  alt="Uploaded"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                  }}
-                />
-              ) : (
-                <p>이미지 업로드</p>
-              )}
-            </td>
-            <td
-              rowSpan={4}
-              {...getRootProps()}
-              style={{
-                cursor: "pointer",
-                border: "1px dashed grey",
-                textAlign: "center",
-              }}
-              width={imgCellWidth}
-              height={imgCellHeight}
-            >
-              <input {...getInputProps()} />
-              {uploadedImage ? (
-                <img
-                  src={uploadedImage}
-                  alt="Uploaded"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                  }}
-                />
-              ) : (
-                <p>이미지 업로드</p>
-              )}
-            </td>
-            <td
-              rowSpan={4}
-              {...getRootProps()}
-              style={{
-                cursor: "pointer",
-                border: "1px dashed grey",
-                textAlign: "center",
-              }}
-              width={imgCellWidth}
-              height={imgCellHeight}
-            >
-              <input {...getInputProps()} />
-              {uploadedImage ? (
-                <img
-                  src={uploadedImage}
-                  alt="Uploaded"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                  }}
-                />
-              ) : (
-                <p>이미지 업로드</p>
-              )}
-            </td>
+            {renderDropZoneCell(dropzoneProps1, detail.skinImage1, 4)}
+            {renderDropZoneCell(dropzoneProps2, detail.skinImage2, 4)}
+            {renderDropZoneCell(dropzoneProps3, detail.skinImage3, 4)}
           </tr>
           <tr>
             <th>피모</th>
@@ -249,81 +212,9 @@ const HealthExamDetailTable = () => {
                 />
               </td>
             ))}
-            {/* <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td> */}
-            <td
-              rowSpan={8}
-              {...getRootProps()}
-              style={{
-                cursor: "pointer",
-                border: "1px dashed grey",
-                textAlign: "center",
-              }}
-              width={imgCellWidth}
-              height={imgCellHeight}
-            >
-              <input {...getInputProps()} />
-              {uploadedImage ? (
-                <img
-                  src={uploadedImage}
-                  alt="Uploaded"
-                  style={{ width: "100%", height: "auto" }}
-                />
-              ) : (
-                <p>이미지 업로드</p>
-              )}
-            </td>
-            <td
-              rowSpan={8}
-              {...getRootProps()}
-              style={{
-                cursor: "pointer",
-                border: "1px dashed grey",
-                textAlign: "center",
-              }}
-              width={imgCellWidth}
-              height={imgCellHeight}
-            >
-              <input {...getInputProps()} />
-              {uploadedImage ? (
-                <img
-                  src={uploadedImage}
-                  alt="Uploaded"
-                  style={{ width: "100%", height: "auto" }}
-                />
-              ) : (
-                <p>이미지 업로드</p>
-              )}
-            </td>
-            <td
-              rowSpan={8}
-              {...getRootProps()}
-              style={{
-                cursor: "pointer",
-                border: "1px dashed grey",
-                textAlign: "center",
-              }}
-              width={imgCellWidth}
-              height={imgCellHeight}
-            >
-              <input {...getInputProps()} />
-              {uploadedImage ? (
-                <img
-                  src={uploadedImage}
-                  alt="Uploaded"
-                  style={{ width: "100%", height: "auto" }}
-                />
-              ) : (
-                <p>이미지 업로드</p>
-              )}
-            </td>
+            {renderDropZoneCell(dropzoneProps4, detail.eyeImage1, 8)}
+            {renderDropZoneCell(dropzoneProps5, detail.eyeImage2, 8)}
+            {renderDropZoneCell(dropzoneProps6, detail.eyeImage3, 8)}
           </tr>
           <tr>
             <th>형광염색(좌)</th>
@@ -532,72 +423,9 @@ const HealthExamDetailTable = () => {
                 }
               />
             </td>
-            <td
-              rowSpan={5}
-              {...getRootProps()}
-              style={{
-                cursor: "pointer",
-                border: "1px dashed grey",
-                textAlign: "center",
-              }}
-              width={imgCellWidth}
-              height={imgCellHeight}
-            >
-              <input {...getInputProps()} />
-              {uploadedImage ? (
-                <img
-                  src={uploadedImage}
-                  alt="Uploaded"
-                  style={{ width: "100%", height: "auto" }}
-                />
-              ) : (
-                <p>이미지 업로드</p>
-              )}
-            </td>
-            <td
-              rowSpan={5}
-              {...getRootProps()}
-              style={{
-                cursor: "pointer",
-                border: "1px dashed grey",
-                textAlign: "center",
-              }}
-              width={imgCellWidth}
-              height={imgCellHeight}
-            >
-              <input {...getInputProps()} />
-              {uploadedImage ? (
-                <img
-                  src={uploadedImage}
-                  alt="Uploaded"
-                  style={{ width: "100%", height: "auto" }}
-                />
-              ) : (
-                <p>이미지 업로드</p>
-              )}
-            </td>
-            <td
-              rowSpan={5}
-              {...getRootProps()}
-              style={{
-                cursor: "pointer",
-                border: "1px dashed grey",
-                textAlign: "center",
-              }}
-              width={imgCellWidth}
-              height={imgCellHeight}
-            >
-              <input {...getInputProps()} />
-              {uploadedImage ? (
-                <img
-                  src={uploadedImage}
-                  alt="Uploaded"
-                  style={{ width: "100%", height: "auto" }}
-                />
-              ) : (
-                <p>이미지 업로드</p>
-              )}
-            </td>
+            {renderDropZoneCell(dropzoneProps7, detail.toothImage1, 5)}
+            {renderDropZoneCell(dropzoneProps8, detail.toothImage2, 5)}
+            {renderDropZoneCell(dropzoneProps9, detail.toothImage3, 5)}
           </tr>
           <tr>
             <th>치아결손</th>
