@@ -65,3 +65,15 @@ td {
 .ant-tabs-nav-more {
   display: none !important;
 }
+
+.quill-wrapper .ql-toolbar {
+  display: none;
+}
+
+.quill-wrapper.focused .ql-toolbar {
+  display: block;
+}
+
+.quill .ql-blank {
+  border-top: 1px solid #ccc;
+}

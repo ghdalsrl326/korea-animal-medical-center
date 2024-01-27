@@ -1,27 +1,31 @@
 "use client";
 import React from "react";
-import { Button, Form, Input, Radio, Space, Upload } from "antd";
+import { Button, Form, Input, Radio, Space, Upload, message } from "antd";
 import RequiredMark from "./RequiredMark";
 import { UploadOutlined } from "@ant-design/icons";
 import { useAtom } from "jotai";
-import { settingAtom } from "@/app/data/settingStore";
+import { settingAtom, settingType } from "@/app/data/settingStore";
 import { useRouter } from "next/navigation";
+import type { UploadProps } from "antd";
 
-type FieldType = {
-  name?: string;
-  breed?: string;
-  ownerName?: string;
-  age?: string;
-  date?: string;
-  examinationType?: "first" | "second";
-  signature?: [];
+const uploadProps: UploadProps = {
+  beforeUpload: (file) => {
+    const isImage =
+      file.type === "image/jpeg" ||
+      file.type === "image/jpg" ||
+      file.type === "image/png";
+    if (!isImage) {
+      message.error(`${file.name} is not a jpg/png file`);
+    }
+    return isImage || Upload.LIST_IGNORE;
+  },
 };
 
 const SettingForm = () => {
   const router = useRouter();
   const [setting, setSetting] = useAtom(settingAtom);
 
-  const onFinish = (values: FieldType) => {
+  const onFinish = (values: Partial<settingType>) => {
     console.log("Success:", values);
     setSetting({
       name: values.name || "",
@@ -29,7 +33,7 @@ const SettingForm = () => {
       ownerName: values.ownerName || "",
       age: values.age || "",
       date: values.date || "",
-      examinationType: values.examinationType || "",
+      examinationType: values.examinationType || null,
       signature: values.signature || [],
     });
     router.push("/cover");
@@ -78,7 +82,7 @@ const SettingForm = () => {
         autoComplete="off"
         requiredMark={RequiredMark}
       >
-        <Form.Item<FieldType>
+        <Form.Item<Partial<settingType>>
           label="환자정보"
           name="name"
           rules={[{ required: true, message: "환자정보 입력해주세요" }]}
@@ -88,7 +92,7 @@ const SettingForm = () => {
           <Input size="large" />
         </Form.Item>
 
-        <Form.Item<FieldType>
+        <Form.Item<Partial<settingType>>
           label="견종"
           name="breed"
           rules={[{ required: true, message: "견종을 입력해주세요" }]}
@@ -98,7 +102,7 @@ const SettingForm = () => {
           <Input size="large" />
         </Form.Item>
 
-        <Form.Item<FieldType>
+        <Form.Item<Partial<settingType>>
           label="보호자 성함"
           name="ownerName"
           rules={[{ required: true, message: "보호자 성함을 입력해주세요" }]}
@@ -108,7 +112,7 @@ const SettingForm = () => {
           <Input size="large" />
         </Form.Item>
 
-        <Form.Item<FieldType>
+        <Form.Item<Partial<settingType>>
           label="나이"
           name="age"
           rules={[{ required: true, message: "나이를 입력해주세요" }]}
@@ -118,7 +122,7 @@ const SettingForm = () => {
           <Input size="large" />
         </Form.Item>
 
-        <Form.Item<FieldType>
+        <Form.Item<Partial<settingType>>
           label="측정일"
           name="date"
           rules={[{ required: true, message: "측정일을 입력해주세요" }]}
@@ -128,7 +132,7 @@ const SettingForm = () => {
           <Input size="large" />
         </Form.Item>
 
-        <Form.Item<FieldType>
+        <Form.Item<Partial<settingType>>
           label="초진/재진"
           name="examinationType"
           rules={[{ required: true, message: "검사종류를 선택해주세요" }]}
@@ -141,7 +145,7 @@ const SettingForm = () => {
           </Radio.Group>
         </Form.Item>
 
-        <Form.Item<FieldType>
+        <Form.Item<Partial<settingType>>
           label="수의사 서명 등록"
           name="signature"
           valuePropName="fileList"
@@ -156,6 +160,7 @@ const SettingForm = () => {
             customRequest={customRequest} // Mock upload
             // action="your-upload-endpoint" // 서버 개발 후 customRequest 대체
             maxCount={1}
+            {...uploadProps}
           >
             <Button icon={<UploadOutlined />}>서명 업로드</Button>
           </Upload>

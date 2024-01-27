@@ -14,7 +14,7 @@ const SectionTitle = ({ title }: Props) => {
       <Image
         src="/images/sectionTitle.png"
         alt="section-title"
-        layout="fill"
+        fill
         quality={100}
         style={{ objectFit: "contain", objectPosition: "top" }}
       />

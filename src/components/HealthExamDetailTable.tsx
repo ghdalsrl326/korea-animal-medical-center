@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { Checkbox, Input } from "antd";
 import React from "react";
@@ -7,6 +8,11 @@ import { healthExamDetailAtom } from "@/app/data/healthExamDetailStore";
 
 const HealthExamDetailTable = () => {
   const [detail, setDetail] = useAtom(healthExamDetailAtom);
+
+  const imageAcceptOnly = {
+    "image/png": [".png"],
+    "image/jpeg": [".jpg", ".jpeg"],
+  };
 
   const { imgCellWidth, imgCellHeight } = {
     imgCellWidth: 170,
@@ -30,15 +36,42 @@ const HealthExamDetailTable = () => {
     reader.readAsDataURL(file);
   };
 
-  const dropzoneProps1 = useDropzone({ onDrop: onDrop("skinImage1") });
-  const dropzoneProps2 = useDropzone({ onDrop: onDrop("skinImage2") });
-  const dropzoneProps3 = useDropzone({ onDrop: onDrop("skinImage3") });
-  const dropzoneProps4 = useDropzone({ onDrop: onDrop("eyeImage1") });
-  const dropzoneProps5 = useDropzone({ onDrop: onDrop("eyeImage2") });
-  const dropzoneProps6 = useDropzone({ onDrop: onDrop("eyeImage3") });
-  const dropzoneProps7 = useDropzone({ onDrop: onDrop("toothImage1") });
-  const dropzoneProps8 = useDropzone({ onDrop: onDrop("toothImage2") });
-  const dropzoneProps9 = useDropzone({ onDrop: onDrop("toothImage3") });
+  const dropzoneProps1 = useDropzone({
+    onDrop: onDrop("skinImage1"),
+    accept: imageAcceptOnly,
+  });
+  const dropzoneProps2 = useDropzone({
+    onDrop: onDrop("skinImage2"),
+    accept: imageAcceptOnly,
+  });
+  const dropzoneProps3 = useDropzone({
+    onDrop: onDrop("skinImage3"),
+    accept: imageAcceptOnly,
+  });
+  const dropzoneProps4 = useDropzone({
+    onDrop: onDrop("eyeImage1"),
+    accept: imageAcceptOnly,
+  });
+  const dropzoneProps5 = useDropzone({
+    onDrop: onDrop("eyeImage2"),
+    accept: imageAcceptOnly,
+  });
+  const dropzoneProps6 = useDropzone({
+    onDrop: onDrop("eyeImage3"),
+    accept: imageAcceptOnly,
+  });
+  const dropzoneProps7 = useDropzone({
+    onDrop: onDrop("toothImage1"),
+    accept: imageAcceptOnly,
+  });
+  const dropzoneProps8 = useDropzone({
+    onDrop: onDrop("toothImage2"),
+    accept: imageAcceptOnly,
+  });
+  const dropzoneProps9 = useDropzone({
+    onDrop: onDrop("toothImage3"),
+    accept: imageAcceptOnly,
+  });
 
   const renderDropZoneCell = (
     dropzoneProps: ReturnType<typeof useDropzone>,
