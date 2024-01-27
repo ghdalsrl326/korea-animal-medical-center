@@ -118,6 +118,10 @@ const BloodExamTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center", color: "#fff" }}
                 autoFocus
+                value={result.firstDate}
+                onChange={(e) =>
+                  setResult({ ...result, firstDate: e.target.value })
+                }
               />
             </th>
             <th>
@@ -125,6 +129,10 @@ const BloodExamTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center", color: "#fff" }}
+                value={result.secondDate}
+                onChange={(e) =>
+                  setResult({ ...result, secondDate: e.target.value })
+                }
               />
             </th>
           </tr>

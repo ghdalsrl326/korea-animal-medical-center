@@ -1,8 +1,12 @@
 "use client";
+import { healthExamSummaryAtom } from "@/app/data/healthExamSummaryStore";
 import { Input } from "antd";
+import { useAtom } from "jotai";
 import React from "react";
 
 const HealthExamSummaryTable = () => {
+  const [summary, setSummary] = useAtom(healthExamSummaryAtom);
+
   return (
     <div
       style={{
@@ -35,6 +39,10 @@ const HealthExamSummaryTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={summary.vitalSign}
+                onChange={(e) =>
+                  setSummary({ ...summary, vitalSign: e.target.value })
+                }
               />
             </td>
             <th>BCS, MCS</th>
@@ -43,6 +51,10 @@ const HealthExamSummaryTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
+                value={summary.bcsMcs}
+                onChange={(e) =>
+                  setSummary({ ...summary, bcsMcs: e.target.value })
+                }
               />
             </td>
           </tr>
@@ -54,6 +66,10 @@ const HealthExamSummaryTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
+                value={summary.lymphNode}
+                onChange={(e) =>
+                  setSummary({ ...summary, lymphNode: e.target.value })
+                }
               />
             </td>
             <th>근골격계</th>
@@ -62,6 +78,10 @@ const HealthExamSummaryTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
+                value={summary.musculoskeletal}
+                onChange={(e) =>
+                  setSummary({ ...summary, musculoskeletal: e.target.value })
+                }
               />
             </td>
           </tr>
@@ -72,6 +92,10 @@ const HealthExamSummaryTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
+                value={summary.auscultation}
+                onChange={(e) =>
+                  setSummary({ ...summary, auscultation: e.target.value })
+                }
               />
             </td>
             <th>생식기계</th>
@@ -80,6 +104,10 @@ const HealthExamSummaryTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
+                value={summary.reproductive}
+                onChange={(e) =>
+                  setSummary({ ...summary, reproductive: e.target.value })
+                }
               />
             </td>
           </tr>
@@ -90,6 +118,10 @@ const HealthExamSummaryTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
+                value={summary.nasal}
+                onChange={(e) =>
+                  setSummary({ ...summary, nasal: e.target.value })
+                }
               />
             </td>
             <th>중성화유무</th>
@@ -98,6 +130,10 @@ const HealthExamSummaryTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
+                value={summary.neutered}
+                onChange={(e) =>
+                  setSummary({ ...summary, neutered: e.target.value })
+                }
               />
             </td>
           </tr>

@@ -1,14 +1,24 @@
 "use client";
-import { Button, Checkbox, Input, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Checkbox, Input } from "antd";
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { useAtom } from "jotai";
+import { healthExamDetailAtom } from "@/app/data/healthExamDetailStore";
 
 const HealthExamDetailTable = () => {
+  const [detail, setDetail] = useAtom(healthExamDetailAtom);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const { imgCellWidth, imgCellHeight } = {
     imgCellWidth: 170,
     imgCellHeight: 241,
+  };
+
+  const handleSingleChoiceChange = (questionKey: string, option: string) => {
+    if (option === detail[questionKey as keyof typeof detail]) {
+      setDetail((prev) => ({ ...prev, [questionKey]: "" }));
+      return;
+    }
+    setDetail((prev) => ({ ...prev, [questionKey]: option }));
   };
 
   const onDrop = useCallback((acceptedFiles: any[]) => {
@@ -64,6 +74,8 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.skin}
+                onChange={(e) => setDetail({ ...detail, skin: e.target.value })}
               />
             </td>
             <td
@@ -153,6 +165,8 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.hair}
+                onChange={(e) => setDetail({ ...detail, hair: e.target.value })}
               />
             </td>
           </tr>
@@ -164,6 +178,10 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.earRight}
+                onChange={(e) =>
+                  setDetail({ ...detail, earRight: e.target.value })
+                }
               />
             </td>
           </tr>
@@ -175,6 +193,10 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.earLeft}
+                onChange={(e) =>
+                  setDetail({ ...detail, earLeft: e.target.value })
+                }
               />
             </td>
           </tr>
@@ -211,9 +233,23 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.fluorescentRight}
+                onChange={(e) =>
+                  setDetail({ ...detail, fluorescentRight: e.target.value })
+                }
               />
             </td>
-            <td style={{ textAlign: "center" }}>
+            {["낮음", "정상", "높음"].map((option, index) => (
+              <td style={{ textAlign: "center" }} key={index}>
+                <Checkbox
+                  checked={detail.fluorescentRightLevel === option}
+                  onChange={() =>
+                    handleSingleChoiceChange("fluorescentRightLevel", option)
+                  }
+                />
+              </td>
+            ))}
+            {/* <td style={{ textAlign: "center" }}>
               <Checkbox />
             </td>
             <td style={{ textAlign: "center" }}>
@@ -221,7 +257,7 @@ const HealthExamDetailTable = () => {
             </td>
             <td style={{ textAlign: "center" }}>
               <Checkbox />
-            </td>
+            </td> */}
             <td
               rowSpan={8}
               {...getRootProps()}
@@ -297,17 +333,22 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.fluorescentLeft}
+                onChange={(e) =>
+                  setDetail({ ...detail, fluorescentLeft: e.target.value })
+                }
               />
             </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
+            {["낮음", "정상", "높음"].map((option, index) => (
+              <td style={{ textAlign: "center" }} key={index}>
+                <Checkbox
+                  checked={detail.fluorescentLeftLevel === option}
+                  onChange={() =>
+                    handleSingleChoiceChange("fluorescentLeftLevel", option)
+                  }
+                />
+              </td>
+            ))}
           </tr>
           <tr>
             <th>눈물량(우)</th>
@@ -317,17 +358,22 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.tearRight}
+                onChange={(e) =>
+                  setDetail({ ...detail, tearRight: e.target.value })
+                }
               />
             </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
+            {["낮음", "정상", "높음"].map((option, index) => (
+              <td style={{ textAlign: "center" }} key={index}>
+                <Checkbox
+                  checked={detail.tearRightLevel === option}
+                  onChange={() =>
+                    handleSingleChoiceChange("tearRightLevel", option)
+                  }
+                />
+              </td>
+            ))}
           </tr>
           <tr>
             <th>눈물량(좌)</th>
@@ -337,17 +383,22 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.tearLeft}
+                onChange={(e) =>
+                  setDetail({ ...detail, tearLeft: e.target.value })
+                }
               />
             </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
+            {["낮음", "정상", "높음"].map((option, index) => (
+              <td style={{ textAlign: "center" }} key={index}>
+                <Checkbox
+                  checked={detail.tearLeftLevel === option}
+                  onChange={() =>
+                    handleSingleChoiceChange("tearLeftLevel", option)
+                  }
+                />
+              </td>
+            ))}
           </tr>
           <tr>
             <th>안압(우)</th>
@@ -357,17 +408,22 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.eyePressureRight}
+                onChange={(e) =>
+                  setDetail({ ...detail, eyePressureRight: e.target.value })
+                }
               />
             </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
+            {["낮음", "정상", "높음"].map((option, index) => (
+              <td style={{ textAlign: "center" }} key={index}>
+                <Checkbox
+                  checked={detail.eyePressureRightLevel === option}
+                  onChange={() =>
+                    handleSingleChoiceChange("eyePressureRightLevel", option)
+                  }
+                />
+              </td>
+            ))}
           </tr>
           <tr>
             <th>안압(좌)</th>
@@ -377,17 +433,22 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.eyePressureLeft}
+                onChange={(e) =>
+                  setDetail({ ...detail, eyePressureLeft: e.target.value })
+                }
               />
             </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
+            {["낮음", "정상", "높음"].map((option, index) => (
+              <td style={{ textAlign: "center" }} key={index}>
+                <Checkbox
+                  checked={detail.eyePressureLeftLevel === option}
+                  onChange={() =>
+                    handleSingleChoiceChange("eyePressureLeftLevel", option)
+                  }
+                />
+              </td>
+            ))}
           </tr>
           <tr>
             <th>Slir검사소견</th>
@@ -397,17 +458,18 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.slir}
+                onChange={(e) => setDetail({ ...detail, slir: e.target.value })}
               />
             </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
+            {["낮음", "정상", "높음"].map((option, index) => (
+              <td style={{ textAlign: "center" }} key={index}>
+                <Checkbox
+                  checked={detail.slirLevel === option}
+                  onChange={() => handleSingleChoiceChange("slirLevel", option)}
+                />
+              </td>
+            ))}
           </tr>
           <tr>
             <th>외관검사</th>
@@ -417,17 +479,22 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.appearance}
+                onChange={(e) =>
+                  setDetail({ ...detail, appearance: e.target.value })
+                }
               />
             </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
-            <td style={{ textAlign: "center" }}>
-              <Checkbox />
-            </td>
+            {["낮음", "정상", "높음"].map((option, index) => (
+              <td style={{ textAlign: "center" }} key={index}>
+                <Checkbox
+                  checked={detail.appearanceLevel === option}
+                  onChange={() =>
+                    handleSingleChoiceChange("appearanceLevel", option)
+                  }
+                />
+              </td>
+            ))}
           </tr>
         </thead>
         <thead>
@@ -459,6 +526,10 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.malocclusion}
+                onChange={(e) =>
+                  setDetail({ ...detail, malocclusion: e.target.value })
+                }
               />
             </td>
             <td
@@ -536,6 +607,10 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.toothLoss}
+                onChange={(e) =>
+                  setDetail({ ...detail, toothLoss: e.target.value })
+                }
               />
             </td>
           </tr>
@@ -547,6 +622,10 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.brokenTooth}
+                onChange={(e) =>
+                  setDetail({ ...detail, brokenTooth: e.target.value })
+                }
               />
             </td>
           </tr>
@@ -558,6 +637,10 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.brokenToothRemain}
+                onChange={(e) =>
+                  setDetail({ ...detail, brokenToothRemain: e.target.value })
+                }
               />
             </td>
           </tr>
@@ -569,6 +652,10 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
+                value={detail.tartar}
+                onChange={(e) =>
+                  setDetail({ ...detail, tartar: e.target.value })
+                }
               />
             </td>
           </tr>
