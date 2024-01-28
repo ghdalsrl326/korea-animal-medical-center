@@ -1,9 +1,12 @@
 "use client";
-import { examResultAtom } from "@/app/data/examResultStore";
-import { useAtom } from "jotai";
-import { useRef, useState } from "react";
+import React, { useRef, useState, FC } from "react";
 import ReactQuill, { Quill } from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Import the CSS
+import "react-quill/dist/quill.snow.css";
+
+interface QuillEditorProps {
+  content: string;
+  onChange: (content: string) => void;
+}
 
 const Font = Quill.import("formats/font");
 Font.whitelist = [
@@ -18,8 +21,7 @@ Font.whitelist = [
 ];
 Quill.register(Font, true);
 
-const QuillEditor = () => {
-  const [result, setResult] = useAtom(examResultAtom);
+const QuillEditor: FC<QuillEditorProps> = ({ content, onChange }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => {
@@ -36,8 +38,8 @@ const QuillEditor = () => {
 
       <ReactQuill
         theme="snow"
-        value={result.editorContent}
-        onChange={(value) => setResult({ ...result, editorContent: value })}
+        value={content}
+        onChange={onChange}
         onFocus={handleFocus}
         modules={{
           toolbar: [

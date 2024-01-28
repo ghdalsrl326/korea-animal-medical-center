@@ -2,17 +2,14 @@
 "use client";
 import { Checkbox, Input } from "antd";
 import React from "react";
-import { useDropzone } from "react-dropzone";
+import Dropzone, { useDropzone } from "react-dropzone";
 import { useAtom } from "jotai";
 import { healthExamDetailAtom } from "@/app/data/healthExamDetailStore";
+import { imageAcceptOnly } from "@/app/data/constants";
+import DropZoneCell from "./DropZoneCell";
 
 const HealthExamDetailTable = () => {
   const [detail, setDetail] = useAtom(healthExamDetailAtom);
-
-  const imageAcceptOnly = {
-    "image/png": [".png"],
-    "image/jpeg": [".jpg", ".jpeg"],
-  };
 
   const { imgCellWidth, imgCellHeight } = {
     imgCellWidth: 170,
@@ -73,39 +70,6 @@ const HealthExamDetailTable = () => {
     accept: imageAcceptOnly,
   });
 
-  const renderDropZoneCell = (
-    dropzoneProps: ReturnType<typeof useDropzone>,
-    imageSrc: string | null,
-    rowSpan: number
-  ) => (
-    <td
-      {...dropzoneProps.getRootProps()}
-      style={{
-        cursor: "pointer",
-        border: "1px dashed grey",
-        textAlign: "center",
-      }}
-      width={imgCellWidth}
-      height={imgCellHeight}
-      rowSpan={rowSpan}
-    >
-      <input {...dropzoneProps.getInputProps()} />
-      {imageSrc ? (
-        <img
-          src={imageSrc}
-          alt="Uploaded"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "contain",
-          }}
-        />
-      ) : (
-        <p>이미지 업로드</p>
-      )}
-    </td>
-  );
-
   return (
     <div
       style={{
@@ -149,9 +113,27 @@ const HealthExamDetailTable = () => {
                 onChange={(e) => setDetail({ ...detail, skin: e.target.value })}
               />
             </td>
-            {renderDropZoneCell(dropzoneProps1, detail.skinImage1, 4)}
-            {renderDropZoneCell(dropzoneProps2, detail.skinImage2, 4)}
-            {renderDropZoneCell(dropzoneProps3, detail.skinImage3, 4)}
+            <DropZoneCell
+              dropzoneProps={dropzoneProps1}
+              imageSrc={detail.skinImage1}
+              rowSpan={4}
+              width={imgCellWidth}
+              height={imgCellHeight}
+            />
+            <DropZoneCell
+              dropzoneProps={dropzoneProps2}
+              imageSrc={detail.skinImage2}
+              rowSpan={4}
+              width={imgCellWidth}
+              height={imgCellHeight}
+            />
+            <DropZoneCell
+              dropzoneProps={dropzoneProps3}
+              imageSrc={detail.skinImage3}
+              rowSpan={4}
+              width={imgCellWidth}
+              height={imgCellHeight}
+            />
           </tr>
           <tr>
             <th>피모</th>
@@ -245,9 +227,27 @@ const HealthExamDetailTable = () => {
                 />
               </td>
             ))}
-            {renderDropZoneCell(dropzoneProps4, detail.eyeImage1, 8)}
-            {renderDropZoneCell(dropzoneProps5, detail.eyeImage2, 8)}
-            {renderDropZoneCell(dropzoneProps6, detail.eyeImage3, 8)}
+            <DropZoneCell
+              dropzoneProps={dropzoneProps4}
+              imageSrc={detail.eyeImage1}
+              rowSpan={8}
+              width={imgCellWidth}
+              height={imgCellHeight}
+            />
+            <DropZoneCell
+              dropzoneProps={dropzoneProps5}
+              imageSrc={detail.eyeImage2}
+              rowSpan={8}
+              width={imgCellWidth}
+              height={imgCellHeight}
+            />
+            <DropZoneCell
+              dropzoneProps={dropzoneProps6}
+              imageSrc={detail.eyeImage3}
+              rowSpan={8}
+              width={imgCellWidth}
+              height={imgCellHeight}
+            />
           </tr>
           <tr>
             <th>형광염색(좌)</th>
@@ -456,9 +456,27 @@ const HealthExamDetailTable = () => {
                 }
               />
             </td>
-            {renderDropZoneCell(dropzoneProps7, detail.toothImage1, 5)}
-            {renderDropZoneCell(dropzoneProps8, detail.toothImage2, 5)}
-            {renderDropZoneCell(dropzoneProps9, detail.toothImage3, 5)}
+            <DropZoneCell
+              dropzoneProps={dropzoneProps7}
+              imageSrc={detail.toothImage1}
+              rowSpan={5}
+              width={imgCellWidth}
+              height={imgCellHeight}
+            />
+            <DropZoneCell
+              dropzoneProps={dropzoneProps8}
+              imageSrc={detail.toothImage2}
+              rowSpan={5}
+              width={imgCellWidth}
+              height={imgCellHeight}
+            />
+            <DropZoneCell
+              dropzoneProps={dropzoneProps9}
+              imageSrc={detail.toothImage3}
+              rowSpan={5}
+              width={imgCellWidth}
+              height={imgCellHeight}
+            />
           </tr>
           <tr>
             <th>치아결손</th>

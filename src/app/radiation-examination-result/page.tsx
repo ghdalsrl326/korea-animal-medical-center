@@ -1,4 +1,5 @@
 import NavigationTab from "@/components/NavigationTab";
+import RadiationExamImageTable from "@/components/RadiationExamImageTable";
 import SectionSubTitle from "@/components/SectionSubTitle";
 import SectionTitle from "@/components/SectionTitle";
 import { Flex } from "antd";
@@ -17,6 +18,7 @@ const page = () => {
         >
           <SectionTitle title="건강검진결과" />
           <SectionSubTitle title="방사선검사결과" />
+          <RadiationExamImageTable />
         </div>
       </Flex>
       <NavigationTab />

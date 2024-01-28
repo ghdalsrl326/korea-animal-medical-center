@@ -4,13 +4,7 @@ import SectionTitle from "@/components/SectionTitle";
 import { Flex } from "antd";
 import React from "react";
 import "react-quill/dist/quill.snow.css";
-
-import dynamic from "next/dynamic";
-import Signature from "@/components/Signature";
-
-const ReactQuill = dynamic(() => import("../../components/QuillEditor"), {
-  ssr: false,
-});
+import ExamResultContent from "@/components/ExamResultContent";
 
 const page = () => {
   return (
@@ -29,15 +23,12 @@ const page = () => {
         <div
           style={{
             position: "absolute",
-            width: "82%",
+            width: "1128px",
             height: "100%",
             top: "260px",
           }}
         >
-          <Flex vertical justify="start" gap="large">
-            <ReactQuill />
-            <Signature />
-          </Flex>
+          <ExamResultContent />
         </div>
       </Flex>
       <NavigationTab />
