@@ -21,7 +21,7 @@ const CoverTitle = () => {
           fontWeight: "bold",
         }}
       >
-        고양이 검진결과서
+        검진결과서
       </Title>
       <Title
         level={1}

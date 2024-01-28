@@ -10,6 +10,8 @@ interface DropZoneCellProps {
   colSpan?: number;
   width: number | string;
   height: number | string;
+  maxWidth?: number | string;
+  maxHeight?: number | string;
 }
 
 const DropZoneCell = ({
@@ -19,6 +21,8 @@ const DropZoneCell = ({
   colSpan,
   width,
   height,
+  maxWidth,
+  maxHeight,
 }: DropZoneCellProps) => {
   return (
     <td
@@ -41,6 +45,8 @@ const DropZoneCell = ({
           style={{
             width: "100%",
             height: "100%",
+            maxWidth,
+            maxHeight,
             objectFit: "contain",
           }}
         />

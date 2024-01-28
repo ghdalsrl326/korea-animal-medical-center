@@ -65,6 +65,7 @@ const RadiationExamImageTable = () => {
                 rowSpan={2}
                 width={imgCellWidth}
                 height={imgCellHeight}
+                maxHeight={"380px"}
               />
               <DropZoneCell
                 dropzoneProps={dropzoneProps2}
@@ -72,6 +73,7 @@ const RadiationExamImageTable = () => {
                 rowSpan={2}
                 width={imgCellWidth}
                 height={imgCellHeight}
+                maxHeight={"380px"}
               />
             </tr>
             <tr></tr>
@@ -82,6 +84,7 @@ const RadiationExamImageTable = () => {
                 rowSpan={2}
                 width={imgCellWidth}
                 height={imgCellHeight}
+                maxHeight={"380px"}
               />
               <DropZoneCell
                 dropzoneProps={dropzoneProps4}
@@ -89,6 +92,7 @@ const RadiationExamImageTable = () => {
                 rowSpan={2}
                 width={imgCellWidth}
                 height={imgCellHeight}
+                maxHeight={"380px"}
               />
             </tr>
             <tr></tr>
@@ -100,6 +104,7 @@ const RadiationExamImageTable = () => {
                 colSpan={2}
                 width={imgCellWidth}
                 height={imgCellHeight}
+                maxHeight={"380px"}
               />
             </tr>
           </tbody>

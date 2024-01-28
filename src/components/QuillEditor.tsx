@@ -22,7 +22,7 @@ Font.whitelist = [
 Quill.register(Font, true);
 
 const QuillEditor: FC<QuillEditorProps> = ({ content, onChange }) => {
-  const [isFocused, setIsFocused] = useState(false);
+  const [isFocused, setIsFocused] = useState(true);
 
   const handleFocus = () => {
     setIsFocused(true);

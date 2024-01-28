@@ -160,7 +160,7 @@ const QuestionnaireTable = () => {
                   <Input
                     size="large"
                     variant="borderless"
-                    style={{ textAlign: "center", width: "10%" }}
+                    style={{ textAlign: "center", width: "15%" }}
                     value={result.diagnosedDiseaseDate}
                     onChange={(e) =>
                       handleInputChange("diagnosedDiseaseDate", e.target.value)
@@ -170,7 +170,7 @@ const QuestionnaireTable = () => {
                   <Input
                     size="large"
                     variant="borderless"
-                    style={{ textAlign: "center", width: "10%" }}
+                    style={{ textAlign: "center", width: "15%" }}
                     value={result.diagnosedDiseaseManagement}
                     onChange={(e) =>
                       handleInputChange(

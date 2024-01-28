@@ -36,6 +36,7 @@ const TableCell = ({
         style={style}
         value={value}
         onChange={onChange}
+        type="number"
       />
     </td>
   );
