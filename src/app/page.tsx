@@ -1,5 +1,5 @@
-import Image from "next/image";
+import InitialRoute from "@/components/InitialRoute";
 
 export default function Home() {
-  return <></>;
+  return <InitialRoute />;
 }
