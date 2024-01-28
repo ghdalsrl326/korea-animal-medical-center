@@ -1,49 +1,46 @@
 "use client";
-import { imageAcceptOnly } from "@/app/data/constants";
 import { radiationExamAtom } from "@/app/data/radiationExamStore";
 import { useAtom } from "jotai";
-import React from "react";
-import { useDropzone } from "react-dropzone";
+import React, { useState } from "react";
 import DropZoneCell from "./DropZoneCell";
 import RadiationExamTable from "./RadiationExamTable";
 import { Flex } from "antd";
+import { useDropzone } from "react-dropzone";
 
 const RadiationExamImageTable = () => {
   const [result, setResult] = useAtom(radiationExamAtom);
-
   const { imgCellWidth, imgCellHeight } = {
     imgCellWidth: "50%",
     imgCellHeight: "auto",
   };
 
-  const onDrop = (imageKey: keyof typeof result) => (acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
+  const onDrop = (imageKey: keyof typeof result, acceptedFile: File) => {
     const reader = new FileReader();
     reader.onload = () => {
       setResult((prev) => ({ ...prev, [imageKey]: reader.result as string }));
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(acceptedFile);
   };
 
   const dropzoneProps1 = useDropzone({
-    onDrop: onDrop("image1"),
-    accept: imageAcceptOnly,
+    onDrop: (acceptedFiles) => onDrop("image1", acceptedFiles[0]),
+    maxFiles: 1,
   });
   const dropzoneProps2 = useDropzone({
-    onDrop: onDrop("image2"),
-    accept: imageAcceptOnly,
+    onDrop: (acceptedFiles) => onDrop("image2", acceptedFiles[0]),
+    maxFiles: 1,
   });
   const dropzoneProps3 = useDropzone({
-    onDrop: onDrop("image3"),
-    accept: imageAcceptOnly,
+    onDrop: (acceptedFiles) => onDrop("image3", acceptedFiles[0]),
+    maxFiles: 1,
   });
   const dropzoneProps4 = useDropzone({
-    onDrop: onDrop("image4"),
-    accept: imageAcceptOnly,
+    onDrop: (acceptedFiles) => onDrop("image4", acceptedFiles[0]),
+    maxFiles: 1,
   });
   const dropzoneProps5 = useDropzone({
-    onDrop: onDrop("image5"),
-    accept: imageAcceptOnly,
+    onDrop: (acceptedFiles) => onDrop("image5", acceptedFiles[0]),
+    maxFiles: 1,
   });
 
   return (

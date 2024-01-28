@@ -5,7 +5,6 @@ import React from "react";
 import Dropzone, { useDropzone } from "react-dropzone";
 import { useAtom } from "jotai";
 import { healthExamDetailAtom } from "@/app/data/healthExamDetailStore";
-import { imageAcceptOnly } from "@/app/data/constants";
 import DropZoneCell from "./DropZoneCell";
 
 const HealthExamDetailTable = () => {
@@ -24,50 +23,49 @@ const HealthExamDetailTable = () => {
     setDetail((prev) => ({ ...prev, [questionKey]: option }));
   };
 
-  const onDrop = (imageKey: keyof typeof detail) => (acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
+  const onDrop = (imageKey: keyof typeof detail, acceptedFile: File) => {
     const reader = new FileReader();
     reader.onload = () => {
       setDetail((prev) => ({ ...prev, [imageKey]: reader.result as string }));
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(acceptedFile);
   };
 
   const dropzoneProps1 = useDropzone({
-    onDrop: onDrop("skinImage1"),
-    accept: imageAcceptOnly,
+    onDrop: (acceptedFiles) => onDrop("skinImage1", acceptedFiles[0]),
+    maxFiles: 1,
   });
   const dropzoneProps2 = useDropzone({
-    onDrop: onDrop("skinImage2"),
-    accept: imageAcceptOnly,
+    onDrop: (acceptedFiles) => onDrop("skinImage2", acceptedFiles[0]),
+    maxFiles: 1,
   });
   const dropzoneProps3 = useDropzone({
-    onDrop: onDrop("skinImage3"),
-    accept: imageAcceptOnly,
+    onDrop: (acceptedFiles) => onDrop("skinImage3", acceptedFiles[0]),
+    maxFiles: 1,
   });
   const dropzoneProps4 = useDropzone({
-    onDrop: onDrop("eyeImage1"),
-    accept: imageAcceptOnly,
+    onDrop: (acceptedFiles) => onDrop("eyeImage1", acceptedFiles[0]),
+    maxFiles: 1,
   });
   const dropzoneProps5 = useDropzone({
-    onDrop: onDrop("eyeImage2"),
-    accept: imageAcceptOnly,
+    onDrop: (acceptedFiles) => onDrop("eyeImage2", acceptedFiles[0]),
+    maxFiles: 1,
   });
   const dropzoneProps6 = useDropzone({
-    onDrop: onDrop("eyeImage3"),
-    accept: imageAcceptOnly,
+    onDrop: (acceptedFiles) => onDrop("eyeImage3", acceptedFiles[0]),
+    maxFiles: 1,
   });
   const dropzoneProps7 = useDropzone({
-    onDrop: onDrop("toothImage1"),
-    accept: imageAcceptOnly,
+    onDrop: (acceptedFiles) => onDrop("toothImage1", acceptedFiles[0]),
+    maxFiles: 1,
   });
   const dropzoneProps8 = useDropzone({
-    onDrop: onDrop("toothImage2"),
-    accept: imageAcceptOnly,
+    onDrop: (acceptedFiles) => onDrop("toothImage2", acceptedFiles[0]),
+    maxFiles: 1,
   });
   const dropzoneProps9 = useDropzone({
-    onDrop: onDrop("toothImage3"),
-    accept: imageAcceptOnly,
+    onDrop: (acceptedFiles) => onDrop("toothImage3", acceptedFiles[0]),
+    maxFiles: 1,
   });
 
   return (
