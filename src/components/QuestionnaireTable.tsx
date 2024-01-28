@@ -16,7 +16,7 @@ const QuestionnaireTable = () => {
 
   const handleMultiChoiceChange = (questionKey: string, option: string) => {
     setResult((prev) => {
-      const currentValues = prev[questionKey] || [];
+      const currentValues = (prev as Record<string, any>)[questionKey] || [];
       const newValues = currentValues.includes(option)
         ? currentValues.filter((value: string) => value !== option)
         : [...currentValues, option];
