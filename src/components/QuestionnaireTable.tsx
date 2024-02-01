@@ -3,6 +3,7 @@ import { questionnaireAtom } from "@/app/data/questionnaireStore";
 import { settingAtom } from "@/app/data/settingStore";
 import { Input } from "antd";
 import Checkbox from "antd/es/checkbox/Checkbox";
+import TextArea from "antd/es/input/TextArea";
 import { useAtom } from "jotai";
 import React from "react";
 
@@ -771,7 +772,7 @@ const QuestionnaireTable = () => {
           <tr>
             <td>검진 시 특히 자세히 보고 싶은 부분이 있다면 적어주세요</td>
             <td colSpan={5}>
-              <Input
+              <TextArea
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center", width: "100%" }}
@@ -779,6 +780,7 @@ const QuestionnaireTable = () => {
                 onChange={(e) =>
                   handleInputChange("additional", e.target.value)
                 }
+                rows={4}
               />
             </td>
           </tr>
