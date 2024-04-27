@@ -79,9 +79,10 @@ const LoginForm = () => {
           </Button>
           <Button
             type="text"
-            htmlType="submit"
+            // htmlType="submit"
             size="large"
             style={{ width: "320px", height: "52px" }}
+            onClick={onSignUp}
           >
             회원가입
           </Button>
