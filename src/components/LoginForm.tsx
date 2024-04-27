@@ -26,6 +26,10 @@ const LoginForm = () => {
     console.log("Failed:", errorInfo);
   };
 
+  const onSignUp = () => {
+    router.push(URL.SIGNUP);
+  };
+
   return (
     <Form
       name="basic"
