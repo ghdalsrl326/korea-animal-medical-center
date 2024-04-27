@@ -2,24 +2,9 @@
 import React from "react";
 import { Button, Form, Input, Radio, Space, Upload, message } from "antd";
 import RequiredMark from "./RequiredMark";
-import { UploadOutlined } from "@ant-design/icons";
 import { useAtom } from "jotai";
 import { settingAtom, settingType } from "@/app/data/settingStore";
 import { useRouter } from "next/navigation";
-import type { UploadProps } from "antd";
-
-const uploadProps: UploadProps = {
-  beforeUpload: (file) => {
-    const isImage =
-      file.type === "image/jpeg" ||
-      file.type === "image/jpg" ||
-      file.type === "image/png";
-    if (!isImage) {
-      message.error(`${file.name} is not a jpg/png file`);
-    }
-    return isImage || Upload.LIST_IGNORE;
-  },
-};
 
 const SettingForm = () => {
   const router = useRouter();
@@ -28,12 +13,14 @@ const SettingForm = () => {
   const onFinish = (values: Partial<settingType>) => {
     console.log("Success:", values);
     setSetting({
+      id: values.id || "",
       name: values.name || "",
       breed: values.breed || "",
       ownerName: values.ownerName || "",
+      sex: values.sex || null,
+      neutered: values.neutered || null,
+      childBirth: values.childBirth || null,
       age: values.age || "",
-      date: values.date || "",
-      examinationType: values.examinationType || null,
       signature: values.signature || [],
     });
     router.push("/cover");
@@ -41,24 +28,6 @@ const SettingForm = () => {
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
-  };
-
-  const normFile = (e: any) => {
-    console.log("Upload event:", e);
-    const fileList = Array.isArray(e) ? e : e?.fileList;
-    setSetting((current) => ({ ...current, signatureFiles: fileList }));
-    return fileList;
-  };
-
-  const customRequest = async ({ file, onSuccess, onError }: any) => {
-    try {
-      setTimeout(() => {
-        onSuccess("ok");
-      }, 1000);
-    } catch (error) {
-      console.error("Upload error:", error);
-      onError(error);
-    }
   };
 
   return (
@@ -83,9 +52,19 @@ const SettingForm = () => {
         requiredMark={RequiredMark}
       >
         <Form.Item<Partial<settingType>>
+          label="환자ID"
+          name="id"
+          rules={[{ required: true, message: "환자ID를 입력해주세요" }]}
+          style={{ maxWidth: "480px", marginBottom: "10px" }}
+          initialValue={setting.id}
+        >
+          <Input size="large" />
+        </Form.Item>
+
+        <Form.Item<Partial<settingType>>
           label="환자정보"
           name="name"
-          rules={[{ required: true, message: "환자정보 입력해주세요" }]}
+          rules={[{ required: true, message: "환자정보를 입력해주세요" }]}
           style={{ maxWidth: "480px", marginBottom: "10px" }}
           initialValue={setting.name}
         >
@@ -113,6 +92,45 @@ const SettingForm = () => {
         </Form.Item>
 
         <Form.Item<Partial<settingType>>
+          label="성별"
+          name="sex"
+          rules={[{ required: true, message: "성별을 선택해주세요" }]}
+          style={{ maxWidth: "480px", marginBottom: "10px" }}
+          initialValue={setting.sex}
+        >
+          <Radio.Group>
+            <Radio value="남">남</Radio>
+            <Radio value="여">여</Radio>
+          </Radio.Group>
+        </Form.Item>
+
+        <Form.Item<Partial<settingType>>
+          label="중성화여부"
+          name="neutered"
+          rules={[{ required: true, message: "중성화여부를 선택해주세요" }]}
+          style={{ maxWidth: "480px", marginBottom: "10px" }}
+          initialValue={setting.neutered}
+        >
+          <Radio.Group>
+            <Radio value="예">예</Radio>
+            <Radio value="아니오">아니오</Radio>
+          </Radio.Group>
+        </Form.Item>
+
+        <Form.Item<Partial<settingType>>
+          label="출산여부"
+          name="childBirth"
+          rules={[{ required: true, message: "출산여부를 입력해주세요" }]}
+          style={{ maxWidth: "480px", marginBottom: "10px" }}
+          initialValue={setting.childBirth}
+        >
+          <Radio.Group>
+            <Radio value="예">예</Radio>
+            <Radio value="아니오">아니오</Radio>
+          </Radio.Group>
+        </Form.Item>
+
+        <Form.Item<Partial<settingType>>
           label="나이"
           name="age"
           rules={[{ required: true, message: "나이를 입력해주세요" }]}
@@ -120,50 +138,6 @@ const SettingForm = () => {
           initialValue={setting.age}
         >
           <Input size="large" />
-        </Form.Item>
-
-        <Form.Item<Partial<settingType>>
-          label="측정일"
-          name="date"
-          rules={[{ required: true, message: "측정일을 입력해주세요" }]}
-          style={{ maxWidth: "480px", marginBottom: "10px" }}
-          initialValue={setting.date}
-        >
-          <Input size="large" />
-        </Form.Item>
-
-        <Form.Item<Partial<settingType>>
-          label="초진/재진"
-          name="examinationType"
-          rules={[{ required: true, message: "검사종류를 선택해주세요" }]}
-          style={{ maxWidth: "480px", marginBottom: "10px" }}
-          initialValue={setting.examinationType}
-        >
-          <Radio.Group>
-            <Radio value="초진">초진</Radio>
-            <Radio value="재진">재진</Radio>
-          </Radio.Group>
-        </Form.Item>
-
-        <Form.Item<Partial<settingType>>
-          label="수의사 서명 등록"
-          name="signature"
-          valuePropName="fileList"
-          getValueFromEvent={normFile}
-          rules={[{ required: true, message: "서명을 업로드해주세요" }]}
-          style={{ maxWidth: "480px", marginBottom: "40px" }}
-          initialValue={setting.signature}
-        >
-          <Upload
-            name="signature"
-            listType="picture"
-            customRequest={customRequest} // Mock upload
-            // action="your-upload-endpoint" // 서버 개발 후 customRequest 대체
-            maxCount={1}
-            {...uploadProps}
-          >
-            <Button icon={<UploadOutlined />}>서명 업로드</Button>
-          </Upload>
         </Form.Item>
 
         <Form.Item>

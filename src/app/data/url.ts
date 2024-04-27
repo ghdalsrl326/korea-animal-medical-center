@@ -1,4 +1,5 @@
 export const URL = {
+  ADMIN: "/admin",
   COVER: "/cover",
   LOGIN: "/login",
   SIGNUP: "/signup",

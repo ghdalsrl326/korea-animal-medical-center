@@ -1,11 +1,12 @@
 import { Content, Header } from "antd/es/layout/layout";
 import React from "react";
 import Image from "next/image";
-import { Layout } from "antd";
+import { Flex, Layout } from "antd";
 import Title from "antd/es/typography/Title";
 import SettingForm from "@/components/SettingForm";
 import NavigationTab from "@/components/NavigationTab";
 import LogoutButton from "@/components/LogoutButton";
+import AdminButton from "@/components/AdminButton";
 
 const page = () => {
   return (
@@ -20,11 +21,14 @@ const page = () => {
         }}
       >
         <Image src="/images/logo.png" alt="logo" width={197} height={27} />
-        <LogoutButton />
+        <Flex gap="small">
+          <AdminButton />
+          <LogoutButton />
+        </Flex>
       </Header>
       <Content
         style={{
-          padding: "50px 0 0 20%",
+          padding: "0 0 0 20%",
           background: "#F9F9FB",
           height: "calc(100vh - 64px)",
         }}

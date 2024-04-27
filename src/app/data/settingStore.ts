@@ -2,21 +2,25 @@ import { UploadFile } from "antd/es/upload";
 import { atom } from "jotai";
 
 export type settingType = {
+  id: string;
   name: string;
   breed: string;
   ownerName: string;
+  sex: "남" | "여" | null;
+  neutered: "예" | "아니오" | null;
+  childBirth: "예" | "아니오" | null;
   age: string;
-  date: string;
-  examinationType: "first" | "second" | null;
   signature: UploadFile[];
 };
 
 export const settingAtom = atom<settingType>({
+  id: "",
   name: "",
   breed: "",
   ownerName: "",
+  sex: null,
+  neutered: null,
+  childBirth: null,
   age: "",
-  date: "",
-  examinationType: null,
   signature: [],
 });

@@ -79,7 +79,6 @@ const LoginForm = () => {
           </Button>
           <Button
             type="text"
-            // htmlType="submit"
             size="large"
             style={{ width: "320px", height: "52px" }}
             onClick={onSignUp}
