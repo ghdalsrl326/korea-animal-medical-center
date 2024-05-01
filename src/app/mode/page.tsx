@@ -3,7 +3,8 @@ import Image from "next/image";
 import Title from "antd/es/typography/Title";
 import { Flex } from "antd";
 import ModeButton from "@/components/ModeButton";
-import { URL } from "../data/url";
+import { URL } from "@/app/data/url";
+import getToday from "@/util/getToday";
 const headerStyle: React.CSSProperties = {
   textAlign: "center",
 };
@@ -48,8 +49,11 @@ const ModePage = () => {
             justify="center"
             align="center"
           >
-            <ModeButton mode="신규" url={URL.SETTING} />
-            <ModeButton mode="조회" url={URL.VIEWID} />
+            <ModeButton
+              modename="신규"
+              url={`${URL.REPORT}/new/${getToday()}/${URL.SETTING}`}
+            />
+            <ModeButton modename="조회" url={URL.VIEWID} />
           </Flex>
         </Flex>
       </div>

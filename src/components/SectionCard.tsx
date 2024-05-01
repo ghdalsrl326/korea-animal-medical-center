@@ -1,12 +1,14 @@
 "use client";
+import { configAtom } from "@/app/data/configStore";
 import { settingAtom } from "@/app/data/settingStore";
 import { Flex } from "antd";
 import { useAtom } from "jotai";
 import React from "react";
 
-//TODO: 측정일을 작성일로 변경
+//TODO:초진/재진 추가
 const SectionCard = () => {
   const [setting] = useAtom(settingAtom);
+  const [configStore] = useAtom(configAtom);
 
   return (
     <div
@@ -41,7 +43,7 @@ const SectionCard = () => {
           </Flex>
           <Flex align="center" gap="large">
             <h4>측정일</h4>
-            <h5>{setting.date}</h5>
+            <h5>{configStore.date}</h5>
           </Flex>
         </Flex>
         <Flex
@@ -60,7 +62,7 @@ const SectionCard = () => {
           </Flex>
           <Flex align="center" gap="large">
             <h4>초진/재진</h4>
-            <h5>{setting.examinationType}</h5>
+            {/* <h5>{setting.examinationType}</h5> */}
           </Flex>
         </Flex>
       </Flex>

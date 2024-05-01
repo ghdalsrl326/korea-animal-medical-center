@@ -2,16 +2,29 @@
 import React from "react";
 import { Button, Form, FormProps, Input } from "antd";
 import { useRouter } from "next/navigation";
+import { useAtom } from "jotai";
+import { configAtom } from "@/app/data/configStore";
+import { URL } from "@/app/data/url";
 
 type FieldType = {
-  petID?: string;
+  petID: string;
+  date: string;
 };
 
 const ViewIdForm = () => {
   const router = useRouter();
+  const [configStore, setConfigStore] = useAtom(configAtom);
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    router.push(`/report/${values.petID}`);
+    if (!values.petID || !values.date) {
+      return;
+    }
+    setConfigStore((prev) => ({
+      ...prev,
+      petId: values.petID,
+      date: values.date,
+    }));
+    router.push(`${URL.REPORT}/${values.petID}/${values.date}/${URL.SETTING}`);
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
@@ -37,6 +50,14 @@ const ViewIdForm = () => {
       >
         <Input />
       </Form.Item>
+      <Form.Item
+        label="측정일"
+        name="date"
+        rules={[{ required: true, message: "Please input 측정일!" }]}
+      >
+        <Input placeholder="YYYY-MM-DD" />
+      </Form.Item>
+
       <Form.Item>
         <Button
           type="primary"

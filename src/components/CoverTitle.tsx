@@ -1,4 +1,5 @@
 "use client";
+import { configAtom } from "@/app/data/configStore";
 import { settingAtom } from "@/app/data/settingStore";
 import { Flex } from "antd";
 import Title from "antd/es/typography/Title";
@@ -7,6 +8,8 @@ import React from "react";
 
 const CoverTitle = () => {
   const [setting] = useAtom(settingAtom);
+  const [configStore] = useAtom(configAtom);
+
   return (
     <Flex vertical gap="small" align="flex-end">
       <Title
@@ -34,7 +37,7 @@ const CoverTitle = () => {
           color: "#fff",
         }}
       >
-        {setting.date}
+        {configStore.date}
       </Title>
     </Flex>
   );

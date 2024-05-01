@@ -6,11 +6,15 @@ import { navigation } from "@/app/data/navigation";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useAtom } from "jotai";
+import { configAtom } from "@/app/data/configStore";
+import { URL } from "@/app/data/url";
 
 const NavigationTab = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [visible, setVisible] = useState(true);
+  const [configStore, setConfigStore] = useAtom(configAtom);
 
   const toggleVisibility = () => {
     setVisible(!visible);
@@ -66,7 +70,9 @@ const NavigationTab = () => {
           }}
           tabBarGutter={0}
           onTabClick={(key) => {
-            router.push(key);
+            router.push(
+              `${URL.REPORT}/${configStore.petId}/${configStore.date}/${key}`
+            );
           }}
         />
       )}

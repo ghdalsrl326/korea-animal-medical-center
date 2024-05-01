@@ -1,11 +1,12 @@
 export const URL = {
   ADMIN: "/admin",
-  COVER: "/cover",
   LOGIN: "/login",
   SIGNUP: "/signup",
   MODE: "/mode",
   VIEWID: "/mode/viewid",
+  REPORT: "/report",
   SETTING: "/setting",
+  COVER: "/cover",
   QUESTIONNAIRE: "/questionnaire",
   HEALTH_EXAMINATION: "/health-examination",
   BLOOD_EXAMINATION: "/blood-examination",

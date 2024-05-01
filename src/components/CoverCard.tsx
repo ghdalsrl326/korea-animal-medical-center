@@ -5,11 +5,13 @@ import Title from "antd/es/typography/Title";
 import { Typography } from "antd";
 import { useAtom } from "jotai";
 import React from "react";
+import { configAtom } from "@/app/data/configStore";
 
 const { Text } = Typography;
 
 const CoverCard = () => {
   const [setting] = useAtom(settingAtom);
+  const [configStore] = useAtom(configAtom);
 
   return (
     <div
@@ -117,7 +119,7 @@ const CoverCard = () => {
               fontWeight: "300",
             }}
           >
-            {setting.date}
+            {configStore.date}
           </Title>
         </Flex>
       </Flex>
