@@ -7,11 +7,12 @@ import { useAtom } from "jotai";
 import Image from "next/image";
 import React, { useEffect } from "react";
 
+//TODO: 사인 API로 변경
 const Signature = () => {
   const [setting] = useAtom(settingAtom);
 
   useEffect(() => {
-    console.log(setting.signature);
+    // console.log(setting.signature);
   }, [setting]);
 
   return (
@@ -39,9 +40,9 @@ const Signature = () => {
         >
           수의사 서명:
         </Title>
-        {setting.signature[0]?.thumbUrl && (
+        {/* {setting.signature[0]?.thumbUrl && (
           <img src={setting.signature[0]?.thumbUrl} alt="Uploaded Signature" />
-        )}
+        )} */}
       </Flex>
     </Flex>
   );

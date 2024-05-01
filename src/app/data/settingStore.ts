@@ -10,7 +10,6 @@ export type settingType = {
   neutered: "예" | "아니오" | null;
   childBirth: "예" | "아니오" | null;
   age: string;
-  signature: UploadFile[];
 };
 
 export const settingAtom = atom<settingType>({
@@ -22,5 +21,4 @@ export const settingAtom = atom<settingType>({
   neutered: null,
   childBirth: null,
   age: "",
-  signature: [],
 });

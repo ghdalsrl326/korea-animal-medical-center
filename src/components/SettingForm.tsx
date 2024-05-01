@@ -21,7 +21,6 @@ const SettingForm = () => {
       neutered: values.neutered || null,
       childBirth: values.childBirth || null,
       age: values.age || "",
-      signature: values.signature || [],
     });
     router.push("/cover");
   };
