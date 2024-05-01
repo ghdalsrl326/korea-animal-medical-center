@@ -16,7 +16,7 @@ const LoginForm = () => {
   const onFinish = (values: FieldType) => {
     console.log("Success:", values);
     if (values.userID === "admin" && values.userPW === "admin") {
-      router.push(URL.SETTING);
+      router.push(URL.MODE);
     } else {
       alert("아이디와 비밀번호를 확인해주세요");
     }

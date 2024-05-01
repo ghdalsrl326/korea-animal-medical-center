@@ -4,6 +4,7 @@ import { Flex } from "antd";
 import { useAtom } from "jotai";
 import React from "react";
 
+//TODO: 측정일을 작성일로 변경
 const SectionCard = () => {
   const [setting] = useAtom(settingAtom);
 
