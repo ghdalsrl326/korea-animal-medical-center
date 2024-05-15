@@ -16,9 +16,9 @@ const LoginForm = () => {
   const onFinish = (values: FieldType) => {
     console.log("Success:", values);
     if (values.userID === "admin" && values.userPW === "admin") {
-      router.push(URL.MODE);
+      router.push(URL.ADMIN);
     } else {
-      alert("아이디와 비밀번호를 확인해주세요");
+      router.push(URL.MODE);
     }
   };
 
@@ -60,12 +60,12 @@ const LoginForm = () => {
         <Input.Password placeholder="비밀번호를 입력해주세요" size="large" />
       </Form.Item>
 
-      <Form.Item<FieldType> name="remember" valuePropName="checked">
+      {/* <Form.Item<FieldType> name="remember" valuePropName="checked">
         <Flex vertical={false} justify="space-between" align="center">
           <Checkbox>자동로그인</Checkbox>
           <Button type="text">아이디 | 비밀번호 찾기</Button>
         </Flex>
-      </Form.Item>
+      </Form.Item> */}
 
       <Form.Item>
         <Flex vertical gap="small">

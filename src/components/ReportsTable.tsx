@@ -4,6 +4,8 @@ import { Space, Table } from "antd";
 import type { TableColumnsType, TableProps } from "antd";
 import Link from "next/link";
 import { URL } from "@/app/data/url";
+import { useAtom } from "jotai";
+import { configAtom } from "@/app/data/configStore";
 
 interface DataType {
   key: React.Key;
@@ -15,63 +17,6 @@ interface DataType {
   doctor: string;
   owner: string;
 }
-
-const columns: TableColumnsType<DataType> = [
-  {
-    title: "리포트 ID",
-    dataIndex: "reportId",
-    width: "150px",
-    sorter: (a, b) => a.reportId.localeCompare(b.reportId),
-  },
-  {
-    title: "환자명",
-    dataIndex: "petName",
-    width: "150px",
-    sorter: (a, b) => a.petName.localeCompare(b.petName),
-  },
-  {
-    title: "환자 ID",
-    dataIndex: "petId",
-    width: "150px",
-    sorter: (a, b) => a.petId.localeCompare(b.petId),
-  },
-  {
-    title: "CREATED",
-    dataIndex: "created",
-    width: "150px",
-    sorter: (a, b) =>
-      new Date(a.created).getTime() - new Date(b.created).getTime(),
-  },
-  {
-    title: "TYPE",
-    dataIndex: "petType",
-    width: "150px",
-    sorter: (a, b) => a.petType.localeCompare(b.petType),
-  },
-  {
-    title: "담당의",
-    dataIndex: "doctor",
-    width: "150px",
-    sorter: (a, b) => a.doctor.localeCompare(b.doctor),
-  },
-  {
-    title: "보호자",
-    dataIndex: "owner",
-    width: "150px",
-    sorter: (a, b) => a.owner.localeCompare(b.owner),
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: (_, record) => (
-      <Link
-        href={`${URL.REPORT}/${record.petId}/${record.created}/${URL.SETTING}`}
-      >
-        조회
-      </Link>
-    ),
-  },
-];
 
 const data: DataType[] = [
   {
@@ -196,6 +141,75 @@ const onChange: TableProps<DataType>["onChange"] = (
 };
 
 const ReportsTable = () => {
+  const [configStore, setConfigStore] = useAtom(configAtom);
+
+  const columns: TableColumnsType<DataType> = [
+    {
+      title: "리포트 ID",
+      dataIndex: "reportId",
+      width: "150px",
+      sorter: (a, b) => a.reportId.localeCompare(b.reportId),
+    },
+    {
+      title: "환자명",
+      dataIndex: "petName",
+      width: "150px",
+      sorter: (a, b) => a.petName.localeCompare(b.petName),
+    },
+    {
+      title: "환자 ID",
+      dataIndex: "petId",
+      width: "150px",
+      sorter: (a, b) => a.petId.localeCompare(b.petId),
+    },
+    {
+      title: "CREATED",
+      dataIndex: "created",
+      width: "150px",
+      sorter: (a, b) =>
+        new Date(a.created).getTime() - new Date(b.created).getTime(),
+    },
+    {
+      title: "TYPE",
+      dataIndex: "petType",
+      width: "150px",
+      sorter: (a, b) => a.petType.localeCompare(b.petType),
+    },
+    {
+      title: "담당의",
+      dataIndex: "doctor",
+      width: "150px",
+      sorter: (a, b) => a.doctor.localeCompare(b.doctor),
+    },
+    {
+      title: "보호자",
+      dataIndex: "owner",
+      width: "150px",
+      sorter: (a, b) => a.owner.localeCompare(b.owner),
+    },
+    {
+      title: "Action",
+      key: "action",
+      onCell: (record) => ({
+        style: { cursor: "pointer" },
+        onClick: () => {
+          setConfigStore((prev) => ({
+            ...prev,
+            petId: record.petId,
+            date: record.created,
+          }));
+        },
+      }),
+      render: (_, record) => (
+        <Link
+          href={`${URL.REPORT}/${record.petId}/${record.created}/${URL.SETTING}`}
+        >
+          조회
+        </Link>
+      ),
+    },
+  ];
+
   return (
     <div>
       <Table
@@ -204,7 +218,7 @@ const ReportsTable = () => {
         onChange={onChange}
         size="small"
         bordered
-        pagination={{ pageSize: 10 }}
+        pagination={{ pageSize: 8 }}
       />
     </div>
   );
