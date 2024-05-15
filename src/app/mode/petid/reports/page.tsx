@@ -2,9 +2,9 @@ import React from "react";
 import Image from "next/image";
 import Title from "antd/es/typography/Title";
 import { Flex } from "antd";
-import ModeButton from "@/components/ModeButton";
-import { URL } from "@/app/data/url";
-import getToday from "@/util/getToday";
+import PetIdForm from "@/components/PetIdForm";
+import ReportsTable from "@/components/ReportsTable";
+
 const headerStyle: React.CSSProperties = {
   textAlign: "center",
 };
@@ -15,14 +15,14 @@ const contentStyle: React.CSSProperties = {
 const layoutStyle: React.CSSProperties = {
   borderRadius: 8,
   overflow: "hidden",
-  width: "600px",
-  height: "522px",
+  width: "1200px",
+  height: "660px",
   boxShadow: "0 4px 24px 0 rgba(34, 60, 80, 0.2)",
 };
 const containerStyle: React.CSSProperties = {
   height: "100vh",
 };
-const ModePage = () => {
+const PetIdPage = () => {
   return (
     <Flex
       style={containerStyle}
@@ -42,22 +42,11 @@ const ModePage = () => {
           justify="center"
           align="center"
         >
-          <Title level={3}>리포트 조회/신규</Title>
-          <Flex
-            style={contentStyle}
-            gap="large"
-            justify="center"
-            align="center"
-          >
-            <ModeButton
-              modename="신규"
-              url={`${URL.REPORT}/new/${getToday()}/${URL.SETTING}`}
-            />
-            <ModeButton modename="조회" url={URL.PETID} />
-          </Flex>
+          <Title level={3}>보유 리포트</Title>
+          <ReportsTable />
         </Flex>
       </div>
     </Flex>
   );
 };
-export default ModePage;
+export default PetIdPage;

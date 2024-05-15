@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Title from "antd/es/typography/Title";
 import { Flex } from "antd";
-import ViewIdForm from "@/components/ViewIdForm";
+import PetIdForm from "@/components/PetIdForm";
 
 const headerStyle: React.CSSProperties = {
   textAlign: "center",
@@ -21,7 +21,7 @@ const layoutStyle: React.CSSProperties = {
 const containerStyle: React.CSSProperties = {
   height: "100vh",
 };
-const ViewIdPage = () => {
+const PetIdPage = () => {
   return (
     <Flex
       style={containerStyle}
@@ -42,10 +42,10 @@ const ViewIdPage = () => {
           align="center"
         >
           <Title level={3}>환자정보</Title>
-          <ViewIdForm />
+          <PetIdForm />
         </Flex>
       </div>
     </Flex>
   );
 };
-export default ViewIdPage;
+export default PetIdPage;

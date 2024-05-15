@@ -1,6 +1,7 @@
 import { UploadFile } from "antd/es/upload";
 import { atom } from "jotai";
 
+//TODO: localStorage로 변경
 export type settingType = {
   id: string;
   name: string;
