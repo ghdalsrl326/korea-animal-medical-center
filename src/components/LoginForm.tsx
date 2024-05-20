@@ -3,19 +3,25 @@ import React from "react";
 import { Button, Checkbox, Flex, Form, Input } from "antd";
 import { useRouter } from "next/navigation";
 import { URL } from "@/app/data/url";
+import { login } from "@/service/auth";
 
 type FieldType = {
   userID?: string;
   userPW?: string;
-  remember?: string;
+  remember?: boolean;
 };
 
 const LoginForm = () => {
   const router = useRouter();
 
-  const onFinish = (values: FieldType) => {
-    console.log("Success:", values);
-    if (values.userID === "admin" && values.userPW === "admin") {
+  const onFinish = async (values: FieldType) => {
+    if (!values.userID || !values.userPW) {
+      return;
+    }
+
+    await login(values.userID, values.userPW);
+
+    if (values.userID === "admin") {
       router.push(URL.ADMIN);
     } else {
       router.push(URL.MODE);
@@ -59,13 +65,6 @@ const LoginForm = () => {
       >
         <Input.Password placeholder="비밀번호를 입력해주세요" size="large" />
       </Form.Item>
-
-      {/* <Form.Item<FieldType> name="remember" valuePropName="checked">
-        <Flex vertical={false} justify="space-between" align="center">
-          <Checkbox>자동로그인</Checkbox>
-          <Button type="text">아이디 | 비밀번호 찾기</Button>
-        </Flex>
-      </Form.Item> */}
 
       <Form.Item>
         <Flex vertical gap="small">

@@ -1,42 +1,58 @@
 "use client";
 import React from "react";
-import {
-  Button,
-  Form,
-  Input,
-  Upload,
-  UploadFile,
-  UploadProps,
-  message,
-} from "antd";
+import { Button, Form, Input, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
+import { signup } from "@/service/user";
 
 type FieldType = {
   userID: string;
   userPW: string;
   email: string;
-  signature: UploadFile;
-};
-
-const uploadProps: UploadProps = {
-  beforeUpload: (file) => {
-    const isImage =
-      file.type === "image/jpeg" ||
-      file.type === "image/jpg" ||
-      file.type === "image/png";
-    if (!isImage) {
-      message.error(`${file.name} is not a jpg/png file`);
-    }
-    return isImage || Upload.LIST_IGNORE;
-  },
+  signature: any; // 수정: UploadFile에서 any로 변경
 };
 
 const SignUpForm = () => {
   const router = useRouter();
 
-  const onFinish = (values: FieldType) => {
-    console.log("Form Data:", values);
+  const onFinish = async (values: FieldType) => {
+    if (
+      !values.userID ||
+      !values.userPW ||
+      !values.email ||
+      !values.signature
+    ) {
+      return;
+    }
+
+    // 서명 이미지를 base64로 변환
+    const file = values.signature[0].originFileObj;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async () => {
+      const base64Signature = reader.result as string;
+
+      try {
+        await signup(
+          values.userID,
+          values.userPW,
+          values.email,
+          base64Signature
+        );
+        message.success("회원가입에 성공했습니다.");
+        router.push("/login"); // Adjust the URL as necessary
+      } catch (error) {
+        if (error instanceof Error) {
+          message.error(error.message);
+        } else {
+          message.error("알 수 없는 오류가 발생했습니다.");
+        }
+      }
+    };
+    reader.onerror = (error) => {
+      message.error("이미지 변환에 실패했습니다.");
+      console.error("Image conversion error:", error);
+    };
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -47,17 +63,6 @@ const SignUpForm = () => {
     console.log("Upload event:", e);
     const fileList = Array.isArray(e) ? e : e?.fileList;
     return fileList;
-  };
-
-  const customRequest = async ({ file, onSuccess, onError }: any) => {
-    try {
-      setTimeout(() => {
-        onSuccess("ok");
-      }, 1000);
-    } catch (error) {
-      console.error("Upload error:", error);
-      onError(error);
-    }
   };
 
   return (
@@ -102,10 +107,8 @@ const SignUpForm = () => {
         <Upload
           name="signature"
           listType="picture"
-          customRequest={customRequest} // Mock upload
-          // action="your-upload-endpoint" // 서버 개발 후 customRequest 대체
           maxCount={1}
-          {...uploadProps}
+          beforeUpload={() => false} // 파일 업로드를 직접 처리하기 위해 기본 업로드 동작 방지
         >
           <Button icon={<UploadOutlined />}>서명 업로드</Button>
         </Upload>
