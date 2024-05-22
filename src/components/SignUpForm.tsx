@@ -1,9 +1,9 @@
 "use client";
-import React from "react";
-import { Button, Form, Input, Upload, message } from "antd";
+import React, { useState } from "react";
+import { Button, Form, Input, Upload, message, Row, Col } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
-import { signup } from "@/service/user";
+import { signup, emailDuplicateCheck } from "@/service/doctor"; // checkEmailDuplicate 서비스 함수 추가
 
 type FieldType = {
   userID: string;
@@ -14,6 +14,7 @@ type FieldType = {
 
 const SignUpForm = () => {
   const router = useRouter();
+  const [emailChecked, setEmailChecked] = useState(false);
 
   const onFinish = async (values: FieldType) => {
     if (
@@ -22,6 +23,11 @@ const SignUpForm = () => {
       !values.email ||
       !values.signature
     ) {
+      return;
+    }
+
+    if (!emailChecked) {
+      message.error("이메일 중복체크를 완료해주세요.");
       return;
     }
 
@@ -65,8 +71,33 @@ const SignUpForm = () => {
     return fileList;
   };
 
+  const handleEmailCheck = async () => {
+    const email = form.getFieldValue("email");
+    if (!email) {
+      message.error("이메일을 입력해주세요.");
+      return;
+    }
+
+    try {
+      const isAvaliable = await emailDuplicateCheck(email);
+      if (isAvaliable) {
+        message.success("사용 가능한 이메일입니다.");
+        setEmailChecked(true);
+      } else {
+        message.error("이미 사용 중인 이메일입니다.");
+        setEmailChecked(false);
+      }
+    } catch (error) {
+      message.error("이메일 중복체크에 실패했습니다.");
+      console.error("Email check error:", error);
+    }
+  };
+
+  const [form] = Form.useForm();
+
   return (
     <Form
+      form={form}
       name="signUp"
       labelCol={{ span: 6 }}
       wrapperCol={{ span: 20 }}
@@ -90,12 +121,21 @@ const SignUpForm = () => {
       >
         <Input.Password placeholder="비밀번호 입력" />
       </Form.Item>
-      <Form.Item
-        label="이메일"
-        name="email"
-        rules={[{ required: true, message: "이메일을 입력해주세요" }]}
-      >
-        <Input placeholder="이메일 입력" />
+      <Form.Item label="이메일" required>
+        <Row gutter={8}>
+          <Col span={16}>
+            <Form.Item
+              name="email"
+              noStyle
+              rules={[{ required: true, message: "이메일을 입력해주세요" }]}
+            >
+              <Input placeholder="이메일 입력" />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Button onClick={handleEmailCheck}>중복체크</Button>
+          </Col>
+        </Row>
       </Form.Item>
       <Form.Item<Partial<FieldType>>
         label="서명 업로드"
