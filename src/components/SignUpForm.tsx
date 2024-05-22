@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { Button, Form, Input, Upload, message, Row, Col } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
-import { signup, emailDuplicateCheck } from "@/service/doctor"; // checkEmailDuplicate 서비스 함수 추가
+import { signup, emailDuplicateCheck } from "@/service/doctor";
 
 type FieldType = {
-  userID: string;
+  userName: string;
   userPW: string;
   email: string;
   signature: any; // 수정: UploadFile에서 any로 변경
@@ -18,7 +18,7 @@ const SignUpForm = () => {
 
   const onFinish = async (values: FieldType) => {
     if (
-      !values.userID ||
+      !values.userName ||
       !values.userPW ||
       !values.email ||
       !values.signature
@@ -40,7 +40,7 @@ const SignUpForm = () => {
 
       try {
         await signup(
-          values.userID,
+          values.userName,
           values.userPW,
           values.email,
           base64Signature
@@ -108,11 +108,11 @@ const SignUpForm = () => {
       layout="horizontal"
     >
       <Form.Item
-        label="아이디"
-        name="userID"
-        rules={[{ required: true, message: "아이디를 입력해주세요" }]}
+        label="이름"
+        name="userName"
+        rules={[{ required: true, message: "이름을 입력해주세요" }]}
       >
-        <Input placeholder="아이디 입력" />
+        <Input placeholder="이름 입력" />
       </Form.Item>
       <Form.Item
         label="비밀번호"

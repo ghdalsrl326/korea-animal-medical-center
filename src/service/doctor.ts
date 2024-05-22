@@ -1,5 +1,5 @@
 export async function signup(
-  userID: string,
+  userName: string,
   userPW: string,
   email: string,
   signature: string
@@ -12,7 +12,7 @@ export async function signup(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: userID,
+        name: userName,
         password: userPW,
         email,
         signature,

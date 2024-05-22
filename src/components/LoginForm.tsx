@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
-import { Button, Checkbox, Flex, Form, Input } from "antd";
+import { Button, Flex, Form, Input, message } from "antd";
 import { useRouter } from "next/navigation";
 import { URL } from "@/app/data/url";
 import { login } from "@/service/auth";
 
 type FieldType = {
-  userID?: string;
+  userEmail?: string;
   userPW?: string;
   remember?: boolean;
 };
@@ -15,13 +15,13 @@ const LoginForm = () => {
   const router = useRouter();
 
   const onFinish = async (values: FieldType) => {
-    if (!values.userID || !values.userPW) {
+    if (!values.userEmail || !values.userPW) {
       return;
     }
 
-    await login(values.userID, values.userPW);
+    await login(values.userEmail, values.userPW);
 
-    if (values.userID === "admin") {
+    if (values.userEmail === "admin") {
       router.push(URL.ADMIN);
     } else {
       router.push(URL.MODE);
@@ -30,6 +30,7 @@ const LoginForm = () => {
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
+    message.error(errorInfo);
   };
 
   const onSignUp = () => {
@@ -51,11 +52,11 @@ const LoginForm = () => {
       layout="vertical"
     >
       <Form.Item<FieldType>
-        name="userID"
-        rules={[{ required: true, message: "아이디를 입력해주세요" }]}
+        name="userEmail"
+        rules={[{ required: true, message: "이메일을 입력해주세요" }]}
         style={{ marginBottom: "10px" }}
       >
-        <Input placeholder="아이디를 입력해주세요" size="large" />
+        <Input placeholder="이메일을 입력해주세요" size="large" />
       </Form.Item>
 
       <Form.Item<FieldType>
