@@ -1,10 +1,13 @@
 import React from "react";
 import ClientAdminPage from "./ClientPage";
+import { fetchAllPets } from "@/service/admin";
 
-const page = () => {
+const page = async () => {
+  const data = await fetchAllPets();
+
   return (
     <div>
-      <ClientAdminPage />
+      <ClientAdminPage data={data} />
     </div>
   );
 };

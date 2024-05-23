@@ -2,10 +2,12 @@
 import React from "react";
 import { DesktopOutlined, UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Avatar, Layout, Menu } from "antd";
+import { Avatar, Layout, Menu, Dropdown, message } from "antd";
 import { Header } from "antd/es/layout/layout";
 import ReportsTable from "@/components/ReportsTable";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { URL } from "@/app/data/url";
 
 const { Content, Sider } = Layout;
 
@@ -29,7 +31,42 @@ const items: MenuItem[] = [
   getItem("건강검진 프로그램", "1", <DesktopOutlined />),
 ];
 
-const ClientAdminPage = () => {
+type Props = {
+  data: any;
+};
+
+const ClientAdminPage = ({ data }: Props) => {
+  const router = useRouter();
+  const avatarMenuItems: MenuItem[] = [getItem("Logout", "logout")];
+
+  const onAvatarMenuClick: MenuProps["onClick"] = async ({ key }) => {
+    if (key === "logout") {
+      try {
+        const response = await fetch("/api/auth/logout", {
+          method: "POST",
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to logout");
+        }
+
+        message.success("Successfully logged out");
+        router.push(URL.LOGIN);
+      } catch (error) {
+        if (error instanceof Error) {
+          message.error(error.message);
+        } else {
+          message.error("An unknown error occurred during logout");
+        }
+      }
+    }
+  };
+
+  const avatarMenu = (
+    <Menu items={avatarMenuItems} onClick={onAvatarMenuClick} />
+  );
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider width={280} style={{ borderRight: "solid white 1px" }}>
@@ -55,10 +92,16 @@ const ClientAdminPage = () => {
             alignItems: "center",
           }}
         >
-          <Avatar
-            style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}
-            icon={<UserOutlined />}
-          />
+          <Dropdown overlay={avatarMenu} trigger={["click"]}>
+            <Avatar
+              style={{
+                backgroundColor: "#fde3cf",
+                color: "#f56a00",
+                cursor: "pointer",
+              }}
+              icon={<UserOutlined />}
+            />
+          </Dropdown>
         </Header>
         <Content
           style={{

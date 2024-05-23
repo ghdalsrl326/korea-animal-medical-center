@@ -3,7 +3,6 @@ import React from "react";
 import { Button, Flex, Form, Input, message } from "antd";
 import { useRouter } from "next/navigation";
 import { URL } from "@/app/data/url";
-import { login } from "@/service/auth";
 
 type FieldType = {
   userEmail?: string;
@@ -18,19 +17,32 @@ const LoginForm = () => {
     if (!values.userEmail || !values.userPW) {
       return;
     }
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
 
-    await login(values.userEmail, values.userPW);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to login");
+      }
 
-    if (values.userEmail === "admin") {
-      router.push(URL.ADMIN);
-    } else {
-      router.push(URL.MODE);
+      if (values.userEmail === "admin") {
+        router.push(URL.ADMIN);
+      } else {
+        router.push(URL.MODE);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        message.error(error.message);
+      } else {
+        message.error("알 수 없는 오류가 발생했습니다.");
+      }
     }
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-    message.error(errorInfo);
   };
 
   const onSignUp = () => {
@@ -47,7 +59,6 @@ const LoginForm = () => {
       }}
       initialValues={{ remember: true }}
       onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
       autoComplete="off"
       layout="vertical"
     >

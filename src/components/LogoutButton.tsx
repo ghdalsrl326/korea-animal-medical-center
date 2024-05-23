@@ -1,14 +1,32 @@
 "use client";
 import { URL } from "@/app/data/url";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 const LogoutButton = () => {
   const router = useRouter();
 
-  const handleLogout = () => {
-    router.push(URL.LOGIN);
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to logout");
+      }
+
+      message.success("Successfully logged out");
+      router.push(URL.LOGIN);
+    } catch (error) {
+      if (error instanceof Error) {
+        message.error(error.message);
+      } else {
+        message.error("An unknown error occurred during logout");
+      }
+    }
   };
 
   return (
