@@ -20,13 +20,16 @@ export async function signup(
     }
   );
 
-  const data = await response.json();
+  // Ensure the response is JSON, even if it's empty
+  const data = await response
+    .json()
+    .catch(() => ({ message: "Sign in successful" }));
 
   if (!response.ok) {
     throw new Error(data.message || "Failed to sign up");
   }
 
-  return data;
+  return Response.json(data);
 }
 
 export async function emailDuplicateCheck(email: string) {
