@@ -6,7 +6,7 @@ export type settingType = {
   id: string;
   name: string;
   breed: string;
-  species: "강아지" | "고양이";
+  species?: "강아지" | "고양이";
   ownerName: string;
   sex: "남" | "여" | null;
   neutered: "예" | "아니오" | null;

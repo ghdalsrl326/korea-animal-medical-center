@@ -25,10 +25,6 @@ const SettingForm = () => {
     router.push("/cover");
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
-
   return (
     <div
       style={{
@@ -46,7 +42,6 @@ const SettingForm = () => {
         wrapperCol={{ span: 24 }}
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
         requiredMark={RequiredMark}
       >
