@@ -1,15 +1,15 @@
 "use client";
-import { settingAtom } from "@/app/data/settingStore";
+import { settingType } from "@/app/data/settingStore";
 import { Flex } from "antd";
 import Title from "antd/es/typography/Title";
-import { useAtom } from "jotai";
 import React from "react";
-import { configAtom } from "@/app/data/configStore";
 
-const CoverCard = () => {
-  const [setting] = useAtom(settingAtom);
-  const [configStore] = useAtom(configAtom);
+type Props = {
+  data: Partial<settingType>;
+  date: string;
+};
 
+const CoverCard = ({ data, date }: Props) => {
   return (
     <div
       style={{
@@ -88,9 +88,7 @@ const CoverCard = () => {
               fontWeight: "300",
             }}
           >
-            {setting.name &&
-              setting.breed &&
-              `${setting.name} / ${setting.breed}`}
+            {`${data.name} / ${data.breed}`}
           </Title>
           <Title
             level={4}
@@ -103,7 +101,7 @@ const CoverCard = () => {
               fontWeight: "300",
             }}
           >
-            {setting.age}
+            {data.age}
           </Title>
           <Title
             level={4}
@@ -116,7 +114,7 @@ const CoverCard = () => {
               fontWeight: "300",
             }}
           >
-            {configStore.date}
+            {date}
           </Title>
         </Flex>
       </Flex>

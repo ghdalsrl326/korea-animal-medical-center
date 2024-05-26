@@ -1,10 +1,13 @@
 import { settingType } from "@/app/data/settingStore";
+import { cookies } from "next/headers";
 
-export async function fetchReportList(petID: string) {
+export async function fetchReports(petID: string) {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/pet/questionnaire?petID=${petID}`,
     {
       method: "GET",
+      credentials: "include",
+      headers: { Cookie: cookies().toString() },
     }
   );
 
