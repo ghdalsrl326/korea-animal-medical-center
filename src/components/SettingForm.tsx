@@ -5,24 +5,57 @@ import RequiredMark from "./RequiredMark";
 import { useAtom } from "jotai";
 import { settingAtom, settingType } from "@/app/data/settingStore";
 import { useRouter } from "next/navigation";
+import { URL } from "@/app/data/url";
+import getToday from "@/util/getToday";
 
 const SettingForm = () => {
   const router = useRouter();
   const [setting, setSetting] = useAtom(settingAtom);
 
-  const onFinish = (values: Partial<settingType>) => {
-    console.log("Success:", values);
-    setSetting({
-      id: values.id || "",
-      name: values.name || "",
-      breed: values.breed || "",
-      ownerName: values.ownerName || "",
-      sex: values.sex || null,
-      neutered: values.neutered || null,
-      childBirth: values.childBirth || null,
-      age: values.age || "",
-    });
-    router.push("/cover");
+  const onFinish = async (values: Partial<settingType>) => {
+    try {
+      const response = await fetch("/api/pet/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: values.id,
+          name: values.name,
+          breed: values.breed,
+          parentName: values.ownerName,
+          species: "강아지",
+          age: values.age,
+          gender: values.sex === "남" ? "수컷" : "암컷",
+          isNeutered: values.neutered === "예" ? true : false,
+          hasGivenBirth: values.childBirth === "예" ? true : false,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to register pet");
+      }
+
+      await setSetting({
+        id: values.id || "",
+        name: values.name || "",
+        breed: values.breed || "",
+        ownerName: values.ownerName || "",
+        sex: values.sex || null,
+        neutered: values.neutered || null,
+        childBirth: values.childBirth || null,
+        age: values.age || "",
+      });
+
+      await router.push(`${URL.REPORT}/${values.id}/${getToday()}/cover`);
+    } catch (error) {
+      if (error instanceof Error) {
+        message.error(error.message);
+      } else {
+        message.error("알 수 없는 오류가 발생했습니다.");
+      }
+    }
   };
 
   return (
@@ -56,9 +89,9 @@ const SettingForm = () => {
         </Form.Item>
 
         <Form.Item<Partial<settingType>>
-          label="환자정보"
+          label="환자이름"
           name="name"
-          rules={[{ required: true, message: "환자정보를 입력해주세요" }]}
+          rules={[{ required: true, message: "환자이름를 입력해주세요" }]}
           style={{ maxWidth: "480px", marginBottom: "10px" }}
           initialValue={setting.name}
         >
@@ -142,7 +175,7 @@ const SettingForm = () => {
               size="large"
               style={{ maxWidth: "210px" }}
             >
-              저장하기
+              등록하기
             </Button>
           </Space>
         </Form.Item>

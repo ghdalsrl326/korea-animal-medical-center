@@ -49,10 +49,7 @@ const ModePage = () => {
             justify="center"
             align="center"
           >
-            <ModeButton
-              modename="신규"
-              url={`${URL.REPORT}/new/${getToday()}/${URL.SETTING}`}
-            />
+            <ModeButton modename="신규" url={`${URL.MODE}/${URL.SETTING}`} />
             <ModeButton modename="조회" url={URL.PETID} />
           </Flex>
         </Flex>

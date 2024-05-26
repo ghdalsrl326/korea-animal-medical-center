@@ -6,10 +6,10 @@ export type NavigationItem = {
 };
 
 export const navigation: NavigationItem[] = [
-  {
-    name: "세팅",
-    path: URL.SETTING,
-  },
+  // {
+  //   name: "세팅",
+  //   path: URL.SETTING,
+  // },
   {
     name: "표지",
     path: URL.COVER,

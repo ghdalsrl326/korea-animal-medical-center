@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Flex, Layout } from "antd";
 import Title from "antd/es/typography/Title";
 import SettingForm from "@/components/SettingForm";
-import NavigationTab from "@/components/NavigationTab";
 import LogoutButton from "@/components/LogoutButton";
 import AdminButton from "@/components/AdminButton";
 
@@ -36,7 +35,7 @@ const page = () => {
         <Title level={3}>환자정보</Title>
         <SettingForm />
       </Content>
-      <NavigationTab />
+      {/* <NavigationTab /> */}
     </Layout>
   );
 };
