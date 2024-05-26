@@ -3,12 +3,15 @@ import Image from "next/image";
 import Title from "antd/es/typography/Title";
 import { Flex } from "antd";
 import SectionCard from "./SectionCard";
+import { settingType } from "@/app/data/settingStore";
 
 type Props = {
   title: string;
+  data?: Partial<settingType>;
+  date?: string;
 };
 
-const SectionTitle = ({ title }: Props) => {
+const SectionTitle = ({ title, data, date }: Props) => {
   return (
     <div>
       <Image
@@ -63,7 +66,7 @@ const SectionTitle = ({ title }: Props) => {
           right: "20px",
         }}
       >
-        <SectionCard />
+        <SectionCard data={data} date={date} />
       </Flex>
     </div>
   );

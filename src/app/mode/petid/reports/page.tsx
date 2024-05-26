@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import Title from "antd/es/typography/Title";
 import { Flex } from "antd";
-import PetIdForm from "@/components/PetIdForm";
 import ReportsTable from "@/components/ReportsTable";
 
 const headerStyle: React.CSSProperties = {

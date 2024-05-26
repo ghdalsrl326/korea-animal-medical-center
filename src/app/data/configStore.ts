@@ -1,6 +1,6 @@
-import { atom } from "jotai";
-//TODO: localStorage로 변경
-export const configAtom = atom({
+import { atomWithStorage } from "jotai/utils";
+
+export const configAtom = atomWithStorage("configAtom", {
   mode: "",
   petId: "",
   date: "",

@@ -24,17 +24,22 @@ const ButtonStyle: React.CSSProperties = {
 
 const ModeButton = ({ modename, url }: Props) => {
   const router = useRouter();
-  const [configStore, setConfigStore] = useAtom(configAtom);
+  const [config, setConfig] = useAtom(configAtom);
 
   const handleClick = () => {
-    modename === "신규"
-      ? setConfigStore((prev) => ({
-          ...prev,
-          mode: modename,
-          petId: "new",
-          date: getToday(),
-        }))
-      : setConfigStore((prev) => ({ ...prev, mode: modename }));
+    if (modename === "신규") {
+      setConfig((prev) => ({
+        ...prev,
+        mode: modename,
+        petId: "new",
+        date: getToday(),
+      }));
+    } else {
+      setConfig((prev) => ({
+        ...prev,
+        mode: modename,
+      }));
+    }
     router.push(url);
   };
 

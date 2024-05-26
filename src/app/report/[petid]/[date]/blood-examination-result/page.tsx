@@ -26,7 +26,7 @@ const page = ({ data, date }: ReportMetaProps) => {
               position: "relative",
             }}
           >
-            <SectionTitle title="건강검진결과" />
+            <SectionTitle title="건강검진결과" data={data} date={date} />
             <SectionSubTitle title="혈액검사 결과" />
             <ContentTitle
               title="정맥혈 가스검사 (VBGA) / 전해질 검사"

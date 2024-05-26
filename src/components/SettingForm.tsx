@@ -7,10 +7,12 @@ import { settingAtom, settingType } from "@/app/data/settingStore";
 import { useRouter } from "next/navigation";
 import { URL } from "@/app/data/url";
 import getToday from "@/util/getToday";
+import { configAtom } from "@/app/data/configStore";
 
 const SettingForm = () => {
   const router = useRouter();
   const [setting, setSetting] = useAtom(settingAtom);
+  const [config, setConfig] = useAtom(configAtom);
 
   const onFinish = async (values: Partial<settingType>) => {
     try {
@@ -23,10 +25,10 @@ const SettingForm = () => {
           id: values.id,
           name: values.name,
           breed: values.breed,
-          parentName: values.ownerName,
+          parentName: values.parentName,
           species: "강아지",
           age: values.age,
-          gender: values.sex === "남" ? "수컷" : "암컷",
+          gender: values.gender === "남" ? "수컷" : "암컷",
           isNeutered: values.neutered === "예" ? true : false,
           hasGivenBirth: values.childBirth === "예" ? true : false,
         }),
@@ -37,16 +39,21 @@ const SettingForm = () => {
         throw new Error(errorData.error || "Failed to register pet");
       }
 
-      await setSetting({
-        id: values.id || "",
-        name: values.name || "",
-        breed: values.breed || "",
-        ownerName: values.ownerName || "",
-        sex: values.sex || null,
-        neutered: values.neutered || null,
-        childBirth: values.childBirth || null,
-        age: values.age || "",
-      });
+      setConfig((prev) => ({
+        ...prev,
+        petId: values.id || "",
+      }));
+
+      // await setSetting({
+      //   id: values.id || "",
+      //   name: values.name || "",
+      //   breed: values.breed || "",
+      //   ownerName: values.ownerName || "",
+      //   sex: values.sex || null,
+      //   neutered: values.neutered || null,
+      //   childBirth: values.childBirth || null,
+      //   age: values.age || "",
+      // });
 
       await router.push(`${URL.REPORT}/${values.id}/${getToday()}/cover`);
     } catch (error) {
@@ -110,20 +117,20 @@ const SettingForm = () => {
 
         <Form.Item<Partial<settingType>>
           label="보호자 성함"
-          name="ownerName"
+          name="parentName"
           rules={[{ required: true, message: "보호자 성함을 입력해주세요" }]}
           style={{ maxWidth: "480px", marginBottom: "10px" }}
-          initialValue={setting.ownerName}
+          initialValue={setting.parentName}
         >
           <Input size="large" />
         </Form.Item>
 
         <Form.Item<Partial<settingType>>
           label="성별"
-          name="sex"
+          name="gender"
           rules={[{ required: true, message: "성별을 선택해주세요" }]}
           style={{ maxWidth: "480px", marginBottom: "10px" }}
-          initialValue={setting.sex}
+          initialValue={setting.gender}
         >
           <Radio.Group>
             <Radio value="남">남</Radio>

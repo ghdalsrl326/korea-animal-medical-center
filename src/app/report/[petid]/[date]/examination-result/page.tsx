@@ -25,7 +25,7 @@ const page = ({ data, date }: ReportMetaProps) => {
               position: "relative",
             }}
           >
-            <SectionTitle title="건강검진결과" />
+            <SectionTitle title="건강검진결과" data={data} date={date} />
             <SectionSubTitle title="종합검진소견" />
           </div>
           <div

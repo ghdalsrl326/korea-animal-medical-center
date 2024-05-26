@@ -12,13 +12,13 @@ type FieldType = {
 
 const PetIdForm = () => {
   const router = useRouter();
-  const [configStore, setConfigStore] = useAtom(configAtom);
+  const [config, setConfig] = useAtom(configAtom);
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     if (!values.petID) {
       return;
     }
-    setConfigStore((prev) => ({
+    setConfig((prev) => ({
       ...prev,
       petId: values.petID,
     }));

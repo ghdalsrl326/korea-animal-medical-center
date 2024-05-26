@@ -141,7 +141,7 @@ const onChange: TableProps<DataType>["onChange"] = (
 };
 
 const ReportsTable = () => {
-  const [configStore, setConfigStore] = useAtom(configAtom);
+  const [config, setConfig] = useAtom(configAtom);
 
   const columns: TableColumnsType<DataType> = [
     {
@@ -193,7 +193,7 @@ const ReportsTable = () => {
       onCell: (record) => ({
         style: { cursor: "pointer" },
         onClick: () => {
-          setConfigStore((prev) => ({
+          setConfig((prev) => ({
             ...prev,
             petId: record.petId,
             date: record.created,

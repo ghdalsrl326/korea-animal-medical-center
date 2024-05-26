@@ -7,8 +7,8 @@ export type settingType = {
   name: string;
   breed: string;
   species?: "강아지" | "고양이";
-  ownerName: string;
-  sex: "남" | "여" | null;
+  parentName: string;
+  gender: "남" | "여" | null;
   neutered: "예" | "아니오" | null;
   childBirth: "예" | "아니오" | null;
   age: string;
@@ -19,8 +19,8 @@ export const settingAtom = atom<settingType>({
   name: "",
   breed: "",
   species: "강아지",
-  ownerName: "",
-  sex: null,
+  parentName: "",
+  gender: null,
   neutered: null,
   childBirth: null,
   age: "",

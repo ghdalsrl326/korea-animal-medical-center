@@ -23,7 +23,11 @@ const page = ({ data, date }: ReportMetaProps) => {
               position: "relative",
             }}
           >
-            <SectionTitle title="강아지 건강검진 문진표" />
+            <SectionTitle
+              title="강아지 건강검진 문진표"
+              data={data}
+              date={date}
+            />
             <QuestionnaireTable />
           </div>
         </Flex>

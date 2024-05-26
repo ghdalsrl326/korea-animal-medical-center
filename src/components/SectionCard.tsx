@@ -1,15 +1,10 @@
 "use client";
-import { configAtom } from "@/app/data/configStore";
-import { settingAtom } from "@/app/data/settingStore";
+import { ReportMetaProps } from "@/app/data/reportMeta";
 import { Flex } from "antd";
-import { useAtom } from "jotai";
 import React from "react";
 
-//TODO:초진/재진 추가
-const SectionCard = () => {
-  const [setting] = useAtom(settingAtom);
-  const [configStore] = useAtom(configAtom);
-
+const SectionCard = ({ data, date }: ReportMetaProps) => {
+  //TODO: 초진/재진 추가
   return (
     <div
       style={{
@@ -31,19 +26,15 @@ const SectionCard = () => {
         >
           <Flex align="center" gap="large">
             <h4>환자정보</h4>
-            <h5>
-              {setting.name &&
-                setting.breed &&
-                `${setting.name} / ${setting.breed}`}
-            </h5>
+            <h5>{`${data?.name} / ${data?.breed}`}</h5>
           </Flex>
           <Flex align="center" gap="large">
             <h4>보호자성함</h4>
-            <h5>{setting.ownerName}</h5>
+            <h5>{data?.parentName}</h5>
           </Flex>
           <Flex align="center" gap="large">
             <h4>측정일</h4>
-            <h5>{configStore.date}</h5>
+            <h5>{date}</h5>
           </Flex>
         </Flex>
         <Flex
@@ -58,7 +49,7 @@ const SectionCard = () => {
           <h4></h4>
           <Flex align="center" gap="large">
             <h4>나이</h4>
-            <h5>{setting.age}</h5>
+            <h5>{data?.age}</h5>
           </Flex>
           <Flex align="center" gap="large">
             <h4>초진/재진</h4>

@@ -14,7 +14,7 @@ const NavigationTab = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [visible, setVisible] = useState(true);
-  const [configStore, setConfigStore] = useAtom(configAtom);
+  const [config, setConfig] = useAtom(configAtom);
 
   const toggleVisibility = () => {
     setVisible(!visible);
@@ -70,9 +70,7 @@ const NavigationTab = () => {
           }}
           tabBarGutter={0}
           onTabClick={(key) => {
-            router.push(
-              `${URL.REPORT}/${configStore.petId}/${configStore.date}/${key}`
-            );
+            router.push(`${URL.REPORT}/${config.petId}/${config.date}/${key}`);
           }}
         />
       )}
