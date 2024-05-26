@@ -1,13 +1,10 @@
 "use client";
+import { ReportMetaProps } from "@/app/data/reportMeta";
 import { Flex } from "antd";
 import Title from "antd/es/typography/Title";
 import React from "react";
 
-type Props = {
-  date: string;
-};
-
-const CoverTitle = ({ date }: Props) => {
+const CoverTitle = ({ date }: ReportMetaProps) => {
   return (
     <Flex vertical gap="small" align="flex-end">
       <Title

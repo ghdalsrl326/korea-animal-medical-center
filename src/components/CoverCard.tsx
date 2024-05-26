@@ -1,15 +1,10 @@
 "use client";
-import { settingType } from "@/app/data/settingStore";
+import { ReportMetaProps } from "@/app/data/reportMeta";
 import { Flex } from "antd";
 import Title from "antd/es/typography/Title";
 import React from "react";
 
-type Props = {
-  data: Partial<settingType>;
-  date: string;
-};
-
-const CoverCard = ({ data, date }: Props) => {
+const CoverCard = ({ data, date }: ReportMetaProps) => {
   return (
     <div
       style={{

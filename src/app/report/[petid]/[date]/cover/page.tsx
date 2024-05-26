@@ -8,14 +8,9 @@ import { Flex, FloatButton } from "antd";
 import CoverCard from "@/components/CoverCard";
 import NavigationTab from "@/components/NavigationTab";
 import CoverTitle from "@/components/CoverTitle";
-import { settingType } from "@/app/data/settingStore";
+import { ReportMetaProps } from "@/app/data/reportMeta";
 
-type Props = {
-  data: Partial<settingType>;
-  date: string;
-};
-
-const CoverPage = ({ data, date }: Props) => {
+const page = ({ data, date }: ReportMetaProps) => {
   const componentRef = useRef(null);
 
   return (
@@ -59,4 +54,4 @@ const CoverPage = ({ data, date }: Props) => {
   );
 };
 
-export default CoverPage;
+export default page;

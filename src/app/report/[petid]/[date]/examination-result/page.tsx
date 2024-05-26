@@ -9,8 +9,9 @@ import ReactToPrint from "react-to-print";
 import { FileTextOutlined } from "@ant-design/icons";
 import "react-quill/dist/quill.snow.css";
 import ExamResultContent from "@/components/ExamResultContent";
+import { ReportMetaProps } from "@/app/data/reportMeta";
 
-const page = () => {
+const page = ({ data, date }: ReportMetaProps) => {
   const componentRef = useRef(null);
 
   return (
