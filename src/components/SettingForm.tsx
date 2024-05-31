@@ -3,7 +3,7 @@ import React from "react";
 import { Button, Form, Input, Radio, Space, Upload, message } from "antd";
 import RequiredMark from "./RequiredMark";
 import { useAtom } from "jotai";
-import { settingAtom, settingType } from "@/app/data/settingStore";
+import { settingType } from "@/app/data/settingStore";
 import { useRouter } from "next/navigation";
 import { URL } from "@/app/data/url";
 import getToday from "@/util/getToday";
@@ -11,7 +11,6 @@ import { configAtom } from "@/app/data/configStore";
 
 const SettingForm = () => {
   const router = useRouter();
-  const [setting, setSetting] = useAtom(settingAtom);
   const [config, setConfig] = useAtom(configAtom);
 
   const onFinish = async (values: Partial<settingType>) => {
@@ -29,8 +28,8 @@ const SettingForm = () => {
           species: "강아지",
           age: values.age,
           gender: values.gender === "남" ? "수컷" : "암컷",
-          isNeutered: values.neutered === "예" ? true : false,
-          hasGivenBirth: values.childBirth === "예" ? true : false,
+          isNeutered: values.isNeutered === "예" ? true : false,
+          hasGivenBirth: values.hasGivenBirth === "예" ? true : false,
         }),
       });
 
@@ -43,17 +42,6 @@ const SettingForm = () => {
         ...prev,
         petId: values.id || "",
       }));
-
-      // await setSetting({
-      //   id: values.id || "",
-      //   name: values.name || "",
-      //   breed: values.breed || "",
-      //   ownerName: values.ownerName || "",
-      //   sex: values.sex || null,
-      //   neutered: values.neutered || null,
-      //   childBirth: values.childBirth || null,
-      //   age: values.age || "",
-      // });
 
       await router.push(`${URL.REPORT}/${values.id}/${getToday()}/cover`);
     } catch (error) {
@@ -90,7 +78,6 @@ const SettingForm = () => {
           name="id"
           rules={[{ required: true, message: "환자ID를 입력해주세요" }]}
           style={{ maxWidth: "480px", marginBottom: "10px" }}
-          initialValue={setting.id}
         >
           <Input size="large" />
         </Form.Item>
@@ -100,7 +87,6 @@ const SettingForm = () => {
           name="name"
           rules={[{ required: true, message: "환자이름를 입력해주세요" }]}
           style={{ maxWidth: "480px", marginBottom: "10px" }}
-          initialValue={setting.name}
         >
           <Input size="large" />
         </Form.Item>
@@ -110,7 +96,6 @@ const SettingForm = () => {
           name="breed"
           rules={[{ required: true, message: "견종을 입력해주세요" }]}
           style={{ maxWidth: "480px", marginBottom: "10px" }}
-          initialValue={setting.breed}
         >
           <Input size="large" />
         </Form.Item>
@@ -120,7 +105,6 @@ const SettingForm = () => {
           name="parentName"
           rules={[{ required: true, message: "보호자 성함을 입력해주세요" }]}
           style={{ maxWidth: "480px", marginBottom: "10px" }}
-          initialValue={setting.parentName}
         >
           <Input size="large" />
         </Form.Item>
@@ -130,7 +114,6 @@ const SettingForm = () => {
           name="gender"
           rules={[{ required: true, message: "성별을 선택해주세요" }]}
           style={{ maxWidth: "480px", marginBottom: "10px" }}
-          initialValue={setting.gender}
         >
           <Radio.Group>
             <Radio value="남">남</Radio>
@@ -140,10 +123,9 @@ const SettingForm = () => {
 
         <Form.Item<Partial<settingType>>
           label="중성화여부"
-          name="neutered"
+          name="isNeutered"
           rules={[{ required: true, message: "중성화여부를 선택해주세요" }]}
           style={{ maxWidth: "480px", marginBottom: "10px" }}
-          initialValue={setting.neutered}
         >
           <Radio.Group>
             <Radio value="예">예</Radio>
@@ -153,10 +135,9 @@ const SettingForm = () => {
 
         <Form.Item<Partial<settingType>>
           label="출산여부"
-          name="childBirth"
+          name="hasGivenBirth"
           rules={[{ required: true, message: "출산여부를 입력해주세요" }]}
           style={{ maxWidth: "480px", marginBottom: "10px" }}
-          initialValue={setting.childBirth}
         >
           <Radio.Group>
             <Radio value="예">예</Radio>
@@ -169,7 +150,6 @@ const SettingForm = () => {
           name="age"
           rules={[{ required: true, message: "나이를 입력해주세요" }]}
           style={{ maxWidth: "480px", marginBottom: "10px" }}
-          initialValue={setting.age}
         >
           <Input size="large" />
         </Form.Item>

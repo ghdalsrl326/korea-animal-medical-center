@@ -27,45 +27,13 @@ export async function fetchReportMeta(petID: string) {
     // 응답이 비어있을 가능성 처리
     const responseText = await response.text();
     const data = responseText ? JSON.parse(responseText) : {};
-
-    console.log(data);
+    console.log("Fetched Data:", data); // 데이터 로그 추가
 
     return data;
   } catch (error) {
     console.error("Error fetching report meta:", error);
     throw new Error("Failed to fetch report meta");
   }
-}
-
-export async function registPet(setting: settingType) {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/pet/register`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: setting.id,
-        name: setting.name,
-        breed: setting.breed,
-        parentName: setting.parentName,
-        species: "강아지",
-        age: setting.age,
-        gender: setting.gender,
-        isNeutered: setting.neutered,
-        hasGivenBirth: setting.childBirth,
-      }),
-    }
-  );
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to register pet");
-  }
-
-  return data;
 }
 
 export async function updatePet(setting: settingType) {
