@@ -12,6 +12,7 @@
     "@next/font": "^14.1.0",
     "@react-pdf/renderer": "^3.3.4",
     "antd": "^5.13.1",
+    "dayjs": "^1.11.11",
     "html2canvas": "^1.4.1",
     "jotai": "^2.6.2",
     "jspdf": "^2.5.1",

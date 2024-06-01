@@ -3,8 +3,8 @@
 import NavigationTab from "@/components/NavigationTab";
 import QuestionnaireTable from "@/components/QuestionnaireTable";
 import SectionTitle from "@/components/SectionTitle";
-import { Flex, FloatButton, message } from "antd";
-import React, { useRef } from "react";
+import { ConfigProvider, Flex, FloatButton, message } from "antd";
+import React, { useRef, useEffect, useState } from "react";
 import ReactToPrint from "react-to-print";
 import { FileTextOutlined } from "@ant-design/icons";
 import { ReportMetaProps } from "@/app/data/reportMeta";
@@ -13,10 +13,31 @@ import {
   questionnaireAtom,
 } from "@/app/data/questionnaireStore";
 import { useAtom } from "jotai";
+import dayjs from "dayjs";
+import { usePathname, useRouter } from "next/navigation";
+import { URL } from "@/app/data/url";
+import { configAtom } from "@/app/data/configStore";
 
-const page = ({ data, date }: ReportMetaProps) => {
+const Page = ({ data, date }: ReportMetaProps) => {
   const componentRef = useRef(null);
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [content, setContent] = useAtom(questionnaireAtom);
+  const [originalContent, setOriginalContent] = useState(content);
+  const [isModified, setIsModified] = useState(false);
+  const [lastModified, setLastModified] = useState<string>("");
+  const [config, setConfig] = useAtom(configAtom);
+
+  useEffect(() => {
+    setOriginalContent(content); // 초기 content를 originalContent로 설정
+  }, []);
+
+  useEffect(() => {
+    const hasChanges =
+      JSON.stringify(originalContent) !== JSON.stringify(content);
+    setIsModified(hasChanges);
+  }, [content, originalContent]);
 
   const onSave = async (content: QuestionnaireProps, petID: string) => {
     try {
@@ -36,6 +57,16 @@ const page = ({ data, date }: ReportMetaProps) => {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || "Failed to post Questionnaire");
+      } else {
+        setOriginalContent(content); // 저장 성공 시 originalContent를 현재 content로 업데이트
+        setIsModified(false); // 저장 성공 시 버튼 비활성화
+        setLastModified(dayjs().format("YY.MM.DD HH:mm:ss")); // 마지막 수정 시점 업데이트
+
+        pathname === `${URL.PET}/${petID}${URL.QUESTIONNAIRE}` &&
+          data?.questionnaire?.length &&
+          router.push(
+            `${URL.PET}/${petID}/${URL.QUESTIONNAIRE}/${data?.questionnaire[0]?.id}`
+          );
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -43,6 +74,12 @@ const page = ({ data, date }: ReportMetaProps) => {
       } else {
         message.error("알 수 없는 오류가 발생했습니다.");
       }
+    }
+  };
+
+  const handleSaveClick = () => {
+    if (isModified) {
+      onSave(content, data?.id || "");
     }
   };
 
@@ -67,17 +104,32 @@ const page = ({ data, date }: ReportMetaProps) => {
         </Flex>
       </div>
       <NavigationTab />
-      <FloatButton
-        shape="square"
-        style={{
-          width: "128px",
-          bottom: "80px",
-          right: "100px",
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: "#F19EA6",
+          },
         }}
-        type="primary"
-        description={"저장하기"}
-        onClick={() => onSave(content, data?.id || "")}
-      />
+      >
+        <FloatButton
+          shape="square"
+          style={{
+            width: "180px",
+            bottom: "80px",
+            right: "100px",
+            opacity: isModified ? 1 : 0.5, // 수정 여부에 따라 투명도 변경
+            pointerEvents: isModified ? "auto" : "none", // 수정 여부에 따라 클릭 이벤트 처리
+          }}
+          type="primary"
+          description={
+            <>
+              저장하기 <br />
+              {lastModified ? `Last Mod. ${lastModified}` : ""}
+            </>
+          }
+          onClick={handleSaveClick}
+        />
+      </ConfigProvider>
       <ReactToPrint
         trigger={() => (
           <FloatButton
@@ -95,4 +147,4 @@ const page = ({ data, date }: ReportMetaProps) => {
   );
 };
 
-export default page;
+export default Page;

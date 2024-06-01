@@ -1,18 +1,19 @@
 import React from "react";
 import Page from "./page";
 import { fetchReportMeta } from "@/service/pet";
+import getToday from "@/util/getToday";
 
 interface Props {
-  params: { petid: string; date: string };
+  params: { petid: string };
 }
 
 const layout = async ({ params }: Props) => {
-  const { petid, date } = params;
+  const { petid } = params;
 
   const data = await fetchReportMeta(petid);
   return (
     <div>
-      <Page data={data} date={date} />
+      <Page data={data} date={getToday()} />
     </div>
   );
 };

@@ -6,6 +6,8 @@ export const URL = {
   PETID: "/mode/petid",
   REPORTS: "/mode/petid/reports",
   REPORT: "/report",
+  DATE: "/date",
+  PET: "/pet",
   SETTING: "/setting",
   COVER: "/cover",
   QUESTIONNAIRE: "/questionnaire",

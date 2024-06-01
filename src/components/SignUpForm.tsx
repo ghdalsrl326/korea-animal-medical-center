@@ -4,6 +4,7 @@ import { Button, Form, Input, Upload, message, Row, Col } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { signup, emailDuplicateCheck } from "@/service/doctor";
+import { URL } from "@/app/data/url";
 
 type FieldType = {
   userName: string;
@@ -46,7 +47,7 @@ const SignUpForm = () => {
           base64Signature
         );
         message.success("회원가입에 성공했습니다.");
-        router.push("/login"); // Adjust the URL as necessary
+        router.push(URL.LOGIN);
       } catch (error) {
         if (error instanceof Error) {
           message.error(error.message);

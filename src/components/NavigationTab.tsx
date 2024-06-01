@@ -70,7 +70,13 @@ const NavigationTab = () => {
           }}
           tabBarGutter={0}
           onTabClick={(key) => {
-            router.push(`${URL.REPORT}/${config.petId}/${config.date}/${key}`);
+            if (key === URL.QUESTIONNAIRE) {
+              router.push(`${URL.PET}/${config.petId}${URL.QUESTIONNAIRE}`);
+            } else {
+              router.push(
+                `${URL.PET}/${config.petId}${URL.QUESTIONNAIRE}/${config.qid}${URL.DATE}/${config.date}/${key}`
+              );
+            }
           }}
         />
       )}

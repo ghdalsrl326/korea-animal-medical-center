@@ -35,28 +35,3 @@ export async function fetchReportMeta(petID: string) {
     throw new Error("Failed to fetch report meta");
   }
 }
-
-export async function updatePet(setting: settingType) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pet`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      id: setting.id,
-      name: setting.name,
-      breed: setting.breed,
-      parentName: setting.parentName,
-      species: "강아지",
-      age: setting.age,
-    }),
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to update pet");
-  }
-
-  return data;
-}

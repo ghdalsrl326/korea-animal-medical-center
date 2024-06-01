@@ -43,7 +43,7 @@ const SettingForm = () => {
         petId: values.id || "",
       }));
 
-      await router.push(`${URL.REPORT}/${values.id}/${getToday()}/cover`);
+      await router.push(`${URL.PET}/${values.id}/${URL.QUESTIONNAIRE}`);
     } catch (error) {
       if (error instanceof Error) {
         message.error(error.message);

@@ -8,4 +8,11 @@ export type settingType = {
   isNeutered: "예" | "아니오" | boolean;
   hasGivenBirth: "예" | "아니오" | boolean;
   age: string;
+  questionnaire: questionnaireMeta[];
+};
+
+export type questionnaireMeta = {
+  createdAt: string;
+  updatedAt: string;
+  id: string;
 };
