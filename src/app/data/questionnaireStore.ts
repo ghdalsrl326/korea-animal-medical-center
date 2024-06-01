@@ -2,17 +2,17 @@ import { atom } from "jotai";
 
 export type QuestionnaireProps = {
   healthCheckCycle: string;
-  hasDiagnosedDiseases: boolean;
+  hasDiagnosedDiseases: boolean | null;
   diagnosedDiseasesName: string;
   diagnosedDiseasesStartDay: string;
   isTakingCareDiagnosedDiseases: string;
-  isMedicationTaken: boolean;
+  isMedicationTaken: boolean | null;
   medicationTakenDetail: string;
-  hasMedicalHistory: boolean;
+  hasMedicalHistory: boolean | null;
   medicalHistoryDetail: string;
-  hasMedicationSideEffects: boolean;
+  hasMedicationSideEffects: boolean | null;
   medicationSideEffectsDetail: string;
-  hasOtherPets: boolean;
+  hasOtherPets: boolean | null;
   numberOfDogs: number;
   numberOfCats: number;
   respiratorySymptoms: string[];
@@ -31,10 +31,10 @@ export type QuestionnaireProps = {
   forcedFeedingDetail: string;
   foodName: string;
   dailyAmount: string;
-  eatsSnacks: boolean;
+  eatsSnacks: boolean | null;
   snackType: string;
   treatFrequency: string;
-  eatsSuppliements: boolean;
+  eatsSuppliements: boolean | null;
   supplements: string;
   vomitingFrequency: string;
   teethCleaningFrequency: string;
@@ -46,30 +46,30 @@ export type QuestionnaireProps = {
   additionalExamRequests: string;
 };
 
-export const questionnaireAtom = atom({
-  healthCheckCycle: "없음",
-  hasDiagnosedDiseases: false,
+export const questionnaireAtom = atom<QuestionnaireProps>({
+  healthCheckCycle: "",
+  hasDiagnosedDiseases: null,
   diagnosedDiseasesName: "",
   diagnosedDiseasesStartDay: "",
   isTakingCareDiagnosedDiseases: "",
-  isMedicationTaken: false,
+  isMedicationTaken: null,
   medicationTakenDetail: "",
-  hasMedicalHistory: false,
+  hasMedicalHistory: null,
   medicalHistoryDetail: "",
-  hasMedicationSideEffects: false,
+  hasMedicationSideEffects: null,
   medicationSideEffectsDetail: "",
-  hasOtherPets: false,
+  hasOtherPets: null,
   numberOfDogs: 0,
   numberOfCats: 0,
-  respiratorySymptoms: ["없음"],
+  respiratorySymptoms: [],
   frequencyOfWalksPerWeek: "",
   walkingHour: "",
-  vaccinationInjection: "한적없음",
-  heartwormVaccinationInjection: "한적없음",
-  ExternalParasitesVaccinationInjection: "한적없음",
-  drinkingHabit: "잘 안 마시는 편",
+  vaccinationInjection: "",
+  heartwormVaccinationInjection: "",
+  ExternalParasitesVaccinationInjection: "",
+  drinkingHabit: "",
   cupsPerDay: "",
-  appetiteLevel: "원래 입이 짧음",
+  appetiteLevel: "",
   appetiteChange: "",
   foodType: "",
   feedingType: "",
@@ -77,10 +77,10 @@ export const questionnaireAtom = atom({
   forcedFeedingDetail: "",
   foodName: "",
   dailyAmount: "",
-  eatsSnacks: false,
+  eatsSnacks: null,
   snackType: "",
-  treatFrequency: "2주 이상에 한 번",
-  eatsSuppliements: false,
+  treatFrequency: "",
+  eatsSuppliements: null,
   supplements: "",
   vomitingFrequency: "",
   teethCleaningFrequency: "",

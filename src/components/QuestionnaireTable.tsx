@@ -96,7 +96,7 @@ const QuestionnaireTable = ({ data }: ReportMetaProps) => {
             <td>진단된 병명이 있나요?</td>
             <td>
               <Checkbox
-                checked={!result.hasDiagnosedDiseases}
+                checked={result.hasDiagnosedDiseases === false}
                 onChange={() =>
                   handleSingleChoiceChange("hasDiagnosedDiseases", false)
                 }
@@ -106,7 +106,7 @@ const QuestionnaireTable = ({ data }: ReportMetaProps) => {
             </td>
             <td colSpan={4}>
               <Checkbox
-                checked={result.hasDiagnosedDiseases}
+                checked={result.hasDiagnosedDiseases === true}
                 onChange={() =>
                   handleSingleChoiceChange("hasDiagnosedDiseases", true)
                 }
@@ -159,7 +159,7 @@ const QuestionnaireTable = ({ data }: ReportMetaProps) => {
             <td>복용중인 처방약이 있나요?</td>
             <td>
               <Checkbox
-                checked={!result.isMedicationTaken}
+                checked={result.isMedicationTaken === false}
                 onChange={() =>
                   handleSingleChoiceChange("isMedicationTaken", false)
                 }
@@ -169,7 +169,7 @@ const QuestionnaireTable = ({ data }: ReportMetaProps) => {
             </td>
             <td colSpan={4}>
               <Checkbox
-                checked={result.isMedicationTaken}
+                checked={result.isMedicationTaken === true}
                 onChange={() =>
                   handleSingleChoiceChange("isMedicationTaken", true)
                 }
@@ -195,7 +195,7 @@ const QuestionnaireTable = ({ data }: ReportMetaProps) => {
             <td>수술이력이 있나요?</td>
             <td>
               <Checkbox
-                checked={!result.hasMedicalHistory}
+                checked={result.hasMedicalHistory === false}
                 onChange={() =>
                   handleSingleChoiceChange("hasMedicalHistory", false)
                 }
@@ -205,7 +205,7 @@ const QuestionnaireTable = ({ data }: ReportMetaProps) => {
             </td>
             <td colSpan={4}>
               <Checkbox
-                checked={result.hasMedicalHistory}
+                checked={result.hasMedicalHistory === true}
                 onChange={() =>
                   handleSingleChoiceChange("hasMedicalHistory", true)
                 }
@@ -230,7 +230,7 @@ const QuestionnaireTable = ({ data }: ReportMetaProps) => {
             <td>주사나 약 부작용이 있나요?</td>
             <td>
               <Checkbox
-                checked={!result.hasMedicationSideEffects}
+                checked={result.hasMedicationSideEffects === false}
                 onChange={() =>
                   handleSingleChoiceChange("hasMedicationSideEffects", false)
                 }
@@ -240,7 +240,7 @@ const QuestionnaireTable = ({ data }: ReportMetaProps) => {
             </td>
             <td colSpan={4}>
               <Checkbox
-                checked={result.hasMedicationSideEffects}
+                checked={result.hasMedicationSideEffects === true}
                 onChange={() =>
                   handleSingleChoiceChange("hasMedicationSideEffects", true)
                 }
@@ -268,7 +268,7 @@ const QuestionnaireTable = ({ data }: ReportMetaProps) => {
             <td>동거중인 다른 동물이 있나요?</td>
             <td>
               <Checkbox
-                checked={!result.hasOtherPets}
+                checked={result.hasOtherPets === false}
                 onChange={() => handleSingleChoiceChange("hasOtherPets", false)}
               >
                 없음
@@ -276,7 +276,7 @@ const QuestionnaireTable = ({ data }: ReportMetaProps) => {
             </td>
             <td colSpan={4}>
               <Checkbox
-                checked={result.hasOtherPets}
+                checked={result.hasOtherPets === true}
                 onChange={() => handleSingleChoiceChange("hasOtherPets", true)}
               >
                 있음
