@@ -1,14 +1,15 @@
 import { ErrorMsg } from "@/types/ErrorMsg";
-import { Questionnaire } from "@/types/Questionnaire";
+import { HealthExam } from "@/types/HealthExam";
 import { ResSaveReport } from "@/types/Report";
+import { content } from "html2canvas/dist/types/css/property-descriptors/content";
 
-export const saveQuestionnaire = async (
-  content: Questionnaire,
-  petID: string
+export const saveHealthExam = async (
+  content: HealthExam,
+  qid: string
 ): Promise<ResSaveReport | ErrorMsg> => {
   try {
     const response = await fetch(
-      `/api/health-check/questionnaire?petID=${petID}`,
+      `/api/health-check/physicalResult?questionnaireID=${qid}`,
       {
         method: "POST",
         headers: {
@@ -22,7 +23,7 @@ export const saveQuestionnaire = async (
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || "Failed to post Questionnaire");
+      throw new Error(errorData.error || "Failed to post Health Exam");
     } else {
       const responseData = await response.json();
       return responseData;
@@ -31,7 +32,7 @@ export const saveQuestionnaire = async (
     if (error instanceof Error) {
       return { error: error.message };
     } else {
-      return { error: "Failed to post Questionnaire" };
+      return { error: "Failed to post Health Exam" };
     }
   }
 };

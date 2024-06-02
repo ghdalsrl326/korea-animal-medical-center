@@ -2,7 +2,7 @@
 "use client";
 import { Checkbox, Input } from "antd";
 import React from "react";
-import Dropzone, { useDropzone } from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import { useAtom } from "jotai";
 import { healthExamDetailAtom } from "@/app/data/healthExamDetailStore";
 import DropZoneCell from "./DropZoneCell";
@@ -32,39 +32,39 @@ const HealthExamDetailTable = () => {
   };
 
   const dropzoneProps1 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("skinImage1", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("skinPictures", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps2 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("skinImage2", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("skinPictures", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps3 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("skinImage3", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("skinPictures", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps4 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("eyeImage1", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("eyesPictures", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps5 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("eyeImage2", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("eyesPictures", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps6 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("eyeImage3", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("eyesPictures", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps7 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("toothImage1", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("teethPictures", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps8 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("toothImage2", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("teethPictures", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps9 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("toothImage3", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("teethPictures", acceptedFiles[0]),
     maxFiles: 1,
   });
 
@@ -113,21 +113,21 @@ const HealthExamDetailTable = () => {
             </td>
             <DropZoneCell
               dropzoneProps={dropzoneProps1}
-              imageSrc={detail.skinImage1}
+              imageSrc={detail.skinPictures ? detail.skinPictures[0] : null}
               rowSpan={4}
               width={imgCellWidth}
               height={imgCellHeight}
             />
             <DropZoneCell
               dropzoneProps={dropzoneProps2}
-              imageSrc={detail.skinImage2}
+              imageSrc={detail.skinPictures ? detail.skinPictures[1] : null}
               rowSpan={4}
               width={imgCellWidth}
               height={imgCellHeight}
             />
             <DropZoneCell
               dropzoneProps={dropzoneProps3}
-              imageSrc={detail.skinImage3}
+              imageSrc={detail.skinPictures ? detail.skinPictures[2] : null}
               rowSpan={4}
               width={imgCellWidth}
               height={imgCellHeight}
@@ -141,8 +141,8 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.hair}
-                onChange={(e) => setDetail({ ...detail, hair: e.target.value })}
+                value={detail.coat}
+                onChange={(e) => setDetail({ ...detail, coat: e.target.value })}
               />
             </td>
           </tr>
@@ -154,9 +154,9 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.earRight}
+                value={detail.rightEar}
                 onChange={(e) =>
-                  setDetail({ ...detail, earRight: e.target.value })
+                  setDetail({ ...detail, rightEar: e.target.value })
                 }
               />
             </td>
@@ -169,9 +169,9 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.earLeft}
+                value={detail.leftEar}
                 onChange={(e) =>
-                  setDetail({ ...detail, earLeft: e.target.value })
+                  setDetail({ ...detail, leftEar: e.target.value })
                 }
               />
             </td>
@@ -209,39 +209,45 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.fluorescentRight}
+                value={detail.rightFluoresceinStaining}
                 onChange={(e) =>
-                  setDetail({ ...detail, fluorescentRight: e.target.value })
+                  setDetail({
+                    ...detail,
+                    rightFluoresceinStaining: e.target.value,
+                  })
                 }
               />
             </td>
             {["낮음", "정상", "높음"].map((option, index) => (
               <td style={{ textAlign: "center" }} key={index}>
                 <Checkbox
-                  checked={detail.fluorescentRightLevel === option}
+                  checked={detail.rightFluoresceinStainingLevel === option}
                   onChange={() =>
-                    handleSingleChoiceChange("fluorescentRightLevel", option)
+                    handleSingleChoiceChange(
+                      "rightFluoresceinStainingLevel",
+                      option
+                    )
                   }
                 />
               </td>
             ))}
             <DropZoneCell
               dropzoneProps={dropzoneProps4}
-              imageSrc={detail.eyeImage1}
+              imageSrc={detail.eyesPictures ? detail.eyesPictures[0] : null}
               rowSpan={8}
               width={imgCellWidth}
               height={imgCellHeight}
             />
             <DropZoneCell
               dropzoneProps={dropzoneProps5}
-              imageSrc={detail.eyeImage2}
+              imageSrc={detail.eyesPictures ? detail.eyesPictures[1] : null}
               rowSpan={8}
               width={imgCellWidth}
               height={imgCellHeight}
             />
             <DropZoneCell
               dropzoneProps={dropzoneProps6}
-              imageSrc={detail.eyeImage3}
+              imageSrc={detail.eyesPictures ? detail.eyesPictures[2] : null}
               rowSpan={8}
               width={imgCellWidth}
               height={imgCellHeight}
@@ -255,18 +261,24 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.fluorescentLeft}
+                value={detail.leftFluoresceinStaining}
                 onChange={(e) =>
-                  setDetail({ ...detail, fluorescentLeft: e.target.value })
+                  setDetail({
+                    ...detail,
+                    leftFluoresceinStaining: e.target.value,
+                  })
                 }
               />
             </td>
             {["낮음", "정상", "높음"].map((option, index) => (
               <td style={{ textAlign: "center" }} key={index}>
                 <Checkbox
-                  checked={detail.fluorescentLeftLevel === option}
+                  checked={detail.leftFluoresceinStainingLevel === option}
                   onChange={() =>
-                    handleSingleChoiceChange("fluorescentLeftLevel", option)
+                    handleSingleChoiceChange(
+                      "leftFluoresceinStainingLevel",
+                      option
+                    )
                   }
                 />
               </td>
@@ -280,18 +292,18 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.tearRight}
+                value={detail.rightTearProduction}
                 onChange={(e) =>
-                  setDetail({ ...detail, tearRight: e.target.value })
+                  setDetail({ ...detail, rightTearProduction: e.target.value })
                 }
               />
             </td>
             {["낮음", "정상", "높음"].map((option, index) => (
               <td style={{ textAlign: "center" }} key={index}>
                 <Checkbox
-                  checked={detail.tearRightLevel === option}
+                  checked={detail.rightTearProductionLevel === option}
                   onChange={() =>
-                    handleSingleChoiceChange("tearRightLevel", option)
+                    handleSingleChoiceChange("rightTearProductionLevel", option)
                   }
                 />
               </td>
@@ -305,18 +317,18 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.tearLeft}
+                value={detail.leftTearProduction}
                 onChange={(e) =>
-                  setDetail({ ...detail, tearLeft: e.target.value })
+                  setDetail({ ...detail, leftTearProduction: e.target.value })
                 }
               />
             </td>
             {["낮음", "정상", "높음"].map((option, index) => (
               <td style={{ textAlign: "center" }} key={index}>
                 <Checkbox
-                  checked={detail.tearLeftLevel === option}
+                  checked={detail.leftTearProductionLevel === option}
                   onChange={() =>
-                    handleSingleChoiceChange("tearLeftLevel", option)
+                    handleSingleChoiceChange("leftTearProductionLevel", option)
                   }
                 />
               </td>
@@ -330,18 +342,24 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.eyePressureRight}
+                value={detail.rightIntraocularPressure}
                 onChange={(e) =>
-                  setDetail({ ...detail, eyePressureRight: e.target.value })
+                  setDetail({
+                    ...detail,
+                    rightIntraocularPressure: e.target.value,
+                  })
                 }
               />
             </td>
             {["낮음", "정상", "높음"].map((option, index) => (
               <td style={{ textAlign: "center" }} key={index}>
                 <Checkbox
-                  checked={detail.eyePressureRightLevel === option}
+                  checked={detail.rightIntraocularPressureLevel === option}
                   onChange={() =>
-                    handleSingleChoiceChange("eyePressureRightLevel", option)
+                    handleSingleChoiceChange(
+                      "rightIntraocularPressureLevel",
+                      option
+                    )
                   }
                 />
               </td>
@@ -355,18 +373,24 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.eyePressureLeft}
+                value={detail.leftIntraocularPressure}
                 onChange={(e) =>
-                  setDetail({ ...detail, eyePressureLeft: e.target.value })
+                  setDetail({
+                    ...detail,
+                    leftIntraocularPressure: e.target.value,
+                  })
                 }
               />
             </td>
             {["낮음", "정상", "높음"].map((option, index) => (
               <td style={{ textAlign: "center" }} key={index}>
                 <Checkbox
-                  checked={detail.eyePressureLeftLevel === option}
+                  checked={detail.leftIntraocularPressureLevel === option}
                   onChange={() =>
-                    handleSingleChoiceChange("eyePressureLeftLevel", option)
+                    handleSingleChoiceChange(
+                      "leftIntraocularPressureLevel",
+                      option
+                    )
                   }
                 />
               </td>
@@ -380,15 +404,19 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.slir}
-                onChange={(e) => setDetail({ ...detail, slir: e.target.value })}
+                value={detail.slirInpection}
+                onChange={(e) =>
+                  setDetail({ ...detail, slirInpection: e.target.value })
+                }
               />
             </td>
             {["낮음", "정상", "높음"].map((option, index) => (
               <td style={{ textAlign: "center" }} key={index}>
                 <Checkbox
-                  checked={detail.slirLevel === option}
-                  onChange={() => handleSingleChoiceChange("slirLevel", option)}
+                  checked={detail.slirInpectionLevel === option}
+                  onChange={() =>
+                    handleSingleChoiceChange("slirInpectionLevel", option)
+                  }
                 />
               </td>
             ))}
@@ -401,18 +429,18 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.appearance}
+                value={detail.externalAppearance}
                 onChange={(e) =>
-                  setDetail({ ...detail, appearance: e.target.value })
+                  setDetail({ ...detail, externalAppearance: e.target.value })
                 }
               />
             </td>
             {["낮음", "정상", "높음"].map((option, index) => (
               <td style={{ textAlign: "center" }} key={index}>
                 <Checkbox
-                  checked={detail.appearanceLevel === option}
+                  checked={detail.externalAppearanceLevel === option}
                   onChange={() =>
-                    handleSingleChoiceChange("appearanceLevel", option)
+                    handleSingleChoiceChange("externalAppearanceLevel", option)
                   }
                 />
               </td>
@@ -456,21 +484,21 @@ const HealthExamDetailTable = () => {
             </td>
             <DropZoneCell
               dropzoneProps={dropzoneProps7}
-              imageSrc={detail.toothImage1}
+              imageSrc={detail.teethPictures ? detail.teethPictures[0] : null}
               rowSpan={5}
               width={imgCellWidth}
               height={imgCellHeight}
             />
             <DropZoneCell
               dropzoneProps={dropzoneProps8}
-              imageSrc={detail.toothImage2}
+              imageSrc={detail.teethPictures ? detail.teethPictures[1] : null}
               rowSpan={5}
               width={imgCellWidth}
               height={imgCellHeight}
             />
             <DropZoneCell
               dropzoneProps={dropzoneProps9}
-              imageSrc={detail.toothImage3}
+              imageSrc={detail.teethPictures ? detail.teethPictures[2] : null}
               rowSpan={5}
               width={imgCellWidth}
               height={imgCellHeight}
@@ -484,9 +512,9 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.toothLoss}
+                value={detail.missingTeeth}
                 onChange={(e) =>
-                  setDetail({ ...detail, toothLoss: e.target.value })
+                  setDetail({ ...detail, missingTeeth: e.target.value })
                 }
               />
             </td>
@@ -499,9 +527,9 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.brokenTooth}
+                value={detail.brokenTeeth}
                 onChange={(e) =>
-                  setDetail({ ...detail, brokenTooth: e.target.value })
+                  setDetail({ ...detail, brokenTeeth: e.target.value })
                 }
               />
             </td>
@@ -514,9 +542,12 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.brokenToothRemain}
+                value={detail.retainedDeciduousTeeth}
                 onChange={(e) =>
-                  setDetail({ ...detail, brokenToothRemain: e.target.value })
+                  setDetail({
+                    ...detail,
+                    retainedDeciduousTeeth: e.target.value,
+                  })
                 }
               />
             </td>
@@ -529,9 +560,12 @@ const HealthExamDetailTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={detail.tartar}
+                value={detail.tartarPeriodontalDisease}
                 onChange={(e) =>
-                  setDetail({ ...detail, tartar: e.target.value })
+                  setDetail({
+                    ...detail,
+                    tartarPeriodontalDisease: e.target.value,
+                  })
                 }
               />
             </td>

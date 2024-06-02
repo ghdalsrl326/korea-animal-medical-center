@@ -1,14 +1,26 @@
 "use client";
 import React, { createContext, useContext } from "react";
-import {
-  QuestionnaireProps,
-  ResGetQuestionnaire,
-} from "../data/questionnaireStore";
+import { ResGetQuestionnaire } from "@/types/Questionnaire";
+import { ResGetHealthExam } from "@/types/HealthExam";
+
+type ApiResponse = ResGetQuestionnaire | ResGetHealthExam;
+
+export function isResGetQuestionnaire(
+  content: ApiResponse
+): content is ResGetQuestionnaire {
+  return (content as ResGetQuestionnaire).result.id !== undefined;
+}
+
+export function isResGetHealthExam(
+  content: ApiResponse
+): content is ResGetHealthExam {
+  return (content as ResGetHealthExam).result.id !== undefined;
+}
 
 interface DataContextType {
   data: any;
   date: string;
-  content?: ResGetQuestionnaire;
+  content?: ApiResponse;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);

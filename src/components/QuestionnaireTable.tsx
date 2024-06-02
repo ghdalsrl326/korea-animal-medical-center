@@ -5,7 +5,7 @@ import { Input } from "antd";
 import Checkbox from "antd/es/checkbox/Checkbox";
 import TextArea from "antd/es/input/TextArea";
 import { useAtom } from "jotai";
-import React, { useEffect } from "react";
+import React from "react";
 
 const QuestionnaireTable = ({ data }: ReportMetaProps) => {
   const [result, setResult] = useAtom(questionnaireAtom);

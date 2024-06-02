@@ -9,10 +9,11 @@ import { Flex, FloatButton } from "antd";
 import React, { useRef } from "react";
 import ReactToPrint from "react-to-print";
 import { FileTextOutlined } from "@ant-design/icons";
-import { ReportMetaProps } from "@/types/ReportMeta";
+import { useData } from "@/app/contexts/DataContext";
 
-const page = ({ data, date }: ReportMetaProps) => {
+const page = () => {
   const componentRef = useRef(null);
+  const { data, date } = useData();
 
   return (
     <>

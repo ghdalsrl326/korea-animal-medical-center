@@ -39,9 +39,9 @@ const HealthExamSummaryTable = () => {
                 variant="borderless"
                 style={{ textAlign: "center" }}
                 autoFocus
-                value={summary.vitalSign}
+                value={summary.vitalSigns}
                 onChange={(e) =>
-                  setSummary({ ...summary, vitalSign: e.target.value })
+                  setSummary({ ...summary, vitalSigns: e.target.value })
                 }
               />
             </td>
@@ -51,9 +51,9 @@ const HealthExamSummaryTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
-                value={summary.bcsMcs}
+                value={summary.bcsNMCS}
                 onChange={(e) =>
-                  setSummary({ ...summary, bcsMcs: e.target.value })
+                  setSummary({ ...summary, bcsNMCS: e.target.value })
                 }
               />
             </td>
@@ -66,9 +66,12 @@ const HealthExamSummaryTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
-                value={summary.lymphNode}
+                value={summary.superficialLymphNodes}
                 onChange={(e) =>
-                  setSummary({ ...summary, lymphNode: e.target.value })
+                  setSummary({
+                    ...summary,
+                    superficialLymphNodes: e.target.value,
+                  })
                 }
               />
             </td>
@@ -78,9 +81,12 @@ const HealthExamSummaryTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
-                value={summary.musculoskeletal}
+                value={summary.musculoskeletalSystem}
                 onChange={(e) =>
-                  setSummary({ ...summary, musculoskeletal: e.target.value })
+                  setSummary({
+                    ...summary,
+                    musculoskeletalSystem: e.target.value,
+                  })
                 }
               />
             </td>
@@ -92,9 +98,12 @@ const HealthExamSummaryTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
-                value={summary.auscultation}
+                value={summary.auscultationHeartLung}
                 onChange={(e) =>
-                  setSummary({ ...summary, auscultation: e.target.value })
+                  setSummary({
+                    ...summary,
+                    auscultationHeartLung: e.target.value,
+                  })
                 }
               />
             </td>
@@ -104,9 +113,9 @@ const HealthExamSummaryTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
-                value={summary.reproductive}
+                value={summary.reproductiveSystem}
                 onChange={(e) =>
-                  setSummary({ ...summary, reproductive: e.target.value })
+                  setSummary({ ...summary, reproductiveSystem: e.target.value })
                 }
               />
             </td>
@@ -118,9 +127,12 @@ const HealthExamSummaryTable = () => {
                 size="large"
                 variant="borderless"
                 style={{ textAlign: "center" }}
-                value={summary.nasal}
+                value={summary.nasalPharyngealCervical}
                 onChange={(e) =>
-                  setSummary({ ...summary, nasal: e.target.value })
+                  setSummary({
+                    ...summary,
+                    nasalPharyngealCervical: e.target.value,
+                  })
                 }
               />
             </td>

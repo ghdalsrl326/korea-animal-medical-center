@@ -14,10 +14,10 @@ import { URL } from "@/app/data/url";
 import { configAtom } from "@/app/data/configStore";
 import { saveQuestionnaire } from "@/service/questionnaireClient";
 import { ResSaveReport } from "@/types/Report";
-import { useData } from "@/app/contexts/DataContext";
+import { isResGetQuestionnaire, useData } from "@/app/contexts/DataContext";
 
 const Page = () => {
-  const { data, date, content: fetchedContend } = useData();
+  const { data, date, content: fetchedContent } = useData();
 
   const componentRef = useRef(null);
   const router = useRouter();
@@ -30,62 +30,67 @@ const Page = () => {
   const [config, setConfig] = useAtom(configAtom);
 
   useEffect(() => {
-    setContent((prev) => ({
-      ...prev,
-      healthCheckCycle: fetchedContend?.result.healthCheckCycle ?? "",
-      hasDiagnosedDiseases: fetchedContend?.result.hasDiagnosedDiseases ?? null,
-      diagnosedDiseasesName: fetchedContend?.result.diagnosedDiseasesName ?? "",
-      diagnosedDiseasesStartDay:
-        fetchedContend?.result.diagnosedDiseasesStartDay ?? "",
-      isTakingCareDiagnosedDiseases:
-        fetchedContend?.result.isTakingCareDiagnosedDiseases ?? "",
-      isMedicationTaken: fetchedContend?.result.isMedicationTaken ?? null,
-      medicationTakenDetail: fetchedContend?.result.medicationTakenDetail ?? "",
-      hasMedicalHistory: fetchedContend?.result.hasMedicalHistory ?? null,
-      medicalHistoryDetail: fetchedContend?.result.medicalHistoryDetail ?? "",
-      hasMedicationSideEffects:
-        fetchedContend?.result.hasMedicationSideEffects ?? null,
-      medicationSideEffectsDetail:
-        fetchedContend?.result.medicationSideEffectsDetail ?? "",
-      hasOtherPets: fetchedContend?.result.hasOtherPets ?? null,
-      numberOfDogs: fetchedContend?.result.numberOfDogs ?? 0,
-      numberOfCats: fetchedContend?.result.numberOfCats ?? 0,
-      respiratorySymptoms: fetchedContend?.result.respiratorySymptoms ?? [],
-      frequencyOfWalksPerWeek:
-        fetchedContend?.result.frequencyOfWalksPerWeek ?? "",
-      walkingHour: fetchedContend?.result.walkingHour ?? "",
-      vaccinationInjection: fetchedContend?.result.vaccinationInjection ?? "",
-      heartwormVaccinationInjection:
-        fetchedContend?.result.heartwormVaccinationInjection ?? "",
-      ExternalParasitesVaccinationInjection:
-        fetchedContend?.result.ExternalParasitesVaccinationInjection ?? "",
-      drinkingHabit: fetchedContend?.result.drinkingHabit ?? "",
-      cupsPerDay: fetchedContend?.result.cupsPerDay ?? "",
-      appetiteLevel: fetchedContend?.result.appetiteLevel ?? "",
-      appetiteChange: fetchedContend?.result.appetiteChange ?? "",
-      foodType: fetchedContend?.result.foodType ?? "",
-      feedingType: fetchedContend?.result.feedingType ?? "",
-      restrictedFeedingDetail:
-        fetchedContend?.result.restrictedFeedingDetail ?? "",
-      forcedFeedingDetail: fetchedContend?.result.forcedFeedingDetail ?? "",
-      foodName: fetchedContend?.result.foodName ?? "",
-      dailyAmount: fetchedContend?.result.dailyAmount ?? "",
-      eatsSnacks: fetchedContend?.result.eatsSnacks ?? null,
-      snackType: fetchedContend?.result.snackType ?? "",
-      treatFrequency: fetchedContend?.result.treatFrequency ?? "",
-      eatsSuppliements: fetchedContend?.result.eatsSuppliements ?? null,
-      supplements: fetchedContend?.result.supplements ?? "",
-      vomitingFrequency: fetchedContend?.result.vomitingFrequency ?? "",
-      teethCleaningFrequency:
-        fetchedContend?.result.teethCleaningFrequency ?? "",
-      urineTexture: fetchedContend?.result.urineTexture ?? "",
-      urinationFrequency: fetchedContend?.result.urinationFrequency ?? "",
-      stoolTexture: fetchedContend?.result.stoolTexture ?? "",
-      defecationFrequency: fetchedContend?.result.defecationFrequency ?? "",
-      wantsBloodTypeTest: fetchedContend?.result.wantsBloodTypeTest ?? false,
-      additionalExamRequests:
-        fetchedContend?.result.additionalExamRequests ?? "",
-    }));
+    if (fetchedContent && isResGetQuestionnaire(fetchedContent)) {
+      setContent((prev) => ({
+        ...prev,
+        healthCheckCycle: fetchedContent?.result.healthCheckCycle ?? "",
+        hasDiagnosedDiseases:
+          fetchedContent?.result.hasDiagnosedDiseases ?? null,
+        diagnosedDiseasesName:
+          fetchedContent?.result.diagnosedDiseasesName ?? "",
+        diagnosedDiseasesStartDay:
+          fetchedContent?.result.diagnosedDiseasesStartDay ?? "",
+        isTakingCareDiagnosedDiseases:
+          fetchedContent?.result.isTakingCareDiagnosedDiseases ?? "",
+        isMedicationTaken: fetchedContent?.result.isMedicationTaken ?? null,
+        medicationTakenDetail:
+          fetchedContent?.result.medicationTakenDetail ?? "",
+        hasMedicalHistory: fetchedContent?.result.hasMedicalHistory ?? null,
+        medicalHistoryDetail: fetchedContent?.result.medicalHistoryDetail ?? "",
+        hasMedicationSideEffects:
+          fetchedContent?.result.hasMedicationSideEffects ?? null,
+        medicationSideEffectsDetail:
+          fetchedContent?.result.medicationSideEffectsDetail ?? "",
+        hasOtherPets: fetchedContent?.result.hasOtherPets ?? null,
+        numberOfDogs: fetchedContent?.result.numberOfDogs ?? 0,
+        numberOfCats: fetchedContent?.result.numberOfCats ?? 0,
+        respiratorySymptoms: fetchedContent?.result.respiratorySymptoms ?? [],
+        frequencyOfWalksPerWeek:
+          fetchedContent?.result.frequencyOfWalksPerWeek ?? "",
+        walkingHour: fetchedContent?.result.walkingHour ?? "",
+        vaccinationInjection: fetchedContent?.result.vaccinationInjection ?? "",
+        heartwormVaccinationInjection:
+          fetchedContent?.result.heartwormVaccinationInjection ?? "",
+        ExternalParasitesVaccinationInjection:
+          fetchedContent?.result.ExternalParasitesVaccinationInjection ?? "",
+        drinkingHabit: fetchedContent?.result.drinkingHabit ?? "",
+        cupsPerDay: fetchedContent?.result.cupsPerDay ?? "",
+        appetiteLevel: fetchedContent?.result.appetiteLevel ?? "",
+        appetiteChange: fetchedContent?.result.appetiteChange ?? "",
+        foodType: fetchedContent?.result.foodType ?? "",
+        feedingType: fetchedContent?.result.feedingType ?? "",
+        restrictedFeedingDetail:
+          fetchedContent?.result.restrictedFeedingDetail ?? "",
+        forcedFeedingDetail: fetchedContent?.result.forcedFeedingDetail ?? "",
+        foodName: fetchedContent?.result.foodName ?? "",
+        dailyAmount: fetchedContent?.result.dailyAmount ?? "",
+        eatsSnacks: fetchedContent?.result.eatsSnacks ?? null,
+        snackType: fetchedContent?.result.snackType ?? "",
+        treatFrequency: fetchedContent?.result.treatFrequency ?? "",
+        eatsSuppliements: fetchedContent?.result.eatsSuppliements ?? null,
+        supplements: fetchedContent?.result.supplements ?? "",
+        vomitingFrequency: fetchedContent?.result.vomitingFrequency ?? "",
+        teethCleaningFrequency:
+          fetchedContent?.result.teethCleaningFrequency ?? "",
+        urineTexture: fetchedContent?.result.urineTexture ?? "",
+        urinationFrequency: fetchedContent?.result.urinationFrequency ?? "",
+        stoolTexture: fetchedContent?.result.stoolTexture ?? "",
+        defecationFrequency: fetchedContent?.result.defecationFrequency ?? "",
+        wantsBloodTypeTest: fetchedContent?.result.wantsBloodTypeTest ?? false,
+        additionalExamRequests:
+          fetchedContent?.result.additionalExamRequests ?? "",
+      }));
+    }
     setOriginalContent(content); // 초기 content를 originalContent로 설정
   }, []);
 
