@@ -1,10 +1,12 @@
 "use client";
+import { configAtom } from "@/app/data/configStore";
 import { ReportMetaProps } from "@/app/data/reportMeta";
 import { Flex } from "antd";
+import { useAtom } from "jotai";
 import React from "react";
 
 const SectionCard = ({ data, date }: ReportMetaProps) => {
-  //TODO: 초진/재진 추가
+  const [config, setConfig] = useAtom(configAtom);
   return (
     <div
       style={{
@@ -53,7 +55,7 @@ const SectionCard = ({ data, date }: ReportMetaProps) => {
           </Flex>
           <Flex align="center" gap="large">
             <h4>초진/재진</h4>
-            {/* <h5>{setting.examinationType}</h5> */}
+            <h5>{config.isFirstTime === true ? "초진" : "재진"}</h5>
           </Flex>
         </Flex>
       </Flex>

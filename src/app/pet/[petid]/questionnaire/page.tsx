@@ -17,6 +17,7 @@ import dayjs from "dayjs";
 import { usePathname, useRouter } from "next/navigation";
 import { URL } from "@/app/data/url";
 import { configAtom } from "@/app/data/configStore";
+import { onSave } from "@/service/questionnaire"; // 서비스 파일에서 onSave 함수 가져오기
 
 const Page = ({ data, date }: ReportMetaProps) => {
   const componentRef = useRef(null);
@@ -39,47 +40,31 @@ const Page = ({ data, date }: ReportMetaProps) => {
     setIsModified(hasChanges);
   }, [content, originalContent]);
 
-  const onSave = async (content: QuestionnaireProps, petID: string) => {
-    try {
-      const response = await fetch(
-        `/api/health-check/questionnaire?petID=${petID}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...content,
-          }),
-        }
-      );
+  const handleSaveClick = async () => {
+    if (isModified) {
+      try {
+        const { questionnaireId, isFirstTime, error } = await onSave(
+          content,
+          data?.id || ""
+        );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to post Questionnaire");
-      } else {
         setOriginalContent(content); // 저장 성공 시 originalContent를 현재 content로 업데이트
         setIsModified(false); // 저장 성공 시 버튼 비활성화
         setLastModified(dayjs().format("YY.MM.DD HH:mm:ss")); // 마지막 수정 시점 업데이트
+        setConfig((prev) => ({
+          ...prev,
+          qid: questionnaireId.toString(),
+          isFirstTime,
+        }));
 
-        pathname === `${URL.PET}/${petID}${URL.QUESTIONNAIRE}` &&
-          data?.questionnaire?.length &&
+        if (pathname === `${URL.PET}/${data?.id}${URL.QUESTIONNAIRE}`) {
           router.push(
-            `${URL.PET}/${petID}/${URL.QUESTIONNAIRE}/${data?.questionnaire[0]?.id}`
+            `${URL.PET}/${data?.id}${URL.QUESTIONNAIRE}/${questionnaireId}`
           );
+        }
+      } catch (error) {
+        message.error("저장 중 오류가 발생했습니다.");
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        message.error(error.message);
-      } else {
-        message.error("알 수 없는 오류가 발생했습니다.");
-      }
-    }
-  };
-
-  const handleSaveClick = () => {
-    if (isModified) {
-      onSave(content, data?.id || "");
     }
   };
 
