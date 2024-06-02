@@ -8,7 +8,7 @@ import { Flex, FloatButton } from "antd";
 import CoverCard from "@/components/CoverCard";
 import NavigationTab from "@/components/NavigationTab";
 import CoverTitle from "@/components/CoverTitle";
-import { ReportMetaProps } from "@/app/data/reportMeta";
+import { ReportMetaProps } from "@/types/ReportMeta";
 
 const page = ({ data, date }: ReportMetaProps) => {
   const componentRef = useRef(null);

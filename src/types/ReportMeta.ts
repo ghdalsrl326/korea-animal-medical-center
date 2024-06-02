@@ -1,7 +1,7 @@
-import { settingType } from "./settingStore";
+import { Setting } from "./Setting";
 
 export type ReportMetaProps = {
-  data?: Partial<settingType>;
+  data?: Partial<Setting>;
   date?: string;
   petid?: string;
   qid?: string;

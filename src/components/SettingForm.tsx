@@ -3,7 +3,7 @@ import React from "react";
 import { Button, Form, Input, Radio, Space, Upload, message } from "antd";
 import RequiredMark from "./RequiredMark";
 import { useAtom } from "jotai";
-import { settingType } from "@/app/data/settingStore";
+import { Setting } from "@/types/Setting";
 import { useRouter } from "next/navigation";
 import { URL } from "@/app/data/url";
 import getToday from "@/util/getToday";
@@ -13,7 +13,7 @@ const SettingForm = () => {
   const router = useRouter();
   const [config, setConfig] = useAtom(configAtom);
 
-  const onFinish = async (values: Partial<settingType>) => {
+  const onFinish = async (values: Partial<Setting>) => {
     try {
       const response = await fetch("/api/pet/register", {
         method: "POST",
@@ -73,7 +73,7 @@ const SettingForm = () => {
         autoComplete="off"
         requiredMark={RequiredMark}
       >
-        <Form.Item<Partial<settingType>>
+        <Form.Item<Partial<Setting>>
           label="환자ID"
           name="id"
           rules={[{ required: true, message: "환자ID를 입력해주세요" }]}
@@ -82,7 +82,7 @@ const SettingForm = () => {
           <Input size="large" />
         </Form.Item>
 
-        <Form.Item<Partial<settingType>>
+        <Form.Item<Partial<Setting>>
           label="환자이름"
           name="name"
           rules={[{ required: true, message: "환자이름를 입력해주세요" }]}
@@ -91,7 +91,7 @@ const SettingForm = () => {
           <Input size="large" />
         </Form.Item>
 
-        <Form.Item<Partial<settingType>>
+        <Form.Item<Partial<Setting>>
           label="견종"
           name="breed"
           rules={[{ required: true, message: "견종을 입력해주세요" }]}
@@ -100,7 +100,7 @@ const SettingForm = () => {
           <Input size="large" />
         </Form.Item>
 
-        <Form.Item<Partial<settingType>>
+        <Form.Item<Partial<Setting>>
           label="보호자 성함"
           name="parentName"
           rules={[{ required: true, message: "보호자 성함을 입력해주세요" }]}
@@ -109,7 +109,7 @@ const SettingForm = () => {
           <Input size="large" />
         </Form.Item>
 
-        <Form.Item<Partial<settingType>>
+        <Form.Item<Partial<Setting>>
           label="성별"
           name="gender"
           rules={[{ required: true, message: "성별을 선택해주세요" }]}
@@ -121,7 +121,7 @@ const SettingForm = () => {
           </Radio.Group>
         </Form.Item>
 
-        <Form.Item<Partial<settingType>>
+        <Form.Item<Partial<Setting>>
           label="중성화여부"
           name="isNeutered"
           rules={[{ required: true, message: "중성화여부를 선택해주세요" }]}
@@ -133,7 +133,7 @@ const SettingForm = () => {
           </Radio.Group>
         </Form.Item>
 
-        <Form.Item<Partial<settingType>>
+        <Form.Item<Partial<Setting>>
           label="출산여부"
           name="hasGivenBirth"
           rules={[{ required: true, message: "출산여부를 입력해주세요" }]}
@@ -145,7 +145,7 @@ const SettingForm = () => {
           </Radio.Group>
         </Form.Item>
 
-        <Form.Item<Partial<settingType>>
+        <Form.Item<Partial<Setting>>
           label="나이"
           name="age"
           rules={[{ required: true, message: "나이를 입력해주세요" }]}

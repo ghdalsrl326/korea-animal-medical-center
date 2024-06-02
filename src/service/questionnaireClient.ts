@@ -1,15 +1,10 @@
-// service/questionnaire.ts
 import { QuestionnaireProps } from "@/app/data/questionnaireStore";
-import dayjs from "dayjs";
+import { ResSaveReport } from "@/types/Report";
 
-export const onSave = async (
+export const saveQuestionnaire = async (
   content: QuestionnaireProps,
   petID: string
-): Promise<{
-  questionnaireId: number;
-  isFirstTime: boolean;
-  error?: string;
-}> => {
+): Promise<Partial<ResSaveReport>> => {
   try {
     const response = await fetch(
       `/api/health-check/questionnaire?petID=${petID}`,
@@ -29,19 +24,13 @@ export const onSave = async (
       throw new Error(errorData.error || "Failed to post Questionnaire");
     } else {
       const responseData = await response.json();
-      return {
-        questionnaireId: responseData.questionnaireId,
-        isFirstTime: responseData.isFirstTime,
-      };
+      return responseData;
     }
   } catch (error) {
     if (error instanceof Error) {
-      return { questionnaireId: 0, isFirstTime: false, error: error.message };
+      return { error: error.message };
     } else {
-      return {
-        questionnaireId: 0,
-        isFirstTime: false,
-      };
+      return { error: "Failed to post Questionnaire" };
     }
   }
 };

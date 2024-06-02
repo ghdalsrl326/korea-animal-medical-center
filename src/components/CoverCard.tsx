@@ -1,5 +1,5 @@
 "use client";
-import { ReportMetaProps } from "@/app/data/reportMeta";
+import { ReportMetaProps } from "@/types/ReportMeta";
 import { Flex } from "antd";
 import Title from "antd/es/typography/Title";
 import React from "react";

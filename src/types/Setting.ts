@@ -1,4 +1,4 @@
-export type settingType = {
+export type Setting = {
   id: string;
   name: string;
   breed: string;
@@ -8,10 +8,10 @@ export type settingType = {
   isNeutered: "예" | "아니오" | boolean;
   hasGivenBirth: "예" | "아니오" | boolean;
   age: string;
-  questionnaire: questionnaireMeta[];
+  questionnaire: QuestionnaireMeta[];
 };
 
-export type questionnaireMeta = {
+export type QuestionnaireMeta = {
   createdAt: string;
   updatedAt: string;
   id: string;

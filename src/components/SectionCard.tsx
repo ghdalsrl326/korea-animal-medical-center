@@ -1,6 +1,6 @@
 "use client";
 import { configAtom } from "@/app/data/configStore";
-import { ReportMetaProps } from "@/app/data/reportMeta";
+import { ReportMetaProps } from "@/types/ReportMeta";
 import { Flex } from "antd";
 import { useAtom } from "jotai";
 import React from "react";

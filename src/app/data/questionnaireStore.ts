@@ -44,6 +44,7 @@ export type QuestionnaireProps = {
   defecationFrequency: string;
   wantsBloodTypeTest: boolean;
   additionalExamRequests: string;
+  error?: string;
 };
 
 export const questionnaireAtom = atom<QuestionnaireProps>({

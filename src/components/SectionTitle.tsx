@@ -3,11 +3,11 @@ import Image from "next/image";
 import Title from "antd/es/typography/Title";
 import { Flex } from "antd";
 import SectionCard from "./SectionCard";
-import { settingType } from "@/app/data/settingStore";
+import { Setting } from "@/types/Setting";
 
 type Props = {
   title: string;
-  data?: Partial<settingType>;
+  data?: Partial<Setting>;
   date?: string;
 };
 

@@ -1,6 +1,6 @@
 "use client";
 import { questionnaireAtom } from "@/app/data/questionnaireStore";
-import { ReportMetaProps } from "@/app/data/reportMeta";
+import { ReportMetaProps } from "@/types/ReportMeta";
 import { Input } from "antd";
 import Checkbox from "antd/es/checkbox/Checkbox";
 import TextArea from "antd/es/input/TextArea";

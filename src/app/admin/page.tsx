@@ -9,7 +9,7 @@ import ReportsTable from "@/components/ReportsTable";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { URL } from "@/app/data/url";
-import { ReportMetaProps } from "../data/reportMeta";
+import { ReportMetaProps } from "../../types/ReportMeta";
 
 const { Content, Sider } = Layout;
 

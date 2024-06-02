@@ -7,9 +7,7 @@ import { Flex, FloatButton } from "antd";
 import React, { useRef } from "react";
 import ReactToPrint from "react-to-print";
 import { FileTextOutlined } from "@ant-design/icons";
-import "react-quill/dist/quill.snow.css";
-import ExamResultContent from "@/components/ExamResultContent";
-import { ReportMetaProps } from "@/app/data/reportMeta";
+import { ReportMetaProps } from "@/types/ReportMeta";
 
 const page = ({ data, date }: ReportMetaProps) => {
   const componentRef = useRef(null);
@@ -21,22 +19,12 @@ const page = ({ data, date }: ReportMetaProps) => {
           <div
             style={{
               width: "1128px",
-              height: "1200px",
+              height: "2000px",
               position: "relative",
             }}
           >
             <SectionTitle title="건강검진결과" data={data} date={date} />
-            <SectionSubTitle title="종합검진소견" />
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              width: "1128px",
-              height: "100%",
-              top: "260px",
-            }}
-          >
-            <ExamResultContent />
+            <SectionSubTitle title="고려메디컬센터의 방사선검사" />
           </div>
         </Flex>
       </div>

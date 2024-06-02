@@ -7,17 +7,15 @@ import { ConfigProvider, Flex, FloatButton, message } from "antd";
 import React, { useRef, useEffect, useState } from "react";
 import ReactToPrint from "react-to-print";
 import { FileTextOutlined } from "@ant-design/icons";
-import { ReportMetaProps } from "@/app/data/reportMeta";
-import {
-  QuestionnaireProps,
-  questionnaireAtom,
-} from "@/app/data/questionnaireStore";
+import { ReportMetaProps } from "@/types/ReportMeta";
+import { questionnaireAtom } from "@/app/data/questionnaireStore";
 import { useAtom } from "jotai";
 import dayjs from "dayjs";
 import { usePathname, useRouter } from "next/navigation";
 import { URL } from "@/app/data/url";
 import { configAtom } from "@/app/data/configStore";
-import { onSave } from "@/service/questionnaire"; // 서비스 파일에서 onSave 함수 가져오기
+import { saveQuestionnaire } from "@/service/questionnaireClient";
+import { ResSaveReport } from "@/types/Report";
 
 const Page = ({ data, date }: ReportMetaProps) => {
   const componentRef = useRef(null);
@@ -43,10 +41,13 @@ const Page = ({ data, date }: ReportMetaProps) => {
   const handleSaveClick = async () => {
     if (isModified) {
       try {
-        const { questionnaireId, isFirstTime, error } = await onSave(
-          content,
-          data?.id || ""
-        );
+        const result = await saveQuestionnaire(content, data?.id || "");
+
+        if ("error" in result) {
+          throw new Error(result.error);
+        }
+
+        const { questionnaireId, isFirstTime } = result as ResSaveReport;
 
         setOriginalContent(content); // 저장 성공 시 originalContent를 현재 content로 업데이트
         setIsModified(false); // 저장 성공 시 버튼 비활성화

@@ -1,7 +1,7 @@
-import { settingType } from "@/app/data/settingStore";
+import { Setting } from "@/types/Setting";
 import { cookies } from "next/headers";
 
-export async function fetchReportMeta(petID: string): Promise<settingType> {
+export async function fetchReportMeta(petID: string): Promise<Setting> {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/pet/questionnaire?petID=${petID}`,
