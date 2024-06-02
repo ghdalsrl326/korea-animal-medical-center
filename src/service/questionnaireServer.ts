@@ -1,9 +1,10 @@
-import { QuestionnaireProps } from "@/app/data/questionnaireStore";
+import { ResGetQuestionnaire } from "@/app/data/questionnaireStore";
+import { ErrorMsg } from "@/types/ErrorMsg";
 import { cookies } from "next/headers";
 
 export const fetchQuestionnaire = async (
   qid: string
-): Promise<Partial<QuestionnaireProps>> => {
+): Promise<ResGetQuestionnaire | ErrorMsg> => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/health-check/questionnaire?questionnaireID=${qid}`,
@@ -21,7 +22,7 @@ export const fetchQuestionnaire = async (
       throw new Error(errorData.error || "Failed to fetch Questionnaire");
     } else {
       const responseData = await response.json();
-      console.log(responseData);
+      // console.log(responseData);
       return responseData;
     }
   } catch (error) {

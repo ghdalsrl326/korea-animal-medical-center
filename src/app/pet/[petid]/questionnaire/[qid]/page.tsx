@@ -1,33 +1,192 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useAtom } from "jotai";
-import React, { useEffect, useRef, useState } from "react";
-import { configAtom } from "@/app/data/configStore";
-import { ReportMetaProps } from "@/types/ReportMeta";
-import { QuestionnaireProps } from "@/app/data/questionnaireStore";
-import { Flex } from "antd";
+import NavigationTab from "@/components/NavigationTab";
+import QuestionnaireTable from "@/components/QuestionnaireTable";
 import SectionTitle from "@/components/SectionTitle";
-import SectionSubTitle from "@/components/SectionSubTitle";
+import { ConfigProvider, Flex, FloatButton, message } from "antd";
+import React, { useRef, useEffect, useState } from "react";
+import ReactToPrint from "react-to-print";
+import { FileTextOutlined } from "@ant-design/icons";
+import { questionnaireAtom } from "@/app/data/questionnaireStore";
+import { useAtom } from "jotai";
+import dayjs from "dayjs";
+import { usePathname, useRouter } from "next/navigation";
+import { URL } from "@/app/data/url";
+import { configAtom } from "@/app/data/configStore";
+import { saveQuestionnaire } from "@/service/questionnaireClient";
+import { ResSaveReport } from "@/types/Report";
+import { useData } from "@/app/contexts/DataContext";
 
-const Page = ({ data, date, petid, qid }: ReportMetaProps) => {
+const Page = () => {
+  const { data, date, content: fetchedContend } = useData();
+
   const componentRef = useRef(null);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [content, setContent] = useAtom(questionnaireAtom);
+  const [originalContent, setOriginalContent] = useState(content);
+  const [isModified, setIsModified] = useState(false);
+  const [lastModified, setLastModified] = useState<string>("");
+  const [config, setConfig] = useAtom(configAtom);
+
+  useEffect(() => {
+    setContent((prev) => ({
+      ...prev,
+      healthCheckCycle: fetchedContend?.result.healthCheckCycle ?? "",
+      hasDiagnosedDiseases: fetchedContend?.result.hasDiagnosedDiseases ?? null,
+      diagnosedDiseasesName: fetchedContend?.result.diagnosedDiseasesName ?? "",
+      diagnosedDiseasesStartDay:
+        fetchedContend?.result.diagnosedDiseasesStartDay ?? "",
+      isTakingCareDiagnosedDiseases:
+        fetchedContend?.result.isTakingCareDiagnosedDiseases ?? "",
+      isMedicationTaken: fetchedContend?.result.isMedicationTaken ?? null,
+      medicationTakenDetail: fetchedContend?.result.medicationTakenDetail ?? "",
+      hasMedicalHistory: fetchedContend?.result.hasMedicalHistory ?? null,
+      medicalHistoryDetail: fetchedContend?.result.medicalHistoryDetail ?? "",
+      hasMedicationSideEffects:
+        fetchedContend?.result.hasMedicationSideEffects ?? null,
+      medicationSideEffectsDetail:
+        fetchedContend?.result.medicationSideEffectsDetail ?? "",
+      hasOtherPets: fetchedContend?.result.hasOtherPets ?? null,
+      numberOfDogs: fetchedContend?.result.numberOfDogs ?? 0,
+      numberOfCats: fetchedContend?.result.numberOfCats ?? 0,
+      respiratorySymptoms: fetchedContend?.result.respiratorySymptoms ?? [],
+      frequencyOfWalksPerWeek:
+        fetchedContend?.result.frequencyOfWalksPerWeek ?? "",
+      walkingHour: fetchedContend?.result.walkingHour ?? "",
+      vaccinationInjection: fetchedContend?.result.vaccinationInjection ?? "",
+      heartwormVaccinationInjection:
+        fetchedContend?.result.heartwormVaccinationInjection ?? "",
+      ExternalParasitesVaccinationInjection:
+        fetchedContend?.result.ExternalParasitesVaccinationInjection ?? "",
+      drinkingHabit: fetchedContend?.result.drinkingHabit ?? "",
+      cupsPerDay: fetchedContend?.result.cupsPerDay ?? "",
+      appetiteLevel: fetchedContend?.result.appetiteLevel ?? "",
+      appetiteChange: fetchedContend?.result.appetiteChange ?? "",
+      foodType: fetchedContend?.result.foodType ?? "",
+      feedingType: fetchedContend?.result.feedingType ?? "",
+      restrictedFeedingDetail:
+        fetchedContend?.result.restrictedFeedingDetail ?? "",
+      forcedFeedingDetail: fetchedContend?.result.forcedFeedingDetail ?? "",
+      foodName: fetchedContend?.result.foodName ?? "",
+      dailyAmount: fetchedContend?.result.dailyAmount ?? "",
+      eatsSnacks: fetchedContend?.result.eatsSnacks ?? null,
+      snackType: fetchedContend?.result.snackType ?? "",
+      treatFrequency: fetchedContend?.result.treatFrequency ?? "",
+      eatsSuppliements: fetchedContend?.result.eatsSuppliements ?? null,
+      supplements: fetchedContend?.result.supplements ?? "",
+      vomitingFrequency: fetchedContend?.result.vomitingFrequency ?? "",
+      teethCleaningFrequency:
+        fetchedContend?.result.teethCleaningFrequency ?? "",
+      urineTexture: fetchedContend?.result.urineTexture ?? "",
+      urinationFrequency: fetchedContend?.result.urinationFrequency ?? "",
+      stoolTexture: fetchedContend?.result.stoolTexture ?? "",
+      defecationFrequency: fetchedContend?.result.defecationFrequency ?? "",
+      wantsBloodTypeTest: fetchedContend?.result.wantsBloodTypeTest ?? false,
+      additionalExamRequests:
+        fetchedContend?.result.additionalExamRequests ?? "",
+    }));
+    setOriginalContent(content); // 초기 content를 originalContent로 설정
+  }, []);
+
+  useEffect(() => {
+    const hasChanges =
+      JSON.stringify(originalContent) !== JSON.stringify(content);
+    setIsModified(hasChanges);
+  }, [content, originalContent]);
+
+  const handleSaveClick = async () => {
+    if (isModified) {
+      try {
+        const result = await saveQuestionnaire(content, data?.id || "");
+
+        if ("error" in result) {
+          throw new Error(result.error);
+        }
+
+        const { questionnaireId, isFirstTime } = result as ResSaveReport;
+
+        setOriginalContent(content); // 저장 성공 시 originalContent를 현재 content로 업데이트
+        setIsModified(false); // 저장 성공 시 버튼 비활성화
+        setLastModified(dayjs().format("YY.MM.DD HH:mm:ss")); // 마지막 수정 시점 업데이트
+        setConfig((prev) => ({
+          ...prev,
+          qid: questionnaireId.toString(),
+          isFirstTime,
+        }));
+
+        if (pathname === `${URL.PET}/${data?.id}${URL.QUESTIONNAIRE}`) {
+          router.push(
+            `${URL.PET}/${data?.id}${URL.QUESTIONNAIRE}/${questionnaireId}`
+          );
+        }
+      } catch (error) {
+        message.error("저장 중 오류가 발생했습니다.");
+      }
+    }
+  };
 
   return (
-    <div>
-      <Flex vertical justify="start" align="center">
-        <div
+    <>
+      <div ref={componentRef}>
+        <Flex vertical justify="start" align="center">
+          <div
+            style={{
+              width: "1128px",
+              height: "2000px",
+              position: "relative",
+            }}
+          >
+            <SectionTitle
+              title="강아지 건강검진 문진표"
+              data={data}
+              date={date}
+            />
+            <QuestionnaireTable data={data} />
+          </div>
+        </Flex>
+      </div>
+      <NavigationTab />
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: "#F19EA6",
+          },
+        }}
+      >
+        <FloatButton
+          shape="square"
           style={{
-            width: "1128px",
-            height: "2000px",
-            position: "relative",
+            width: "180px",
+            bottom: "80px",
+            right: "100px",
+            opacity: isModified ? 1 : 0.5, // 수정 여부에 따라 투명도 변경
+            pointerEvents: isModified ? "auto" : "none", // 수정 여부에 따라 클릭 이벤트 처리
           }}
-        >
-          <SectionTitle title="건강검진결과" data={data} date={date} />
-          <SectionSubTitle title="고려메디컬센터의 혈액검사" />
-        </div>
-      </Flex>
-    </div>
+          type="primary"
+          description={
+            <>
+              저장하기 <br />
+              {lastModified ? `Last Mod. ${lastModified}` : ""}
+            </>
+          }
+          onClick={handleSaveClick}
+        />
+      </ConfigProvider>
+      <ReactToPrint
+        trigger={() => (
+          <FloatButton
+            icon={<FileTextOutlined />}
+            description="PDF"
+            shape="square"
+            style={{ bottom: "80px", right: "40px" }}
+          />
+        )}
+        content={() => componentRef.current}
+        copyStyles={true}
+        pageStyle="@page { size: 1300px 2200px; -webkit-print-color-adjust: exact; }"
+      />
+    </>
   );
 };
 

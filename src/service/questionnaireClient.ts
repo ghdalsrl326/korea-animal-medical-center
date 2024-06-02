@@ -1,10 +1,11 @@
 import { QuestionnaireProps } from "@/app/data/questionnaireStore";
+import { ErrorMsg } from "@/types/ErrorMsg";
 import { ResSaveReport } from "@/types/Report";
 
 export const saveQuestionnaire = async (
   content: QuestionnaireProps,
   petID: string
-): Promise<Partial<ResSaveReport>> => {
+): Promise<ResSaveReport | ErrorMsg> => {
   try {
     const response = await fetch(
       `/api/health-check/questionnaire?petID=${petID}`,

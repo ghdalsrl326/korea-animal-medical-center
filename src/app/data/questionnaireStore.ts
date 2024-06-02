@@ -1,5 +1,15 @@
 import { atom } from "jotai";
 
+export type ResGetQuestionnaire = {
+  result: {
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    id: number;
+  } & QuestionnaireProps;
+  isFirstTime: boolean;
+};
+
 export type QuestionnaireProps = {
   healthCheckCycle: string;
   hasDiagnosedDiseases: boolean | null;
@@ -15,7 +25,7 @@ export type QuestionnaireProps = {
   hasOtherPets: boolean | null;
   numberOfDogs: number;
   numberOfCats: number;
-  respiratorySymptoms: string[];
+  respiratorySymptoms: string[] | undefined;
   frequencyOfWalksPerWeek: string;
   walkingHour: string;
   vaccinationInjection: string;
@@ -44,7 +54,6 @@ export type QuestionnaireProps = {
   defecationFrequency: string;
   wantsBloodTypeTest: boolean;
   additionalExamRequests: string;
-  error?: string;
 };
 
 export const questionnaireAtom = atom<QuestionnaireProps>({

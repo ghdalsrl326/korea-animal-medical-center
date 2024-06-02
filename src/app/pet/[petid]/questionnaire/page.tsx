@@ -16,8 +16,11 @@ import { URL } from "@/app/data/url";
 import { configAtom } from "@/app/data/configStore";
 import { saveQuestionnaire } from "@/service/questionnaireClient";
 import { ResSaveReport } from "@/types/Report";
+import { useData } from "@/app/contexts/DataContext";
 
-const Page = ({ data, date }: ReportMetaProps) => {
+const Page = () => {
+  const { data, date } = useData();
+
   const componentRef = useRef(null);
   const router = useRouter();
   const pathname = usePathname();

@@ -9,12 +9,14 @@ import Link from "next/link";
 import { useAtom } from "jotai";
 import { configAtom } from "@/app/data/configStore";
 import { URL } from "@/app/data/url";
+import { useParams } from "next/navigation";
 
 const NavigationTab = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [visible, setVisible] = useState(true);
   const [config, setConfig] = useAtom(configAtom);
+  const params = useParams<{ qid: string }>();
 
   const toggleVisibility = () => {
     setVisible(!visible);
@@ -71,10 +73,16 @@ const NavigationTab = () => {
           tabBarGutter={0}
           onTabClick={(key) => {
             if (key === URL.QUESTIONNAIRE) {
-              router.push(`${URL.PET}/${config.petId}${URL.QUESTIONNAIRE}`);
+              if (params.qid) {
+                router.push(
+                  `${URL.PET}/${config.petId}${URL.QUESTIONNAIRE}/${params.qid}`
+                );
+              } else {
+                router.push(`${URL.PET}/${config.petId}${URL.QUESTIONNAIRE}`);
+              }
             } else {
               router.push(
-                `${URL.PET}/${config.petId}${URL.QUESTIONNAIRE}/${config.qid}${URL.DATE}/${config.date}/${key}`
+                `${URL.PET}/${config.petId}${URL.QUESTIONNAIRE}/${config.qid}/${key}`
               );
             }
           }}

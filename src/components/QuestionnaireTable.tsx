@@ -5,7 +5,7 @@ import { Input } from "antd";
 import Checkbox from "antd/es/checkbox/Checkbox";
 import TextArea from "antd/es/input/TextArea";
 import { useAtom } from "jotai";
-import React from "react";
+import React, { useEffect } from "react";
 
 const QuestionnaireTable = ({ data }: ReportMetaProps) => {
   const [result, setResult] = useAtom(questionnaireAtom);
@@ -314,7 +314,7 @@ const QuestionnaireTable = ({ data }: ReportMetaProps) => {
               (option, index) => (
                 <td key={index}>
                   <Checkbox
-                    checked={result.respiratorySymptoms.includes(option)}
+                    checked={result.respiratorySymptoms?.includes(option)}
                     onChange={() =>
                       handleMultiChoiceChange("respiratorySymptoms", option)
                     }

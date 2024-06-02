@@ -1,3 +1,5 @@
+import { QuestionnaireMeta } from "./QuestionnaireMeta";
+
 export type Setting = {
   id: string;
   name: string;
@@ -9,10 +11,4 @@ export type Setting = {
   hasGivenBirth: "예" | "아니오" | boolean;
   age: string;
   questionnaire: QuestionnaireMeta[];
-};
-
-export type QuestionnaireMeta = {
-  createdAt: string;
-  updatedAt: string;
-  id: string;
 };

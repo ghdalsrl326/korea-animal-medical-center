@@ -1,23 +1,27 @@
 import React from "react";
 import Page from "./page";
 import { fetchReportMeta } from "@/service/pet";
-import getToday from "@/util/getToday";
 import { fetchQuestionnaire } from "@/service/questionnaireServer";
-import { QuestionnaireProps } from "@/app/data/questionnaireStore";
+import { getDateByQid } from "@/util/getDateByQid";
+import { DataProvider } from "@/app/contexts/DataContext";
 
 interface Props {
+  children: React.ReactNode;
   params: { petid: string; qid: string };
 }
 
-const layout = async ({ params }: Props) => {
+const layout = async ({ params, children }: Props) => {
   const { petid, qid } = params;
 
   const data = await fetchReportMeta(petid);
-  const content: Partial<QuestionnaireProps> = await fetchQuestionnaire(qid);
+  const date = getDateByQid(qid, data.questionnaire);
+  const content = await fetchQuestionnaire(qid);
 
   return (
     <div>
-      <Page data={data} date={getToday()} />
+      <DataProvider data={data} date={date} content={content}>
+        {children}
+      </DataProvider>
     </div>
   );
 };
