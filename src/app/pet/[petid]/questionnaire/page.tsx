@@ -7,7 +7,6 @@ import { ConfigProvider, Flex, FloatButton, message } from "antd";
 import React, { useRef, useEffect, useState } from "react";
 import ReactToPrint from "react-to-print";
 import { FileTextOutlined } from "@ant-design/icons";
-import { ReportMetaProps } from "@/types/ReportMeta";
 import { questionnaireAtom } from "@/app/data/questionnaireStore";
 import { useAtom } from "jotai";
 import dayjs from "dayjs";
