@@ -2,8 +2,9 @@
 import React, { createContext, useContext } from "react";
 import { ResGetQuestionnaire } from "@/types/Questionnaire";
 import { ResGetHealthExam } from "@/types/HealthExam";
+import { ResGetBloodExam } from "@/types/BloodExam";
 
-type ApiResponse = ResGetQuestionnaire | ResGetHealthExam;
+type ApiResponse = ResGetQuestionnaire | ResGetHealthExam | ResGetBloodExam;
 
 export function isResGetQuestionnaire(
   content: ApiResponse
@@ -19,6 +20,17 @@ export function isResGetQuestionnaire(
 export function isResGetHealthExam(
   content: ApiResponse
 ): content is ResGetHealthExam {
+  return (
+    content &&
+    "result" in content &&
+    content.result &&
+    content.result.id !== undefined
+  );
+}
+
+export function isResGetBloodExam(
+  content: ApiResponse
+): content is ResGetBloodExam {
   return (
     content &&
     "result" in content &&

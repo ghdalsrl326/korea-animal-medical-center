@@ -6,14 +6,102 @@ import ContentTitle from "@/components/ContentTitle";
 import NavigationTab from "@/components/NavigationTab";
 import SectionSubTitle from "@/components/SectionSubTitle";
 import SectionTitle from "@/components/SectionTitle";
-import { Flex, FloatButton } from "antd";
-import React, { useRef } from "react";
+import { ConfigProvider, Flex, FloatButton, message } from "antd";
+import React, { useEffect, useRef, useState } from "react";
 import ReactToPrint from "react-to-print";
 import { FileTextOutlined } from "@ant-design/icons";
-import { ReportMetaProps } from "@/types/ReportMeta";
+import { isResGetBloodExam, useData } from "@/app/contexts/DataContext";
+import { usePathname, useRouter } from "next/navigation";
+import { useAtom } from "jotai";
+import { bloodExamResultAtom } from "@/app/data/bloodExamResultStore";
+import { configAtom } from "@/app/data/configStore";
+import dayjs from "dayjs";
+import { saveBloodExam } from "@/service/bloodExamClient";
 
-const page = ({ data, date }: ReportMetaProps) => {
+const page = () => {
+  const { data, date, content: fetchedContent } = useData();
+
   const componentRef = useRef(null);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [content, setContent] = useAtom(bloodExamResultAtom);
+  const [config, setConfig] = useAtom(configAtom);
+
+  const [originalContent, setOriginalContent] = useState(content);
+  const [isModified, setIsModified] = useState(false);
+  const [lastModified, setLastModified] = useState<string>("");
+
+  useEffect(() => {
+    if (fetchedContent && isResGetBloodExam(fetchedContent)) {
+      setContent((prev) => ({
+        ...prev,
+        firstDate: config.date,
+        pHFirst: fetchedContent?.result.vbgaResult.pH.toString() ?? "",
+        pCO2First: fetchedContent?.result.vbgaResult.pCO2.toString() ?? "",
+        pO2First: fetchedContent?.result.vbgaResult.pO2.toString() ?? "",
+        sodiumFirst: fetchedContent?.result.vbgaResult.sodium.toString() ?? "",
+        potassiumFirst:
+          fetchedContent?.result.vbgaResult.potassium.toString() ?? "",
+        chlorideFirst:
+          fetchedContent?.result.vbgaResult.chloride.toString() ?? "",
+        iCaFirst: fetchedContent?.result.vbgaResult.iCa.toString() ?? "",
+        hctFirst: fetchedContent?.result.vbgaResult.hct.toString() ?? "",
+        glucoseFirst:
+          fetchedContent?.result.vbgaResult.glucose.toString() ?? "",
+        lactateFirst:
+          fetchedContent?.result.vbgaResult.lactate.toString() ?? "",
+        anionGapFirst:
+          fetchedContent?.result.vbgaResult.anionGap.toString() ?? "",
+        bicarbonateFirst:
+          fetchedContent?.result.vbgaResult.bicarbonate.toString() ?? "",
+      }));
+    }
+    setOriginalContent(content);
+  }, []);
+
+  useEffect(() => {
+    const hasChanges =
+      JSON.stringify(originalContent) !== JSON.stringify(content);
+    setIsModified(hasChanges);
+  }, [content, originalContent]);
+
+  const handleSaveClick = async () => {
+    if (isModified) {
+      try {
+        const result = await saveBloodExam(
+          {
+            vbgaResult: {
+              pH: parseFloat(content.pHFirst),
+              pCO2: parseFloat(content.pCO2First),
+              pO2: parseFloat(content.pO2First),
+              sodium: parseFloat(content.sodiumFirst),
+              potassium: parseFloat(content.potassiumFirst),
+              chloride: parseFloat(content.chlorideFirst),
+              iCa: parseFloat(content.iCaFirst),
+              hct: parseFloat(content.hctFirst),
+              glucose: parseFloat(content.glucoseFirst),
+              lactate: parseFloat(content.lactateFirst),
+              anionGap: parseFloat(content.anionGapFirst),
+              bicarbonate: parseFloat(content.bicarbonateFirst),
+            },
+          },
+          config.qid
+        );
+
+        if ("error" in result) {
+          throw new Error(result.error);
+        }
+
+        setOriginalContent(content);
+        setIsModified(false);
+        setLastModified(dayjs().format("YY.MM.DD HH:mm:ss"));
+        message.success("저장되었습니다.");
+      } catch (error) {
+        message.error("저장 중 오류가 발생했습니다.");
+      }
+    }
+  };
 
   return (
     <>
@@ -62,6 +150,32 @@ const page = ({ data, date }: ReportMetaProps) => {
         </Flex>
       </div>
       <NavigationTab />
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: "#F19EA6",
+          },
+        }}
+      >
+        <FloatButton
+          shape="square"
+          style={{
+            width: "180px",
+            bottom: "80px",
+            right: "100px",
+            opacity: isModified ? 1 : 0.5,
+            pointerEvents: isModified ? "auto" : "none",
+          }}
+          type="primary"
+          description={
+            <>
+              저장하기 <br />
+              {lastModified ? `Last Mod. ${lastModified}` : ""}
+            </>
+          }
+          onClick={handleSaveClick}
+        />
+      </ConfigProvider>
       <ReactToPrint
         trigger={() => (
           <FloatButton

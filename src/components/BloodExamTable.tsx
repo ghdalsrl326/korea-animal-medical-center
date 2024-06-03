@@ -1,3 +1,4 @@
+// BloodExamTable.tsx
 "use client";
 import React from "react";
 import { useAtom } from "jotai";
@@ -19,10 +20,12 @@ const TableCell = ({
   value,
   range,
   onChange,
+  readOnly,
 }: {
   value: string;
   range: number[];
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  readOnly?: boolean;
 }) => {
   const style: React.CSSProperties = isAbnormal(value, range[0], range[1])
     ? { ...cellStyle, ...abnormalCellStyle }
@@ -37,6 +40,7 @@ const TableCell = ({
         value={value}
         onChange={onChange}
         type="number"
+        readOnly={readOnly}
       />
     </td>
   );
@@ -53,9 +57,9 @@ const BloodExamTable = () => {
       unit: "mmHg",
     },
     { key: "pO2", label: "pO2 (산소분압)", range: [24, 48], unit: "mmHg" },
-    { key: "Na", label: "Na+ (나트륨)", range: [135, 145], unit: "mmol/L" },
-    { key: "K", label: "K+ (칼륨)", range: [3.5, 5.1], unit: "mmol/L" },
-    { key: "Cl", label: "Cl- (염소)", range: [98, 107], unit: "mmol/L" },
+    { key: "sodium", label: "Na+ (나트륨)", range: [135, 145], unit: "mmol/L" },
+    { key: "potassium", label: "K+ (칼륨)", range: [3.5, 5.1], unit: "mmol/L" },
+    { key: "chloride", label: "Cl- (염소)", range: [98, 107], unit: "mmol/L" },
     {
       key: "iCa",
       label: "iCa (이온화칼슘)",
@@ -63,31 +67,31 @@ const BloodExamTable = () => {
       unit: "mmol/L",
     },
     {
-      key: "HCT",
+      key: "hct",
       label: "HCT (적혈구용적/빈혈)",
       range: [37.5, 51.0],
       unit: "%",
     },
     {
-      key: "Glucose",
+      key: "glucose",
       label: "Glucose (혈당)",
       range: [70, 110],
       unit: "mg/dL",
     },
     {
-      key: "Lactate",
+      key: "lactate",
       label: "Lactate (젖산)",
       range: [0.5, 2.2],
       unit: "mmol/L",
     },
     {
-      key: "AnionGap",
+      key: "anionGap",
       label: "Anion Gap (음이온차이)",
       range: [8, 16],
       unit: "mmol/L",
     },
     {
-      key: "HCO3",
+      key: "bicarbonate",
       label: "HCO3- (중탄산이온)",
       range: [22, 29],
       unit: "mmol/L",
@@ -123,6 +127,7 @@ const BloodExamTable = () => {
                 onChange={(e) =>
                   setResult({ ...result, firstDate: e.target.value })
                 }
+                readOnly
               />
             </th>
             <th>
@@ -134,6 +139,7 @@ const BloodExamTable = () => {
                 onChange={(e) =>
                   setResult({ ...result, secondDate: e.target.value })
                 }
+                readOnly
               />
             </th>
           </tr>
@@ -153,6 +159,7 @@ const BloodExamTable = () => {
                 value={result[`${test.key}Second` as keyof typeof result]}
                 range={test.range}
                 onChange={handleChange(test.key, "Second")}
+                readOnly
               />
             </tr>
           ))}

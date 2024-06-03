@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
   const qid = searchParams.get("questionnaireID");
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/health-check/physicalResult?questionnaireID=${qid}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/health-check/bloodResult?questionnaireID=${qid}`,
     {
       method: "POST",
       headers: {
@@ -18,13 +18,11 @@ export async function POST(request: NextRequest) {
   );
 
   const data = await response.text().then((text) => {
-    return text
-      ? JSON.parse(text)
-      : { message: "POST PhysicalResult successful" };
+    return text ? JSON.parse(text) : { message: "POST BloodResult successful" };
   });
 
   if (!response.ok) {
-    throw new Error(data.message || "Failed to post PhysicalResult");
+    throw new Error(data.message || "Failed to post BloodResult");
   }
 
   return NextResponse.json(data);

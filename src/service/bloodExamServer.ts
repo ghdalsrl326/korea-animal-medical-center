@@ -1,13 +1,13 @@
 import { ErrorMsg } from "@/types/ErrorMsg";
-import { ResGetQuestionnaire } from "@/types/Questionnaire";
+import { ResGetBloodExam } from "@/types/BloodExam";
 import { cookies } from "next/headers";
 
-export const fetchQuestionnaire = async (
+export const fetchBloodExam = async (
   qid: string
-): Promise<ResGetQuestionnaire | ErrorMsg> => {
+): Promise<ResGetBloodExam | ErrorMsg> => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/health-check/questionnaire?questionnaireID=${qid}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/health-check/blood-result?questionnaireID=${qid}`,
       {
         method: "GET",
         headers: {
@@ -19,7 +19,7 @@ export const fetchQuestionnaire = async (
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || "Failed to fetch Questionnaire");
+      throw new Error(errorData.error || "Failed to fetch BloodExam");
     } else {
       const responseData = await response.json();
       return responseData;
@@ -28,7 +28,7 @@ export const fetchQuestionnaire = async (
     if (error instanceof Error) {
       return { error: error.message };
     } else {
-      return { error: "Failed to fetch Questionnaire" };
+      return { error: "Failed to fetch BloodExam" };
     }
   }
 };

@@ -1,5 +1,4 @@
 import React from "react";
-import Page from "./page";
 import { fetchReportMeta } from "@/service/pet";
 import { fetchQuestionnaire } from "@/service/questionnaireServer";
 import { getDateByQid } from "@/util/getDateByQid";
