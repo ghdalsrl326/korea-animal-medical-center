@@ -1,10 +1,9 @@
 import { ErrorMsg } from "@/types/ErrorMsg";
 import { HealthExam } from "@/types/HealthExam";
 import { ResSaveReport } from "@/types/Report";
-import { content } from "html2canvas/dist/types/css/property-descriptors/content";
 
 export const saveHealthExam = async (
-  content: HealthExam,
+  content: Partial<HealthExam>,
   qid: string
 ): Promise<ResSaveReport | ErrorMsg> => {
   try {

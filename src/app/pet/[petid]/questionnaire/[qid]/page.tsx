@@ -24,10 +24,11 @@ const Page = () => {
   const pathname = usePathname();
 
   const [content, setContent] = useAtom(questionnaireAtom);
+  const [config, setConfig] = useAtom(configAtom);
+
   const [originalContent, setOriginalContent] = useState(content);
   const [isModified, setIsModified] = useState(false);
   const [lastModified, setLastModified] = useState<string>("");
-  const [config, setConfig] = useAtom(configAtom);
 
   useEffect(() => {
     if (fetchedContent && isResGetQuestionnaire(fetchedContent)) {
@@ -103,7 +104,7 @@ const Page = () => {
   const handleSaveClick = async () => {
     if (isModified) {
       try {
-        const result = await saveQuestionnaire(content, data?.id || "");
+        const result = await saveQuestionnaire(content, data?.id);
 
         if ("error" in result) {
           throw new Error(result.error);

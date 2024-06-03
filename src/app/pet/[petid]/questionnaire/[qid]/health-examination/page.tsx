@@ -5,15 +5,139 @@ import HealthExamSummaryTable from "@/components/HealthExamSummaryTable";
 import NavigationTab from "@/components/NavigationTab";
 import SectionSubTitle from "@/components/SectionSubTitle";
 import SectionTitle from "@/components/SectionTitle";
-import { Flex, FloatButton } from "antd";
-import React, { useRef } from "react";
+import { ConfigProvider, Flex, FloatButton, message } from "antd";
+import React, { useEffect, useRef, useState } from "react";
 import ReactToPrint from "react-to-print";
 import { FileTextOutlined } from "@ant-design/icons";
-import { useData } from "@/app/contexts/DataContext";
+import { isResGetHealthExam, useData } from "@/app/contexts/DataContext";
+import { useAtom } from "jotai";
+import { healthExamSummaryAtom } from "@/app/data/healthExamSummaryStore";
+import { saveHealthExam } from "@/service/healthExamClient";
+import dayjs from "dayjs";
+import { healthExamDetailAtom } from "@/app/data/healthExamDetailStore";
+import { configAtom } from "@/app/data/configStore";
 
 const page = () => {
+  const { data, date, content: fetchedContent } = useData();
+
   const componentRef = useRef(null);
-  const { data, date } = useData();
+
+  const [summaryContent, setSummaryContent] = useAtom(healthExamSummaryAtom);
+  const [detailContent, setDetailContent] = useAtom(healthExamDetailAtom);
+  const [config, setConfig] = useAtom(configAtom);
+
+  const [summaryOriginalContent, setSummaryOriginalContent] =
+    useState(summaryContent);
+  const [detailOriginalContent, setDetailOriginalContent] =
+    useState(detailContent);
+  const [isModified, setIsModified] = useState(false);
+  const [lastModified, setLastModified] = useState<string>("");
+
+  useEffect(() => {
+    if (fetchedContent && isResGetHealthExam(fetchedContent)) {
+      setSummaryContent((prev) => ({
+        ...prev,
+        vitalSigns: fetchedContent?.result.vitalSigns ?? "",
+        superficialLymphNodes:
+          fetchedContent?.result.superficialLymphNodes ?? "",
+        auscultationHeartLung:
+          fetchedContent?.result.auscultationHeartLung ?? "",
+        nasalPharyngealCervical:
+          fetchedContent?.result.nasalPharyngealCervical ?? "",
+        bcsNMCS: fetchedContent?.result.bcsNMCS ?? "",
+        musculoskeletalSystem:
+          fetchedContent?.result.musculoskeletalSystem ?? "",
+        reproductiveSystem: fetchedContent?.result.reproductiveSystem ?? "",
+        neutered: fetchedContent?.result.neutered ?? "",
+      }));
+
+      setDetailContent((prev) => ({
+        ...prev,
+        skin: fetchedContent?.result.skin ?? "",
+        coat: fetchedContent?.result.coat ?? "",
+        leftEar: fetchedContent?.result.leftEar ?? "",
+        rightEar: fetchedContent?.result.rightEar ?? "",
+        skinPictures: fetchedContent?.result.skinPictures ?? null,
+        rightFluoresceinStaining:
+          fetchedContent?.result.rightFluoresceinStaining ?? "",
+        rightFluoresceinStainingLevel:
+          fetchedContent?.result.rightFluoresceinStainingLevel ?? "",
+        leftFluoresceinStaining:
+          fetchedContent?.result.leftFluoresceinStaining ?? "",
+        leftFluoresceinStainingLevel:
+          fetchedContent?.result.leftFluoresceinStainingLevel ?? "",
+        rightTearProduction: fetchedContent?.result.rightTearProduction ?? "",
+        rightTearProductionLevel:
+          fetchedContent?.result.rightTearProductionLevel ?? "",
+        leftTearProduction: fetchedContent?.result.leftTearProduction ?? "",
+        leftTearProductionLevel:
+          fetchedContent?.result.leftTearProductionLevel ?? "",
+        rightIntraocularPressure:
+          fetchedContent?.result.rightIntraocularPressure ?? "",
+        rightIntraocularPressureLevel:
+          fetchedContent?.result.rightIntraocularPressureLevel ?? "",
+        leftIntraocularPressure:
+          fetchedContent?.result.leftIntraocularPressure ?? "",
+        leftIntraocularPressureLevel:
+          fetchedContent?.result.leftIntraocularPressureLevel ?? "",
+        slirInpection: fetchedContent?.result.slirInpection ?? "",
+        slirInpectionLevel: fetchedContent?.result.slirInpectionLevel ?? "",
+        externalAppearance: fetchedContent?.result.externalAppearance ?? "",
+        externalAppearanceLevel:
+          fetchedContent?.result.externalAppearanceLevel ?? "",
+        eyesPictures: fetchedContent?.result.eyesPictures ?? null,
+        malocclusion: fetchedContent?.result.malocclusion ?? "",
+        missingTeeth: fetchedContent?.result.missingTeeth ?? "",
+        brokenTeeth: fetchedContent?.result.brokenTeeth ?? "",
+        retainedDeciduousTeeth:
+          fetchedContent?.result.retainedDeciduousTeeth ?? "",
+        tartarPeriodontalDisease:
+          fetchedContent?.result.tartarPeriodontalDisease ?? "",
+        teethPictures: fetchedContent?.result.teethPictures ?? null,
+      }));
+    }
+    setSummaryOriginalContent(summaryContent);
+    setDetailOriginalContent(detailContent);
+  }, []);
+
+  useEffect(() => {
+    const hasChanges =
+      JSON.stringify(summaryOriginalContent) !==
+        JSON.stringify(summaryContent) ||
+      JSON.stringify(detailOriginalContent) !== JSON.stringify(detailContent);
+    setIsModified(hasChanges);
+  }, [
+    summaryContent,
+    detailContent,
+    summaryOriginalContent,
+    detailOriginalContent,
+  ]);
+
+  const handleSaveClick = async () => {
+    if (isModified) {
+      try {
+        const result = await saveHealthExam(
+          {
+            ...summaryContent,
+            ...detailContent,
+          },
+          config.qid
+        );
+
+        if ("error" in result) {
+          throw new Error(result.error);
+        }
+
+        setSummaryOriginalContent(summaryContent);
+        setDetailOriginalContent(detailContent);
+        setIsModified(false);
+        setLastModified(dayjs().format("YY.MM.DD HH:mm:ss"));
+        message.success("저장되었습니다.");
+      } catch (error) {
+        message.error("저장 중 오류가 발생했습니다.");
+      }
+    }
+  };
 
   return (
     <>
@@ -34,6 +158,32 @@ const page = () => {
         </Flex>
       </div>
       <NavigationTab />
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: "#F19EA6",
+          },
+        }}
+      >
+        <FloatButton
+          shape="square"
+          style={{
+            width: "180px",
+            bottom: "80px",
+            right: "100px",
+            opacity: isModified ? 1 : 0.5,
+            pointerEvents: isModified ? "auto" : "none",
+          }}
+          type="primary"
+          description={
+            <>
+              저장하기 <br />
+              {lastModified ? `Last Mod. ${lastModified}` : ""}
+            </>
+          }
+          onClick={handleSaveClick}
+        />
+      </ConfigProvider>
       <ReactToPrint
         trigger={() => (
           <FloatButton

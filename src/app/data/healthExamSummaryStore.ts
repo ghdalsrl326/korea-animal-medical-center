@@ -1,6 +1,7 @@
+import { HealthExam } from "@/types/HealthExam";
 import { atom } from "jotai";
 
-export const healthExamSummaryAtom = atom({
+export const healthExamSummaryAtom = atom<Partial<HealthExam>>({
   vitalSigns: "",
   superficialLymphNodes: "",
   auscultationHeartLung: "",

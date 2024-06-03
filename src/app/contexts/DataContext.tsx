@@ -8,13 +8,23 @@ type ApiResponse = ResGetQuestionnaire | ResGetHealthExam;
 export function isResGetQuestionnaire(
   content: ApiResponse
 ): content is ResGetQuestionnaire {
-  return (content as ResGetQuestionnaire).result.id !== undefined;
+  return (
+    content &&
+    "result" in content &&
+    content.result &&
+    content.result.id !== undefined
+  );
 }
 
 export function isResGetHealthExam(
   content: ApiResponse
 ): content is ResGetHealthExam {
-  return (content as ResGetHealthExam).result.id !== undefined;
+  return (
+    content &&
+    "result" in content &&
+    content.result &&
+    content.result.id !== undefined
+  );
 }
 
 interface DataContextType {
