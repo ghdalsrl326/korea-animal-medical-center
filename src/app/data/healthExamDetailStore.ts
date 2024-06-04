@@ -1,15 +1,15 @@
-import { HealthExam } from "@/types/HealthExam";
+import { HealthExam, HealthExamDetail } from "@/types/HealthExam";
 import { atom } from "jotai";
 
-export const healthExamDetailAtom = atom<Partial<HealthExam>>({
+export const healthExamDetailAtom = atom<HealthExamDetail>({
   skin: "",
   coat: "",
   leftEar: "",
   rightEar: "",
-  skinPictures: null,
-  // skinImage1: null,
-  // skinImage2: null,
-  // skinImage3: null,
+  // skinPictures: null,
+  skinPicture1: null,
+  skinPicture2: null,
+  skinPicture3: null,
 
   rightFluoresceinStaining: "",
   rightFluoresceinStainingLevel: "",
@@ -27,18 +27,18 @@ export const healthExamDetailAtom = atom<Partial<HealthExam>>({
   slirInpectionLevel: "",
   externalAppearance: "",
   externalAppearanceLevel: "",
-  eyesPictures: null,
-  // eyeImage1: null,
-  // eyeImage2: null,
-  // eyeImage3: null,
+  // eyesPictures: null,
+  eyesPicture1: null,
+  eyesPicture2: null,
+  eyesPicture3: null,
 
   malocclusion: "",
   missingTeeth: "",
   brokenTeeth: "",
   retainedDeciduousTeeth: "",
   tartarPeriodontalDisease: "",
-  teethPictures: null,
-  // toothImage1: null,
-  // toothImage2: null,
-  // toothImage3: null,
+  // teethPictures: null,
+  teethPicture1: null,
+  teethPicture2: null,
+  teethPicture3: null,
 });

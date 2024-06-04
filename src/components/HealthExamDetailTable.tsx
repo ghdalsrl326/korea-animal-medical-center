@@ -32,39 +32,39 @@ const HealthExamDetailTable = () => {
   };
 
   const dropzoneProps1 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("skinPictures", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("skinPicture1", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps2 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("skinPictures", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("skinPicture2", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps3 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("skinPictures", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("skinPicture3", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps4 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("eyesPictures", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("eyesPicture1", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps5 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("eyesPictures", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("eyesPicture2", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps6 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("eyesPictures", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("eyesPicture3", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps7 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("teethPictures", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("teethPicture1", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps8 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("teethPictures", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("teethPicture2", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps9 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("teethPictures", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("teethPicture3", acceptedFiles[0]),
     maxFiles: 1,
   });
 
@@ -113,21 +113,21 @@ const HealthExamDetailTable = () => {
             </td>
             <DropZoneCell
               dropzoneProps={dropzoneProps1}
-              imageSrc={detail.skinPictures ? detail.skinPictures[0] : null}
+              imageSrc={detail.skinPicture1}
               rowSpan={4}
               width={imgCellWidth}
               height={imgCellHeight}
             />
             <DropZoneCell
               dropzoneProps={dropzoneProps2}
-              imageSrc={detail.skinPictures ? detail.skinPictures[1] : null}
+              imageSrc={detail.skinPicture2}
               rowSpan={4}
               width={imgCellWidth}
               height={imgCellHeight}
             />
             <DropZoneCell
               dropzoneProps={dropzoneProps3}
-              imageSrc={detail.skinPictures ? detail.skinPictures[2] : null}
+              imageSrc={detail.skinPicture3}
               rowSpan={4}
               width={imgCellWidth}
               height={imgCellHeight}
@@ -233,21 +233,21 @@ const HealthExamDetailTable = () => {
             ))}
             <DropZoneCell
               dropzoneProps={dropzoneProps4}
-              imageSrc={detail.eyesPictures ? detail.eyesPictures[0] : null}
+              imageSrc={detail.eyesPicture1}
               rowSpan={8}
               width={imgCellWidth}
               height={imgCellHeight}
             />
             <DropZoneCell
               dropzoneProps={dropzoneProps5}
-              imageSrc={detail.eyesPictures ? detail.eyesPictures[1] : null}
+              imageSrc={detail.eyesPicture2}
               rowSpan={8}
               width={imgCellWidth}
               height={imgCellHeight}
             />
             <DropZoneCell
               dropzoneProps={dropzoneProps6}
-              imageSrc={detail.eyesPictures ? detail.eyesPictures[2] : null}
+              imageSrc={detail.eyesPicture3}
               rowSpan={8}
               width={imgCellWidth}
               height={imgCellHeight}
@@ -484,21 +484,21 @@ const HealthExamDetailTable = () => {
             </td>
             <DropZoneCell
               dropzoneProps={dropzoneProps7}
-              imageSrc={detail.teethPictures ? detail.teethPictures[0] : null}
+              imageSrc={detail.teethPicture1}
               rowSpan={5}
               width={imgCellWidth}
               height={imgCellHeight}
             />
             <DropZoneCell
               dropzoneProps={dropzoneProps8}
-              imageSrc={detail.teethPictures ? detail.teethPictures[1] : null}
+              imageSrc={detail.teethPicture2}
               rowSpan={5}
               width={imgCellWidth}
               height={imgCellHeight}
             />
             <DropZoneCell
               dropzoneProps={dropzoneProps9}
-              imageSrc={detail.teethPictures ? detail.teethPictures[2] : null}
+              imageSrc={detail.teethPicture3}
               rowSpan={5}
               width={imgCellWidth}
               height={imgCellHeight}

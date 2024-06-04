@@ -8,7 +8,9 @@ export type ResGetHealthExam = {
   isFirstTime: boolean;
 };
 
-export type HealthExam = {
+export type HealthExam = HealthExamSummary & HealthExamDetail;
+
+export type HealthExamSummary = {
   vitalSigns: string;
   superficialLymphNodes: string;
   auscultationHeartLung: string;
@@ -17,12 +19,17 @@ export type HealthExam = {
   musculoskeletalSystem: string;
   reproductiveSystem: string;
   neutered: string;
+};
 
+export type HealthExamDetail = {
   skin: string;
   coat: string;
   leftEar: string;
   rightEar: string;
-  skinPictures: string[] | null;
+  // skinPictures: string[] | null;
+  skinPicture1: string | null;
+  skinPicture2: string | null;
+  skinPicture3: string | null;
 
   rightFluoresceinStaining: string;
   rightFluoresceinStainingLevel: string;
@@ -40,12 +47,18 @@ export type HealthExam = {
   slirInpectionLevel: string;
   externalAppearance: string;
   externalAppearanceLevel: string;
-  eyesPictures: string[] | null;
+  // eyesPictures: string[] | null;
+  eyesPicture1: string | null;
+  eyesPicture2: string | null;
+  eyesPicture3: string | null;
 
   malocclusion: string;
   missingTeeth: string;
   brokenTeeth: string;
   retainedDeciduousTeeth: string;
   tartarPeriodontalDisease: string;
-  teethPictures: string[] | null;
+  // teethPictures: string[] | null;
+  teethPicture1: string | null;
+  teethPicture2: string | null;
+  teethPicture3: string | null;
 };
