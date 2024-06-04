@@ -1,12 +1,13 @@
+import { RadiationExam } from "@/types/RadiationExam";
 import { atom } from "jotai";
 
-export const radiationExamAtom = atom({
-  image1: null,
-  image2: null,
-  image3: null,
-  image4: null,
-  image5: null,
+export const radiationExamAtom = atom<RadiationExam>({
+  radiographyImage1: null,
+  radiographyImage2: null,
+  radiographyImage3: null,
+  radiographyImage4: null,
+  radiographyImage5: null,
 
-  thoracoabdominal: "",
-  opinion: "",
+  thoraxAbdomenRadiologyResult: "",
+  radiologyComment: "",
 });

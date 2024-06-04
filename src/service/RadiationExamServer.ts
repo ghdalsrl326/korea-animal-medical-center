@@ -1,28 +1,25 @@
 import { ErrorMsg } from "@/types/ErrorMsg";
-import { BloodExamWrapper } from "@/types/BloodExam";
-import { ResSaveReport } from "@/types/Report";
+import { ResGetRadiationExam } from "@/types/RadiationExam";
+import { cookies } from "next/headers";
 
-export const saveBloodExam = async (
-  content: BloodExamWrapper,
+export const fetchRadiationExam = async (
   qid: string
-): Promise<ResSaveReport | ErrorMsg> => {
+): Promise<ResGetRadiationExam | ErrorMsg> => {
   try {
     const response = await fetch(
-      `/api/health-check/bloodResult?questionnaireID=${qid}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/health-check/imaging-result?questionnaireID=${qid}`,
       {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
+          Cookie: cookies().toString(),
         },
-        body: JSON.stringify({
-          ...content,
-        }),
       }
     );
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || "Failed to post BloodExam");
+      throw new Error(errorData.error || "Failed to fetch Radiation Exam");
     } else {
       const responseData = await response.json();
       return responseData;
@@ -31,7 +28,7 @@ export const saveBloodExam = async (
     if (error instanceof Error) {
       return { error: error.message };
     } else {
-      return { error: "Failed to post BloodExam" };
+      return { error: "Failed to fetch Radiation Exam" };
     }
   }
 };

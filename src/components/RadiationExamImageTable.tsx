@@ -23,23 +23,23 @@ const RadiationExamImageTable = () => {
   };
 
   const dropzoneProps1 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("image1", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("radiographyImage1", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps2 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("image2", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("radiographyImage2", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps3 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("image3", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("radiographyImage3", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps4 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("image4", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("radiographyImage4", acceptedFiles[0]),
     maxFiles: 1,
   });
   const dropzoneProps5 = useDropzone({
-    onDrop: (acceptedFiles) => onDrop("image5", acceptedFiles[0]),
+    onDrop: (acceptedFiles) => onDrop("radiographyImage5", acceptedFiles[0]),
     maxFiles: 1,
   });
 
@@ -58,7 +58,7 @@ const RadiationExamImageTable = () => {
             <tr>
               <DropZoneCell
                 dropzoneProps={dropzoneProps1}
-                imageSrc={result.image1}
+                imageSrc={result.radiographyImage1}
                 rowSpan={2}
                 width={imgCellWidth}
                 height={imgCellHeight}
@@ -66,7 +66,7 @@ const RadiationExamImageTable = () => {
               />
               <DropZoneCell
                 dropzoneProps={dropzoneProps2}
-                imageSrc={result.image2}
+                imageSrc={result.radiographyImage2}
                 rowSpan={2}
                 width={imgCellWidth}
                 height={imgCellHeight}
@@ -77,7 +77,7 @@ const RadiationExamImageTable = () => {
             <tr>
               <DropZoneCell
                 dropzoneProps={dropzoneProps3}
-                imageSrc={result.image3}
+                imageSrc={result.radiographyImage3}
                 rowSpan={2}
                 width={imgCellWidth}
                 height={imgCellHeight}
@@ -85,7 +85,7 @@ const RadiationExamImageTable = () => {
               />
               <DropZoneCell
                 dropzoneProps={dropzoneProps4}
-                imageSrc={result.image4}
+                imageSrc={result.radiographyImage4}
                 rowSpan={2}
                 width={imgCellWidth}
                 height={imgCellHeight}
@@ -96,7 +96,7 @@ const RadiationExamImageTable = () => {
             <tr>
               <DropZoneCell
                 dropzoneProps={dropzoneProps5}
-                imageSrc={result.image5}
+                imageSrc={result.radiographyImage5}
                 rowSpan={2}
                 colSpan={2}
                 width={imgCellWidth}

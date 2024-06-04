@@ -3,8 +3,13 @@ import React, { createContext, useContext } from "react";
 import { ResGetQuestionnaire } from "@/types/Questionnaire";
 import { ResGetHealthExam } from "@/types/HealthExam";
 import { ResGetBloodExam } from "@/types/BloodExam";
+import { ResGetRadiationExam } from "@/types/RadiationExam";
 
-type ApiResponse = ResGetQuestionnaire | ResGetHealthExam | ResGetBloodExam;
+type ApiResponse =
+  | ResGetQuestionnaire
+  | ResGetHealthExam
+  | ResGetBloodExam
+  | ResGetRadiationExam;
 
 export function isResGetQuestionnaire(
   content: ApiResponse
@@ -31,6 +36,17 @@ export function isResGetHealthExam(
 export function isResGetBloodExam(
   content: ApiResponse
 ): content is ResGetBloodExam {
+  return (
+    content &&
+    "result" in content &&
+    content.result &&
+    content.result.id !== undefined
+  );
+}
+
+export function isResGetRadiationExam(
+  content: ApiResponse
+): content is ResGetRadiationExam {
   return (
     content &&
     "result" in content &&

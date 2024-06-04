@@ -1,5 +1,4 @@
 "use client";
-import { Input } from "antd";
 import React from "react";
 import dynamic from "next/dynamic";
 import { useAtom } from "jotai";
@@ -30,9 +29,12 @@ const RadiationExamTable = () => {
           <th>흉/복부 방사선</th>
           <td>
             <ReactQuill
-              content={result.thoracoabdominal}
+              content={result.thoraxAbdomenRadiologyResult}
               onChange={(content) =>
-                setResult((prev) => ({ ...prev, thoracoabdominal: content }))
+                setResult((prev) => ({
+                  ...prev,
+                  thoraxAbdomenRadiologyResult: content,
+                }))
               }
             />
           </td>
@@ -41,9 +43,9 @@ const RadiationExamTable = () => {
           <th>소견</th>
           <td>
             <ReactQuill
-              content={result.opinion}
+              content={result.radiologyComment}
               onChange={(content) =>
-                setResult((prev) => ({ ...prev, opinion: content }))
+                setResult((prev) => ({ ...prev, radiologyComment: content }))
               }
             />
           </td>

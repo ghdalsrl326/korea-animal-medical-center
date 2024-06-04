@@ -22,8 +22,6 @@ const page = () => {
   const { data, date, content: fetchedContent } = useData();
 
   const componentRef = useRef(null);
-  const router = useRouter();
-  const pathname = usePathname();
 
   const [content, setContent] = useAtom(bloodExamResultAtom);
   const [config, setConfig] = useAtom(configAtom);
@@ -58,7 +56,7 @@ const page = () => {
       }));
     }
     setOriginalContent(content);
-  }, []);
+  }, [config.date]);
 
   useEffect(() => {
     const hasChanges =
