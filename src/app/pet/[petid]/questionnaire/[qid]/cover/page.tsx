@@ -1,14 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import React, { useRef } from "react";
-import ReactToPrint from "react-to-print";
-import { FileTextOutlined } from "@ant-design/icons";
 import Image from "next/image";
-import { Flex, FloatButton } from "antd";
+import { Flex } from "antd";
 import CoverCard from "@/components/CoverCard";
 import NavigationTab from "@/components/NavigationTab";
 import CoverTitle from "@/components/CoverTitle";
 import { useData } from "@/app/contexts/DataContext";
+import FloatButtonGroup from "@/components/FloatButtonGroup";
 
 const page = () => {
   const componentRef = useRef(null);
@@ -38,19 +37,7 @@ const page = () => {
         </Flex>
       </div>
       <NavigationTab />
-      <ReactToPrint
-        trigger={() => (
-          <FloatButton
-            icon={<FileTextOutlined />}
-            description="PDF"
-            shape="square"
-            style={{ bottom: "80px", right: "40px" }}
-          />
-        )}
-        content={() => componentRef.current}
-        copyStyles={true}
-        pageStyle="@page { size: 1300px 1750px }"
-      />
+      <FloatButtonGroup componentRef={componentRef} />
     </>
   );
 };

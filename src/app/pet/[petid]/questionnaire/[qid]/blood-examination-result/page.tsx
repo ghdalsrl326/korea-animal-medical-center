@@ -8,15 +8,13 @@ import SectionSubTitle from "@/components/SectionSubTitle";
 import SectionTitle from "@/components/SectionTitle";
 import { ConfigProvider, Flex, FloatButton, message } from "antd";
 import React, { useEffect, useRef, useState } from "react";
-import ReactToPrint from "react-to-print";
-import { FileTextOutlined } from "@ant-design/icons";
 import { isResGetBloodExam, useData } from "@/app/contexts/DataContext";
-import { usePathname, useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { bloodExamResultAtom } from "@/app/data/bloodExamResultStore";
 import { configAtom } from "@/app/data/configStore";
 import dayjs from "dayjs";
 import { saveBloodExam } from "@/service/bloodExamClient";
+import FloatButtonGroup from "@/components/FloatButtonGroup";
 
 const page = () => {
   const { data, date, content: fetchedContent } = useData();
@@ -174,19 +172,7 @@ const page = () => {
           onClick={handleSaveClick}
         />
       </ConfigProvider>
-      <ReactToPrint
-        trigger={() => (
-          <FloatButton
-            icon={<FileTextOutlined />}
-            description="PDF"
-            shape="square"
-            style={{ bottom: "80px", right: "40px" }}
-          />
-        )}
-        content={() => componentRef.current}
-        copyStyles={true}
-        pageStyle="@page { size: 1300px 2000px; -webkit-print-color-adjust: exact; }"
-      />
+      <FloatButtonGroup componentRef={componentRef} />
     </>
   );
 };

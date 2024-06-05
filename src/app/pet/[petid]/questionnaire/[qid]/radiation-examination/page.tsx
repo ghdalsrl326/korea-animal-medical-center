@@ -3,12 +3,10 @@
 import NavigationTab from "@/components/NavigationTab";
 import SectionSubTitle from "@/components/SectionSubTitle";
 import SectionTitle from "@/components/SectionTitle";
-import { Flex, FloatButton } from "antd";
+import { Flex } from "antd";
 import React, { useRef } from "react";
-import ReactToPrint from "react-to-print";
-import { FileTextOutlined } from "@ant-design/icons";
-import {} from "@/types/ReportMeta";
 import { useData } from "@/app/contexts/DataContext";
+import FloatButtonGroup from "@/components/FloatButtonGroup";
 
 const page = () => {
   const componentRef = useRef(null);
@@ -31,19 +29,7 @@ const page = () => {
         </Flex>
       </div>
       <NavigationTab />
-      <ReactToPrint
-        trigger={() => (
-          <FloatButton
-            icon={<FileTextOutlined />}
-            description="PDF"
-            shape="square"
-            style={{ bottom: "80px", right: "40px" }}
-          />
-        )}
-        content={() => componentRef.current}
-        copyStyles={true}
-        pageStyle="@page { size: 1300px 2000px; -webkit-print-color-adjust: exact; }"
-      />
+      <FloatButtonGroup componentRef={componentRef} />
     </>
   );
 };

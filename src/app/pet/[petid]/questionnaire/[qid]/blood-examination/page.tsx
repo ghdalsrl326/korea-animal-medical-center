@@ -1,20 +1,14 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import NavigationTab from "@/components/NavigationTab";
 import SectionSubTitle from "@/components/SectionSubTitle";
 import SectionTitle from "@/components/SectionTitle";
-import { Flex, FloatButton } from "antd";
+import { Flex } from "antd";
 import React, { useRef } from "react";
-import ReactToPrint from "react-to-print";
-import {
-  FileTextOutlined,
-  LogoutOutlined,
-  HomeOutlined,
-} from "@ant-design/icons";
 import { useData } from "@/app/contexts/DataContext";
+import FloatButtonGroup from "@/components/FloatButtonGroup";
 
-const page = () => {
-  const componentRef = useRef(null);
+const Page: React.FC = () => {
+  const componentRef = useRef<HTMLDivElement>(null);
   const { data, date } = useData();
 
   return (
@@ -34,31 +28,9 @@ const page = () => {
         </Flex>
       </div>
       <NavigationTab />
-      <FloatButton.Group
-        shape="square"
-        style={{ bottom: "80px", right: "40px" }}
-      >
-        <FloatButton
-          icon={<HomeOutlined />}
-          description="Logout"
-          shape="square"
-        />
-        <FloatButton
-          icon={<LogoutOutlined />}
-          description="Logout"
-          shape="square"
-        />
-        <ReactToPrint
-          trigger={() => (
-            <FloatButton icon={<FileTextOutlined />} description="PDF" />
-          )}
-          content={() => componentRef.current}
-          copyStyles={true}
-          pageStyle="@page { size: 1300px 2000px; -webkit-print-color-adjust: exact; }"
-        />
-      </FloatButton.Group>
+      <FloatButtonGroup componentRef={componentRef} />
     </>
   );
 };
 
-export default page;
+export default Page;
