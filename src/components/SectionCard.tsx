@@ -1,11 +1,11 @@
 "use client";
 import { configAtom } from "@/app/data/configStore";
-import { ReportMetaProps } from "@/types/ReportMeta";
+import { ReportMeta } from "@/types/ReportMeta";
 import { Flex } from "antd";
 import { useAtom } from "jotai";
 import React from "react";
 
-const SectionCard = ({ data, date }: ReportMetaProps) => {
+const SectionCard = ({ data, date }: ReportMeta) => {
   const [config, setConfig] = useAtom(configAtom);
   return (
     <div

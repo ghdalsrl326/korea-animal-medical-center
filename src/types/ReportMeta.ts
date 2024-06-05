@@ -1,7 +1,6 @@
 import { Setting } from "./Setting";
 
-//TODO: Renae to ReportMeta
-export type ReportMetaProps = {
+export type ReportMeta = {
   data?: Partial<Setting>;
   date?: string;
   petid?: string;

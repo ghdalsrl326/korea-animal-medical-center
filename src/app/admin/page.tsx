@@ -9,7 +9,7 @@ import ReportsTable from "@/components/ReportsTable";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { URL } from "@/app/data/url";
-import { ReportMetaProps } from "../../types/ReportMeta";
+import { ReportMeta } from "@/types/ReportMeta";
 
 const { Content, Sider } = Layout;
 
@@ -33,7 +33,7 @@ const items: MenuItem[] = [
   getItem("건강검진 프로그램", "1", <DesktopOutlined />),
 ];
 
-const page = ({ data }: ReportMetaProps) => {
+const page = ({ data }: ReportMeta) => {
   const router = useRouter();
   const avatarMenuItems: MenuItem[] = [getItem("Logout", "logout")];
 

@@ -1,10 +1,10 @@
 "use client";
-import { ReportMetaProps } from "@/types/ReportMeta";
+import { ReportMeta } from "@/types/ReportMeta";
 import { Flex } from "antd";
 import Title from "antd/es/typography/Title";
 import React from "react";
 
-const CoverCard = ({ data, date }: ReportMetaProps) => {
+const CoverCard = ({ data, date }: ReportMeta) => {
   return (
     <div
       style={{
@@ -83,7 +83,7 @@ const CoverCard = ({ data, date }: ReportMetaProps) => {
               fontWeight: "300",
             }}
           >
-            {`${data.name} / ${data.breed}`}
+            {data && `${data.name} / ${data.breed}`}
           </Title>
           <Title
             level={4}
@@ -96,7 +96,7 @@ const CoverCard = ({ data, date }: ReportMetaProps) => {
               fontWeight: "300",
             }}
           >
-            {data.age}
+            {data && data.age}
           </Title>
           <Title
             level={4}

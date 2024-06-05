@@ -9,7 +9,6 @@ import ReactToPrint from "react-to-print";
 import { FileTextOutlined } from "@ant-design/icons";
 import "react-quill/dist/quill.snow.css";
 import ExamResultContent from "@/components/ExamResultContent";
-import { ReportMetaProps } from "@/types/ReportMeta";
 import { isResGetExamResult, useData } from "@/app/contexts/DataContext";
 import { useAtom } from "jotai";
 import { examResultAtom } from "@/app/data/examResultStore";

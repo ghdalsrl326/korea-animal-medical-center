@@ -1,13 +1,13 @@
 "use client";
 import { questionnaireAtom } from "@/app/data/questionnaireStore";
-import { ReportMetaProps } from "@/types/ReportMeta";
+import { ReportMeta } from "@/types/ReportMeta";
 import { Input } from "antd";
 import Checkbox from "antd/es/checkbox/Checkbox";
 import TextArea from "antd/es/input/TextArea";
 import { useAtom } from "jotai";
 import React from "react";
 
-const QuestionnaireTable = ({ data }: ReportMetaProps) => {
+const QuestionnaireTable = ({ data }: ReportMeta) => {
   const [result, setResult] = useAtom(questionnaireAtom);
 
   const handleSingleChoiceChange = (questionKey: string, option: any) => {

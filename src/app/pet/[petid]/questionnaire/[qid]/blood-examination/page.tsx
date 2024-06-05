@@ -6,8 +6,11 @@ import SectionTitle from "@/components/SectionTitle";
 import { Flex, FloatButton } from "antd";
 import React, { useRef } from "react";
 import ReactToPrint from "react-to-print";
-import { FileTextOutlined } from "@ant-design/icons";
-import { ReportMetaProps } from "@/types/ReportMeta";
+import {
+  FileTextOutlined,
+  LogoutOutlined,
+  HomeOutlined,
+} from "@ant-design/icons";
 import { useData } from "@/app/contexts/DataContext";
 
 const page = () => {
@@ -31,19 +34,29 @@ const page = () => {
         </Flex>
       </div>
       <NavigationTab />
-      <ReactToPrint
-        trigger={() => (
-          <FloatButton
-            icon={<FileTextOutlined />}
-            description="PDF"
-            shape="square"
-            style={{ bottom: "80px", right: "40px" }}
-          />
-        )}
-        content={() => componentRef.current}
-        copyStyles={true}
-        pageStyle="@page { size: 1300px 2000px; -webkit-print-color-adjust: exact; }"
-      />
+      <FloatButton.Group
+        shape="square"
+        style={{ bottom: "80px", right: "40px" }}
+      >
+        <FloatButton
+          icon={<HomeOutlined />}
+          description="Logout"
+          shape="square"
+        />
+        <FloatButton
+          icon={<LogoutOutlined />}
+          description="Logout"
+          shape="square"
+        />
+        <ReactToPrint
+          trigger={() => (
+            <FloatButton icon={<FileTextOutlined />} description="PDF" />
+          )}
+          content={() => componentRef.current}
+          copyStyles={true}
+          pageStyle="@page { size: 1300px 2000px; -webkit-print-color-adjust: exact; }"
+        />
+      </FloatButton.Group>
     </>
   );
 };
