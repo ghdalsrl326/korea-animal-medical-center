@@ -1,13 +1,19 @@
 import React from "react";
-import Page from "./page";
-import { fetchAllPets } from "@/service/admin";
+import { fetchAllPets } from "@/service/adminServer";
+import { DataProvider } from "@/app/contexts/DataContext";
 
-const layout = async () => {
+interface Props {
+  children: React.ReactNode;
+}
+
+const layout = async ({ children }: Props) => {
   const data = await fetchAllPets();
 
   return (
     <div>
-      <Page data={data} />
+      <DataProvider data={data}>
+        <div>{children}</div>
+      </DataProvider>
     </div>
   );
 };

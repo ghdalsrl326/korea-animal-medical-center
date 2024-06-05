@@ -1,18 +1,20 @@
 "use client";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, ReactNode } from "react";
 import { ResGetQuestionnaire } from "@/types/Questionnaire";
 import { ResGetHealthExam } from "@/types/HealthExam";
 import { ResGetBloodExam } from "@/types/BloodExam";
 import { ResGetRadiationExam } from "@/types/RadiationExam";
 import { ResGetExamResult } from "@/types/ExamResult";
 import { ResGetMyInfo } from "@/types/Doctor";
+import { ResGetAdminView } from "@/types/Admin";
 
 type ApiResponse =
   | ResGetQuestionnaire
   | ResGetHealthExam
   | ResGetBloodExam
   | ResGetRadiationExam
-  | ResGetExamResult;
+  | ResGetExamResult
+  | ResGetAdminView;
 
 export function isResGetQuestionnaire(
   content: ApiResponse
@@ -71,12 +73,20 @@ export function isResGetExamResult(
 
 interface DataContextType {
   data: any;
-  date: string;
+  date?: string;
   content?: ApiResponse;
   myInfo?: ResGetMyInfo;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
+
+interface DataProviderProps {
+  children: ReactNode;
+  data: any;
+  date?: string;
+  content?: ApiResponse;
+  myInfo?: ResGetMyInfo;
+}
 
 export const DataProvider = ({
   children,
@@ -84,7 +94,7 @@ export const DataProvider = ({
   date,
   content,
   myInfo,
-}: any) => {
+}: DataProviderProps) => {
   return (
     <DataContext.Provider value={{ data, date, content, myInfo }}>
       {children}

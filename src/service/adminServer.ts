@@ -1,6 +1,7 @@
+import { ResGetAdminView } from "@/types/Admin";
 import { cookies } from "next/headers";
 
-export async function fetchAllPets() {
+export const fetchAllPets = async (): Promise<ResGetAdminView> => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/admin/view`,
     {
@@ -17,4 +18,4 @@ export async function fetchAllPets() {
   }
 
   return data;
-}
+};

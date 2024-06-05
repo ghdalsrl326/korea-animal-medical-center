@@ -12,10 +12,11 @@ import { handleLogout } from "@/service/authClient";
 import { URL } from "@/app/data/url";
 
 type Props = {
-  componentRef: RefObject<HTMLDivElement>;
+  componentRef?: RefObject<HTMLDivElement>;
+  admin?: boolean;
 };
 
-const FloatButtonGroup = ({ componentRef }: Props) => {
+const FloatButtonGroup = ({ componentRef, admin }: Props) => {
   const router = useRouter();
 
   const onChangeMode = () => {
@@ -40,26 +41,30 @@ const FloatButtonGroup = ({ componentRef }: Props) => {
         right: "40px",
       }}
     >
-      <FloatButton
-        icon={<HomeOutlined />}
-        shape="square"
-        tooltip={<div>신규/조회</div>}
-        onClick={onChangeMode}
-      />
+      {!admin && (
+        <FloatButton
+          icon={<HomeOutlined />}
+          shape="square"
+          tooltip={<div>신규/조회</div>}
+          onClick={onChangeMode}
+        />
+      )}
       <FloatButton
         icon={<LogoutOutlined />}
         shape="square"
         tooltip={<div>로그아웃</div>}
         onClick={onLogout}
       />
-      <ReactToPrint
-        trigger={() => (
-          <FloatButton icon={<FileTextOutlined />} tooltip={<div>PDF</div>} />
-        )}
-        content={() => componentRef.current}
-        copyStyles={true}
-        pageStyle="@page { size: 1300px 2000px; -webkit-print-color-adjust: exact; }"
-      />
+      {!admin && componentRef?.current && (
+        <ReactToPrint
+          trigger={() => (
+            <FloatButton icon={<FileTextOutlined />} tooltip={<div>PDF</div>} />
+          )}
+          content={() => componentRef.current}
+          copyStyles={true}
+          pageStyle="@page { size: 1300px 2000px; -webkit-print-color-adjust: exact; }"
+        />
+      )}
     </FloatButton.Group>
   );
 };
