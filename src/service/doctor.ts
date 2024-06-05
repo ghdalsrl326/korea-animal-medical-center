@@ -52,26 +52,6 @@ export async function emailDuplicateCheck(email: string) {
   return data;
 }
 
-export async function fetchDoctorInfo() {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/doctor/my-information`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to get my info");
-  }
-
-  return data;
-}
-
 export async function fetchDoctorsPet() {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/doctor/pet`,

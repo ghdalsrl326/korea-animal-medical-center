@@ -1,7 +1,5 @@
 import React from "react";
-import Page from "./page";
 import { fetchReportMeta } from "@/service/pet";
-import getToday from "@/util/getToday";
 import { getDateByQid } from "@/util/getDateByQid";
 import { DataProvider } from "@/app/contexts/DataContext";
 import { fetchRadiationExam } from "@/service/RadiationExamServer";
@@ -23,7 +21,6 @@ const layout = async ({ params, children }: Props) => {
       <DataProvider data={data} date={date} content={content}>
         {children}
       </DataProvider>
-      {/* <Page data={data} date={getToday()} /> */}
     </div>
   );
 };

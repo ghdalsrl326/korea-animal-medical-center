@@ -5,23 +5,28 @@ import Signature from "@/components/Signature";
 import dynamic from "next/dynamic";
 import { examResultAtom } from "@/app/data/examResultStore";
 import { useAtom } from "jotai";
+import { ResGetMyInfo } from "@/types/Doctor";
 
 const ReactQuill = dynamic(() => import("../components/QuillEditor"), {
   ssr: false,
 });
 
-const ExamResultContent = () => {
+type Props = {
+  myInfo: ResGetMyInfo;
+};
+
+const ExamResultContent = ({ myInfo }: Props) => {
   const [result, setResult] = useAtom(examResultAtom);
 
   return (
     <Flex vertical justify="start" gap="large">
       <ReactQuill
-        content={result.editorContent}
+        content={result.generalComment}
         onChange={(content) =>
-          setResult((prev) => ({ ...prev, editorContent: content }))
+          setResult((prev) => ({ ...prev, generalComment: content }))
         }
       />
-      <Signature />
+      <Signature src={myInfo.signature} />
     </Flex>
   );
 };

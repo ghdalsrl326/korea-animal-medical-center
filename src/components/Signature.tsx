@@ -4,8 +4,11 @@ import { Flex } from "antd";
 import Title from "antd/es/typography/Title";
 import React from "react";
 
-//TODO: 사인 API로 변경
-const Signature = () => {
+type Props = {
+  src: string;
+};
+
+const Signature = ({ src }: Props) => {
   return (
     <Flex vertical justify="center" align="flex-end" style={{ width: "100%" }}>
       <Flex
@@ -31,9 +34,7 @@ const Signature = () => {
         >
           수의사 서명:
         </Title>
-        {/* {setting.signature[0]?.thumbUrl && (
-          <img src={setting.signature[0]?.thumbUrl} alt="Uploaded Signature" />
-        )} */}
+        <img src={src} alt="Uploaded Signature" />
       </Flex>
     </Flex>
   );

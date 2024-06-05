@@ -4,12 +4,15 @@ import { ResGetQuestionnaire } from "@/types/Questionnaire";
 import { ResGetHealthExam } from "@/types/HealthExam";
 import { ResGetBloodExam } from "@/types/BloodExam";
 import { ResGetRadiationExam } from "@/types/RadiationExam";
+import { ResGetExamResult } from "@/types/ExamResult";
+import { ResGetMyInfo } from "@/types/Doctor";
 
 type ApiResponse =
   | ResGetQuestionnaire
   | ResGetHealthExam
   | ResGetBloodExam
-  | ResGetRadiationExam;
+  | ResGetRadiationExam
+  | ResGetExamResult;
 
 export function isResGetQuestionnaire(
   content: ApiResponse
@@ -55,17 +58,35 @@ export function isResGetRadiationExam(
   );
 }
 
+export function isResGetExamResult(
+  content: ApiResponse
+): content is ResGetExamResult {
+  return (
+    content &&
+    "result" in content &&
+    content.result &&
+    content.result.id !== undefined
+  );
+}
+
 interface DataContextType {
   data: any;
   date: string;
   content?: ApiResponse;
+  myInfo?: ResGetMyInfo;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
-export const DataProvider = ({ children, data, date, content }: any) => {
+export const DataProvider = ({
+  children,
+  data,
+  date,
+  content,
+  myInfo,
+}: any) => {
   return (
-    <DataContext.Provider value={{ data, date, content }}>
+    <DataContext.Provider value={{ data, date, content, myInfo }}>
       {children}
     </DataContext.Provider>
   );
