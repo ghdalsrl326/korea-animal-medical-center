@@ -72,6 +72,7 @@ const NavigationTab = () => {
           }}
           tabBarGutter={0}
           onTabClick={(key) => {
+            console.log(params.qid);
             if (key === URL.QUESTIONNAIRE) {
               if (params.qid) {
                 router.push(

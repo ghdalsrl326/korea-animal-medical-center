@@ -14,11 +14,14 @@ import { configAtom } from "@/app/data/configStore";
 import { saveExamResult } from "@/service/examResultClient";
 import dayjs from "dayjs";
 import FloatButtonGroup from "@/components/FloatButtonGroup";
+import { useParams } from "next/navigation";
 
 const page = () => {
   const { data, date, content: fetchedContent, myInfo } = useData();
 
   const componentRef = useRef(null);
+  const params = useParams();
+  const { qid } = params;
 
   const [content, setContent] = useAtom(examResultAtom);
   const [config, setConfig] = useAtom(configAtom);
@@ -26,6 +29,13 @@ const page = () => {
   const [originalContent, setOriginalContent] = useState(content);
   const [isModified, setIsModified] = useState(false);
   const [lastModified, setLastModified] = useState<string>("");
+
+  useEffect(() => {
+    setConfig((prev) => ({
+      ...prev,
+      qid: qid as string,
+    }));
+  }, [qid, setConfig]);
 
   useEffect(() => {
     if (fetchedContent && isResGetExamResult(fetchedContent)) {

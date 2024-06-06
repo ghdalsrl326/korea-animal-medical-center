@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { Flex } from "antd";
 import CoverCard from "@/components/CoverCard";
@@ -8,10 +8,23 @@ import NavigationTab from "@/components/NavigationTab";
 import CoverTitle from "@/components/CoverTitle";
 import { useData } from "@/app/contexts/DataContext";
 import FloatButtonGroup from "@/components/FloatButtonGroup";
+import { useParams } from "next/navigation";
+import { useAtom } from "jotai";
+import { configAtom } from "@/app/data/configStore";
 
 const page = () => {
   const componentRef = useRef(null);
   const { data, date, myInfo } = useData();
+  const params = useParams();
+  const { qid } = params;
+  const [config, setConfig] = useAtom(configAtom);
+
+  useEffect(() => {
+    setConfig((prev) => ({
+      ...prev,
+      qid: qid as string,
+    }));
+  }, [qid, setConfig]);
 
   return (
     <>

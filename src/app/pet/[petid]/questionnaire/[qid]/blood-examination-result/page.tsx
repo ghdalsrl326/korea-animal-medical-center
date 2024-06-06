@@ -15,9 +15,12 @@ import { configAtom } from "@/app/data/configStore";
 import dayjs from "dayjs";
 import { saveBloodExam } from "@/service/bloodExamClient";
 import FloatButtonGroup from "@/components/FloatButtonGroup";
+import { useParams } from "next/navigation";
 
 const page = () => {
   const { data, date, content: fetchedContent, myInfo } = useData();
+  const params = useParams();
+  const { qid } = params;
 
   const componentRef = useRef(null);
 
@@ -27,6 +30,13 @@ const page = () => {
   const [originalContent, setOriginalContent] = useState(content);
   const [isModified, setIsModified] = useState(false);
   const [lastModified, setLastModified] = useState<string>("");
+
+  useEffect(() => {
+    setConfig((prev) => ({
+      ...prev,
+      qid: qid as string,
+    }));
+  }, [qid, setConfig]);
 
   useEffect(() => {
     if (fetchedContent && isResGetBloodExam(fetchedContent)) {

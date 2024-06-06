@@ -15,11 +15,14 @@ import dayjs from "dayjs";
 import { healthExamDetailAtom } from "@/app/data/healthExamDetailStore";
 import { configAtom } from "@/app/data/configStore";
 import FloatButtonGroup from "@/components/FloatButtonGroup";
+import { useParams } from "next/navigation";
 
 const page = () => {
   const { data, date, content: fetchedContent, myInfo } = useData();
 
   const componentRef = useRef(null);
+  const params = useParams();
+  const { qid } = params;
 
   const [summaryContent, setSummaryContent] = useAtom(healthExamSummaryAtom);
   const [detailContent, setDetailContent] = useAtom(healthExamDetailAtom);
@@ -31,6 +34,13 @@ const page = () => {
     useState(detailContent);
   const [isModified, setIsModified] = useState(false);
   const [lastModified, setLastModified] = useState<string>("");
+
+  useEffect(() => {
+    setConfig((prev) => ({
+      ...prev,
+      qid: qid as string,
+    }));
+  }, [qid, setConfig]);
 
   useEffect(() => {
     if (fetchedContent && isResGetHealthExam(fetchedContent)) {

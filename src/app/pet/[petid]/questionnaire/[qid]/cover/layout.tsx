@@ -18,7 +18,10 @@ const layout = async ({ params, children }: Props) => {
   ]);
 
   const date = getDateByQid(qid, data.questionnaire);
-
+  console.log("petid:", petid);
+  console.log("qid:", qid);
+  console.log("data:", data);
+  console.log("date:", date);
   return (
     <div>
       <DataProvider data={data} date={date} myInfo={myInfo}>

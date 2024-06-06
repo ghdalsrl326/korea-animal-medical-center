@@ -138,7 +138,7 @@ const ReportsTable = ({ data: fetchedData, myInfo }: Props) => {
     {
       title: "조회",
       key: "view",
-      width: "100px",
+      width: "70px",
       onCell: (record) => ({
         style: { cursor: "pointer" },
         onClick: () => {
@@ -160,7 +160,7 @@ const ReportsTable = ({ data: fetchedData, myInfo }: Props) => {
     {
       title: "삭제",
       key: "delete",
-      width: "100px",
+      width: "70px",
       onCell: (record) => ({
         style: { cursor: "pointer" },
         onClick: async () => {

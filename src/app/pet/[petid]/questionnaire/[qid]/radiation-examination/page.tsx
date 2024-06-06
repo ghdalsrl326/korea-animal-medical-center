@@ -4,13 +4,26 @@ import NavigationTab from "@/components/NavigationTab";
 import SectionSubTitle from "@/components/SectionSubTitle";
 import SectionTitle from "@/components/SectionTitle";
 import { Flex } from "antd";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useData } from "@/app/contexts/DataContext";
 import FloatButtonGroup from "@/components/FloatButtonGroup";
+import { useParams } from "next/navigation";
+import { configAtom } from "@/app/data/configStore";
+import { useAtom } from "jotai";
 
 const page = () => {
   const componentRef = useRef(null);
   const { data, date, myInfo } = useData();
+  const params = useParams();
+  const { qid } = params;
+  const [config, setConfig] = useAtom(configAtom);
+
+  useEffect(() => {
+    setConfig((prev) => ({
+      ...prev,
+      qid: qid as string,
+    }));
+  }, [qid, setConfig]);
 
   return (
     <>
