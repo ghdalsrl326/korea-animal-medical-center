@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Tabs } from "antd";
+import { Tabs, message } from "antd";
 import Image from "next/image";
 import { navigation } from "@/app/data/navigation";
 import { useRouter } from "next/navigation";
@@ -72,7 +72,14 @@ const NavigationTab = () => {
           }}
           tabBarGutter={0}
           onTabClick={(key) => {
-            console.log(params.qid);
+            if (!params.qid) {
+              message.error("문진표를 먼저 저장해주세요!");
+              return;
+            }
+            if (!config.petId) {
+              message.error("환자 정보를 먼저 저장해주세요!");
+              return;
+            }
             if (key === URL.QUESTIONNAIRE) {
               if (params.qid) {
                 router.push(

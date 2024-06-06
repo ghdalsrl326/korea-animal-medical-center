@@ -21,7 +21,7 @@ const page = () => {
       >
         <Image src="/images/logo.png" alt="logo" width={197} height={27} />
         <Flex gap="small">
-          <AdminButton />
+          {/* <AdminButton /> */}
           <LogoutButton />
         </Flex>
       </Header>

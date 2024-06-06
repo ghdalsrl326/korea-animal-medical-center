@@ -10,6 +10,8 @@ import ReactToPrint from "react-to-print";
 import { useRouter } from "next/navigation";
 import { handleLogout } from "@/service/authClient";
 import { URL } from "@/app/data/url";
+import { useAtom } from "jotai";
+import { configAtom } from "@/app/data/configStore";
 
 type Props = {
   componentRef?: RefObject<HTMLDivElement>;
@@ -18,6 +20,7 @@ type Props = {
 
 const FloatButtonGroup = ({ componentRef, admin }: Props) => {
   const router = useRouter();
+  const [config, setConfig] = useAtom(configAtom);
 
   const onChangeMode = () => {
     router.push(URL.MODE);
@@ -29,6 +32,14 @@ const FloatButtonGroup = ({ componentRef, admin }: Props) => {
       message.error(result.error);
     } else {
       message.success("Successfully logged out");
+      setConfig((prev) => ({
+        ...prev,
+        mode: "",
+        petId: "",
+        qid: "",
+        isFirstTime: true,
+        date: "",
+      }));
       router.push(URL.LOGIN);
     }
   };
