@@ -4,7 +4,7 @@ export const URL = {
   SIGNUP: "/signup",
   MODE: "/mode",
   PETID: "/mode/petid",
-  REPORTS: "/mode/petid/reports",
+  MYREPORTS: "/mode/my-reports",
   REPORT: "/report",
   DATE: "/date",
   PET: "/pet",

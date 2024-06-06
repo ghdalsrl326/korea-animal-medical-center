@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Title from "antd/es/typography/Title";
 import { Flex } from "antd";
-import PetIdForm from "@/components/PetIdForm";
+import MyReportsTable from "@/components/MyReportsTable";
 
 const headerStyle: React.CSSProperties = {
   textAlign: "center",
@@ -14,14 +14,14 @@ const contentStyle: React.CSSProperties = {
 const layoutStyle: React.CSSProperties = {
   borderRadius: 8,
   overflow: "hidden",
-  width: "600px",
-  height: "522px",
+  width: "1200px",
+  height: "660px",
   boxShadow: "0 4px 24px 0 rgba(34, 60, 80, 0.2)",
 };
 const containerStyle: React.CSSProperties = {
   height: "100vh",
 };
-const PetIdPage = () => {
+const Page = () => {
   return (
     <Flex
       style={containerStyle}
@@ -41,11 +41,11 @@ const PetIdPage = () => {
           justify="center"
           align="center"
         >
-          <Title level={3}>환자정보</Title>
-          <PetIdForm />
+          <Title level={3}>나의 리포트</Title>
+          <MyReportsTable />
         </Flex>
       </div>
     </Flex>
   );
 };
-export default PetIdPage;
+export default Page;

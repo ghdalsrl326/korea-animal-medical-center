@@ -50,7 +50,7 @@ const ModePage = () => {
             align="center"
           >
             <ModeButton modename="신규" url={`${URL.MODE}/${URL.SETTING}`} />
-            <ModeButton modename="조회" url={URL.PETID} />
+            <ModeButton modename="조회" url={URL.MYREPORTS} />
           </Flex>
         </Flex>
       </div>
