@@ -7,7 +7,11 @@ import { URL } from "@/app/data/url";
 import { useAtom } from "jotai";
 import { configAtom } from "@/app/data/configStore";
 import { ResGetAdminView } from "@/types/Admin";
+import { EyeTwoTone, DeleteTwoTone } from "@ant-design/icons";
 import dayjs from "dayjs";
+import { ResGetMyInfo } from "@/types/Doctor";
+import { deleteQuestionnaire } from "@/service/adminClient";
+import { useRouter } from "next/navigation";
 interface DataType {
   key: React.Key;
   reportId: string;
@@ -30,9 +34,11 @@ const onChange: TableProps<DataType>["onChange"] = (
 
 type Props = {
   data: ResGetAdminView;
+  myInfo: ResGetMyInfo;
 };
 
-const ReportsTable = ({ data: fetchedData }: Props) => {
+const ReportsTable = ({ data: fetchedData, myInfo }: Props) => {
+  const router = useRouter();
   const [config, setConfig] = useAtom(configAtom);
   const [data, setData] = useState<DataType[]>([]);
 
@@ -54,7 +60,7 @@ const ReportsTable = ({ data: fetchedData }: Props) => {
     {
       title: "리포트 ID",
       dataIndex: "reportId",
-      width: "150px",
+      width: "100px",
       sorter: (a, b) => a.reportId.localeCompare(b.reportId),
     },
     {
@@ -95,8 +101,9 @@ const ReportsTable = ({ data: fetchedData }: Props) => {
       sorter: (a, b) => a.owner.localeCompare(b.owner),
     },
     {
-      title: "Action",
-      key: "action",
+      title: "조회",
+      key: "view",
+      width: "100px",
       onCell: (record) => ({
         style: { cursor: "pointer" },
         onClick: () => {
@@ -111,9 +118,22 @@ const ReportsTable = ({ data: fetchedData }: Props) => {
         <Link
           href={`${URL.PET}/${record.petId}${URL.QUESTIONNAIRE}/${record.reportId}`}
         >
-          조회
+          <EyeTwoTone style={{ fontSize: "18px" }} />
         </Link>
       ),
+    },
+    {
+      title: "삭제",
+      key: "delete",
+      width: "100px",
+      onCell: (record) => ({
+        style: { cursor: "pointer" },
+        onClick: async () => {
+          await deleteQuestionnaire(record.reportId);
+          router.refresh();
+        },
+      }),
+      render: (_, record) => <DeleteTwoTone style={{ fontSize: "18px" }} />,
     },
   ];
 

@@ -8,8 +8,7 @@ import { Header } from "antd/es/layout/layout";
 import ReportsTable from "@/components/ReportsTable";
 import Image from "next/image";
 import FloatButtonGroup from "@/components/FloatButtonGroup";
-import { useData } from "../contexts/DataContext";
-import { ResGetAdminView } from "@/types/Admin";
+import { useAdminData } from "../contexts/AdminContext";
 
 const { Content, Sider } = Layout;
 
@@ -34,7 +33,7 @@ const items: MenuItem[] = [
 ];
 
 const AdminPage = () => {
-  const { data }: { data: ResGetAdminView } = useData();
+  const { data, myInfo } = useAdminData();
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -71,7 +70,7 @@ const AdminPage = () => {
               background: "#fff",
             }}
           >
-            <ReportsTable data={data} />
+            <ReportsTable data={data} myInfo={myInfo} />
           </div>
         </Content>
         <FloatButtonGroup admin />

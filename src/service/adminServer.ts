@@ -1,7 +1,7 @@
 import { ResGetAdminView } from "@/types/Admin";
 import { cookies } from "next/headers";
 
-export const fetchAllPets = async (): Promise<ResGetAdminView> => {
+export const fetchAdminView = async (): Promise<ResGetAdminView> => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/admin/view`,
     {

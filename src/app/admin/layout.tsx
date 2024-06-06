@@ -1,19 +1,23 @@
 import React from "react";
-import { fetchAllPets } from "@/service/adminServer";
-import { DataProvider } from "@/app/contexts/DataContext";
+import { fetchAdminView } from "@/service/adminServer";
+import { fetchMyInfo } from "@/service/doctorServer";
+import { AdminDataProvider } from "@/app/contexts/AdminContext";
 
 interface Props {
   children: React.ReactNode;
 }
 
 const layout = async ({ children }: Props) => {
-  const data = await fetchAllPets();
+  const [adminView, myInfo] = await Promise.all([
+    fetchAdminView(),
+    fetchMyInfo(),
+  ]);
 
   return (
     <div>
-      <DataProvider data={data}>
+      <AdminDataProvider data={adminView} myInfo={myInfo}>
         <div>{children}</div>
-      </DataProvider>
+      </AdminDataProvider>
     </div>
   );
 };
