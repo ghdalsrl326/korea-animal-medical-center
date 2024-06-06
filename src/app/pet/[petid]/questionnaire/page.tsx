@@ -16,9 +16,10 @@ import { configAtom } from "@/app/data/configStore";
 import { saveQuestionnaire } from "@/service/questionnaireClient";
 import { ResSaveReport } from "@/types/Report";
 import { useData } from "@/app/contexts/DataContext";
+import FloatButtonGroup from "@/components/FloatButtonGroup";
 
 const Page = () => {
-  const { data, date } = useData();
+  const { data, date, myInfo } = useData();
 
   const componentRef = useRef(null);
   const router = useRouter();
@@ -92,45 +93,35 @@ const Page = () => {
         </Flex>
       </div>
       <NavigationTab />
-      <ConfigProvider
-        theme={{
-          token: {
-            colorPrimary: "#F19EA6",
-          },
-        }}
-      >
-        <FloatButton
-          shape="square"
-          style={{
-            width: "180px",
-            bottom: "80px",
-            right: "100px",
-            opacity: isModified ? 1 : 0.5, // 수정 여부에 따라 투명도 변경
-            pointerEvents: isModified ? "auto" : "none", // 수정 여부에 따라 클릭 이벤트 처리
+      {!myInfo?.isAdmin && (
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: "#F19EA6",
+            },
           }}
-          type="primary"
-          description={
-            <>
-              저장하기 <br />
-              {lastModified ? `Last Mod. ${lastModified}` : ""}
-            </>
-          }
-          onClick={handleSaveClick}
-        />
-      </ConfigProvider>
-      <ReactToPrint
-        trigger={() => (
+        >
           <FloatButton
-            icon={<FileTextOutlined />}
-            description="PDF"
             shape="square"
-            style={{ bottom: "80px", right: "40px" }}
+            style={{
+              width: "180px",
+              bottom: "80px",
+              right: "100px",
+              opacity: isModified ? 1 : 0.5, // 수정 여부에 따라 투명도 변경
+              pointerEvents: isModified ? "auto" : "none", // 수정 여부에 따라 클릭 이벤트 처리
+            }}
+            type="primary"
+            description={
+              <>
+                저장하기 <br />
+                {lastModified ? `Last Mod. ${lastModified}` : ""}
+              </>
+            }
+            onClick={handleSaveClick}
           />
-        )}
-        content={() => componentRef.current}
-        copyStyles={true}
-        pageStyle="@page { size: 1300px 2200px; -webkit-print-color-adjust: exact; }"
-      />
+        </ConfigProvider>
+      )}
+      <FloatButtonGroup componentRef={componentRef} admin={myInfo?.isAdmin} />
     </>
   );
 };

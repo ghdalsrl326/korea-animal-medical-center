@@ -16,7 +16,7 @@ import { isResGetQuestionnaire, useData } from "@/app/contexts/DataContext";
 import FloatButtonGroup from "@/components/FloatButtonGroup";
 
 const Page = () => {
-  const { data, date, content: fetchedContent } = useData();
+  const { data, date, content: fetchedContent, myInfo } = useData();
 
   const componentRef = useRef(null);
   const router = useRouter();
@@ -152,33 +152,35 @@ const Page = () => {
         </Flex>
       </div>
       <NavigationTab />
-      <ConfigProvider
-        theme={{
-          token: {
-            colorPrimary: "#F19EA6",
-          },
-        }}
-      >
-        <FloatButton
-          shape="square"
-          style={{
-            width: "180px",
-            bottom: "80px",
-            right: "100px",
-            opacity: isModified ? 1 : 0.5, // 수정 여부에 따라 투명도 변경
-            pointerEvents: isModified ? "auto" : "none", // 수정 여부에 따라 클릭 이벤트 처리
+      {!myInfo?.isAdmin && (
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: "#F19EA6",
+            },
           }}
-          type="primary"
-          description={
-            <>
-              저장하기 <br />
-              {lastModified ? `Last Mod. ${lastModified}` : ""}
-            </>
-          }
-          onClick={handleSaveClick}
-        />
-      </ConfigProvider>
-      <FloatButtonGroup componentRef={componentRef} />
+        >
+          <FloatButton
+            shape="square"
+            style={{
+              width: "180px",
+              bottom: "80px",
+              right: "100px",
+              opacity: isModified ? 1 : 0.5, // 수정 여부에 따라 투명도 변경
+              pointerEvents: isModified ? "auto" : "none", // 수정 여부에 따라 클릭 이벤트 처리
+            }}
+            type="primary"
+            description={
+              <>
+                저장하기 <br />
+                {lastModified ? `Last Mod. ${lastModified}` : ""}
+              </>
+            }
+            onClick={handleSaveClick}
+          />
+        </ConfigProvider>
+      )}
+      <FloatButtonGroup componentRef={componentRef} admin={myInfo?.isAdmin} />
     </>
   );
 };

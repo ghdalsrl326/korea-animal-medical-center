@@ -17,7 +17,7 @@ import { configAtom } from "@/app/data/configStore";
 import FloatButtonGroup from "@/components/FloatButtonGroup";
 
 const page = () => {
-  const { data, date, content: fetchedContent } = useData();
+  const { data, date, content: fetchedContent, myInfo } = useData();
 
   const componentRef = useRef(null);
 
@@ -166,33 +166,35 @@ const page = () => {
         </Flex>
       </div>
       <NavigationTab />
-      <ConfigProvider
-        theme={{
-          token: {
-            colorPrimary: "#F19EA6",
-          },
-        }}
-      >
-        <FloatButton
-          shape="square"
-          style={{
-            width: "180px",
-            bottom: "80px",
-            right: "100px",
-            opacity: isModified ? 1 : 0.5,
-            pointerEvents: isModified ? "auto" : "none",
+      {!myInfo?.isAdmin && (
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: "#F19EA6",
+            },
           }}
-          type="primary"
-          description={
-            <>
-              저장하기 <br />
-              {lastModified ? `Last Mod. ${lastModified}` : ""}
-            </>
-          }
-          onClick={handleSaveClick}
-        />
-      </ConfigProvider>
-      <FloatButtonGroup componentRef={componentRef} />
+        >
+          <FloatButton
+            shape="square"
+            style={{
+              width: "180px",
+              bottom: "80px",
+              right: "100px",
+              opacity: isModified ? 1 : 0.5,
+              pointerEvents: isModified ? "auto" : "none",
+            }}
+            type="primary"
+            description={
+              <>
+                저장하기 <br />
+                {lastModified ? `Last Mod. ${lastModified}` : ""}
+              </>
+            }
+            onClick={handleSaveClick}
+          />
+        </ConfigProvider>
+      )}
+      <FloatButtonGroup componentRef={componentRef} admin={myInfo?.isAdmin} />
     </>
   );
 };

@@ -3,6 +3,7 @@ import { fetchReportMeta } from "@/service/pet";
 import { fetchQuestionnaire } from "@/service/questionnaireServer";
 import { getDateByQid } from "@/util/getDateByQid";
 import { DataProvider } from "@/app/contexts/DataContext";
+import { fetchMyInfo } from "@/service/doctorServer";
 
 interface Props {
   children: React.ReactNode;
@@ -12,13 +13,17 @@ interface Props {
 const layout = async ({ params, children }: Props) => {
   const { petid, qid } = params;
 
-  const data = await fetchReportMeta(petid);
+  const [data, content, myInfo] = await Promise.all([
+    fetchReportMeta(petid),
+    fetchQuestionnaire(qid),
+    fetchMyInfo(),
+  ]);
+
   const date = getDateByQid(qid, data.questionnaire);
-  const content = await fetchQuestionnaire(qid);
 
   return (
     <div>
-      <DataProvider data={data} date={date} content={content}>
+      <DataProvider data={data} date={date} content={content} myInfo={myInfo}>
         {children}
       </DataProvider>
     </div>

@@ -11,7 +11,7 @@ import FloatButtonGroup from "@/components/FloatButtonGroup";
 
 const page = () => {
   const componentRef = useRef(null);
-  const { data, date } = useData();
+  const { data, date, myInfo } = useData();
 
   return (
     <>
@@ -37,7 +37,7 @@ const page = () => {
         </Flex>
       </div>
       <NavigationTab />
-      <FloatButtonGroup componentRef={componentRef} />
+      <FloatButtonGroup componentRef={componentRef} admin={myInfo?.isAdmin} />
     </>
   );
 };

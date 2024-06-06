@@ -13,10 +13,13 @@ interface Props {
 const layout = async ({ params, children }: Props) => {
   const { petid, qid } = params;
 
-  const data = await fetchReportMeta(petid);
+  const [data, content, myInfo] = await Promise.all([
+    fetchReportMeta(petid),
+    fetchExamResult(qid),
+    fetchMyInfo(),
+  ]);
+
   const date = getDateByQid(qid, data.questionnaire);
-  const content = await fetchExamResult(qid);
-  const myInfo = await fetchMyInfo();
 
   return (
     <div>

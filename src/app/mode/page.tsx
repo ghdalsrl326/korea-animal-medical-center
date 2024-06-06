@@ -4,7 +4,7 @@ import Title from "antd/es/typography/Title";
 import { Flex } from "antd";
 import ModeButton from "@/components/ModeButton";
 import { URL } from "@/app/data/url";
-import getToday from "@/util/getToday";
+
 const headerStyle: React.CSSProperties = {
   textAlign: "center",
 };

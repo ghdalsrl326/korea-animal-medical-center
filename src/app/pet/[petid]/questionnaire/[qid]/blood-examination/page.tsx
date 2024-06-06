@@ -9,7 +9,7 @@ import FloatButtonGroup from "@/components/FloatButtonGroup";
 
 const Page: React.FC = () => {
   const componentRef = useRef<HTMLDivElement>(null);
-  const { data, date } = useData();
+  const { data, date, myInfo } = useData();
 
   return (
     <>
@@ -28,7 +28,7 @@ const Page: React.FC = () => {
         </Flex>
       </div>
       <NavigationTab />
-      <FloatButtonGroup componentRef={componentRef} />
+      <FloatButtonGroup componentRef={componentRef} admin={myInfo?.isAdmin} />
     </>
   );
 };

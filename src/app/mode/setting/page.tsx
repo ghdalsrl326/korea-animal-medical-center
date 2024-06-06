@@ -35,7 +35,6 @@ const page = () => {
         <Title level={3}>환자정보</Title>
         <SettingForm />
       </Content>
-      {/* <NavigationTab /> */}
     </Layout>
   );
 };
