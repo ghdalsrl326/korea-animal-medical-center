@@ -35,10 +35,10 @@ const ModeButton = ({ modename, url }: Props) => {
         date: getToday(),
       }));
     } else {
-      (prev) => ({
+      setConfig((prev) => ({
         ...prev,
         mode: modename,
-      });
+      }));
     }
     router.push(url);
   };
