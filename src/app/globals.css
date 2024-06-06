@@ -77,3 +77,9 @@ td {
 .quill-wrapper.focused .ql-toolbar {
   display: block;
 }
+
+.antd-table table,
+.antd-table th,
+.antd-table td {
+  border: none;
+}
