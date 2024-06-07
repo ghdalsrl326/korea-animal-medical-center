@@ -148,6 +148,7 @@ const MyReportsTable = () => {
       render: (_, record) => (
         <Link
           href={`${URL.PET}/${record.petId}${URL.QUESTIONNAIRE}/${record.reportId}${URL.COVER}`}
+          prefetch={false}
         >
           <EyeTwoTone style={{ fontSize: "18px" }} />
         </Link>

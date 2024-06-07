@@ -9,6 +9,7 @@ export type AdminView = {
     parentName: string;
     doctor: {
       name: string;
+      signature: string;
     };
   };
 };

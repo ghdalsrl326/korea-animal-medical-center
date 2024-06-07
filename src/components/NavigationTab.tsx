@@ -56,7 +56,11 @@ const NavigationTab = () => {
           tabPosition="bottom"
           items={navigation.map((tab) => {
             return {
-              label: <Link href={tab.path}>{tab.name}</Link>,
+              label: (
+                <Link href={tab.path} prefetch={false}>
+                  {tab.name}
+                </Link>
+              ),
               key: tab.path,
             };
           })}

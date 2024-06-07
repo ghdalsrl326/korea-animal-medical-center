@@ -34,7 +34,7 @@ const Signature = ({ src }: Props) => {
         >
           수의사 서명:
         </Title>
-        <img src={src} alt="Uploaded Signature" />
+        <img src={src} alt="Uploaded Signature" width={200} />
       </Flex>
     </Flex>
   );
