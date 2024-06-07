@@ -42,6 +42,7 @@ const FloatButtonGroup = ({ componentRef, admin }: Props) => {
         date: "",
       }));
       router.push(URL.LOGIN);
+      router.refresh();
     }
   };
 
