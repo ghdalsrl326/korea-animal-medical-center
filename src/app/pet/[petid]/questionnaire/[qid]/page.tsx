@@ -125,6 +125,7 @@ const Page = () => {
             `${URL.PET}/${data?.id}${URL.QUESTIONNAIRE}/${questionnaireId}`
           );
         }
+        router.refresh();
       } catch (error) {
         message.error("저장 중 오류가 발생했습니다.");
       }

@@ -22,8 +22,9 @@ const FloatButtonGroup = ({ componentRef, admin }: Props) => {
   const router = useRouter();
   const [config, setConfig] = useAtom(configAtom);
 
-  const onChangeMode = () => {
+  const onChangeMode = async () => {
     router.push(URL.MODE);
+    router.refresh();
   };
 
   const onLogout = async () => {

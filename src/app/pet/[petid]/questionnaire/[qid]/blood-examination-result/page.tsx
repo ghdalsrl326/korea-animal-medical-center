@@ -15,11 +15,12 @@ import { configAtom } from "@/app/data/configStore";
 import dayjs from "dayjs";
 import { saveBloodExam } from "@/service/bloodExamClient";
 import FloatButtonGroup from "@/components/FloatButtonGroup";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 const page = () => {
   const { data, date, content: fetchedContent, myInfo } = useData();
   const params = useParams();
+  const router = useRouter();
   const { qid } = params;
 
   const componentRef = useRef(null);
@@ -103,6 +104,7 @@ const page = () => {
         setIsModified(false);
         setLastModified(dayjs().format("YY.MM.DD HH:mm:ss"));
         message.success("저장되었습니다.");
+        router.refresh();
       } catch (error) {
         message.error("저장 중 오류가 발생했습니다.");
       }
