@@ -21,7 +21,7 @@ export const AdminDataProvider = ({ children, data, myInfo }: any) => {
 export const useAdminData = () => {
   const context = useContext(AdminDataContext);
   if (context === undefined) {
-    throw new Error("useAdminData must be used within a DataProvider");
+    throw new Error("useAdminData must be used within a AdminDataProvider");
   }
   return context;
 };
