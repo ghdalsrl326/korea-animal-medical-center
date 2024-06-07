@@ -13,5 +13,8 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/node_modules ./node_modules
+ENV NEXT_PUBLIC_API_URL="https://www.healthcheckup.store/api/v1"
+
+
 EXPOSE 3000
 CMD ["npm", "start"]
