@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { configAtom } from "@/app/data/configStore";

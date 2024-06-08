@@ -1,4 +1,4 @@
-import { HealthExam, HealthExamDetail } from "@/types/HealthExam";
+import { HealthExamDetail } from "@/types/HealthExam";
 import { atom } from "jotai";
 
 export const healthExamDetailAtom = atom<HealthExamDetail>({
@@ -6,7 +6,6 @@ export const healthExamDetailAtom = atom<HealthExamDetail>({
   coat: "",
   leftEar: "",
   rightEar: "",
-  // skinPictures: null,
   skinPicture1: null,
   skinPicture2: null,
   skinPicture3: null,
@@ -27,7 +26,6 @@ export const healthExamDetailAtom = atom<HealthExamDetail>({
   slirInpectionLevel: "",
   externalAppearance: "",
   externalAppearanceLevel: "",
-  // eyesPictures: null,
   eyesPicture1: null,
   eyesPicture2: null,
   eyesPicture3: null,
@@ -37,8 +35,44 @@ export const healthExamDetailAtom = atom<HealthExamDetail>({
   brokenTeeth: "",
   retainedDeciduousTeeth: "",
   tartarPeriodontalDisease: "",
-  // teethPictures: null,
   teethPicture1: null,
   teethPicture2: null,
   teethPicture3: null,
 });
+
+export const initialHealthExamDetail = {
+  skin: "",
+  coat: "",
+  leftEar: "",
+  rightEar: "",
+  skinPicture1: null,
+  skinPicture2: null,
+  skinPicture3: null,
+  rightFluoresceinStaining: "",
+  rightFluoresceinStainingLevel: "",
+  leftFluoresceinStaining: "",
+  leftFluoresceinStainingLevel: "",
+  rightTearProduction: "",
+  rightTearProductionLevel: "",
+  leftTearProduction: "",
+  leftTearProductionLevel: "",
+  rightIntraocularPressure: "",
+  rightIntraocularPressureLevel: "",
+  leftIntraocularPressure: "",
+  leftIntraocularPressureLevel: "",
+  slirInpection: "",
+  slirInpectionLevel: "",
+  externalAppearance: "",
+  externalAppearanceLevel: "",
+  eyesPicture1: null,
+  eyesPicture2: null,
+  eyesPicture3: null,
+  malocclusion: "",
+  missingTeeth: "",
+  brokenTeeth: "",
+  retainedDeciduousTeeth: "",
+  tartarPeriodontalDisease: "",
+  teethPicture1: null,
+  teethPicture2: null,
+  teethPicture3: null,
+};

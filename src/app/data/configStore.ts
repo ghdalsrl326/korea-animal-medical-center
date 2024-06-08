@@ -7,3 +7,11 @@ export const configAtom = atomWithStorage("configAtom", {
   isFirstTime: true,
   date: "",
 });
+
+export const initialConfig = {
+  mode: "",
+  petId: "",
+  qid: "",
+  isFirstTime: true,
+  date: "",
+};
