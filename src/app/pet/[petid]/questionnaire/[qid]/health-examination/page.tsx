@@ -67,7 +67,6 @@ const page = () => {
         coat: fetchedContent?.result.coat ?? "",
         leftEar: fetchedContent?.result.leftEar ?? "",
         rightEar: fetchedContent?.result.rightEar ?? "",
-        // skinPictures: fetchedContent?.result.skinPictures ?? null,
         skinPicture1: fetchedContent?.result.skinPicture1 ?? null,
         skinPicture2: fetchedContent?.result.skinPicture2 ?? null,
         skinPicture3: fetchedContent?.result.skinPicture3 ?? null,
@@ -98,7 +97,6 @@ const page = () => {
         externalAppearance: fetchedContent?.result.externalAppearance ?? "",
         externalAppearanceLevel:
           fetchedContent?.result.externalAppearanceLevel ?? "",
-        // eyesPictures: fetchedContent?.result.eyesPictures ?? null,
         eyesPicture1: fetchedContent?.result.eyesPicture1 ?? null,
         eyesPicture2: fetchedContent?.result.eyesPicture2 ?? null,
         eyesPicture3: fetchedContent?.result.eyesPicture3 ?? null,
@@ -109,7 +107,6 @@ const page = () => {
           fetchedContent?.result.retainedDeciduousTeeth ?? "",
         tartarPeriodontalDisease:
           fetchedContent?.result.tartarPeriodontalDisease ?? "",
-        // teethPictures: fetchedContent?.result.teethPictures ?? null,
         teethPicture1: fetchedContent?.result.teethPicture1 ?? null,
         teethPicture2: fetchedContent?.result.teethPicture2 ?? null,
         teethPicture3: fetchedContent?.result.teethPicture3 ?? null,

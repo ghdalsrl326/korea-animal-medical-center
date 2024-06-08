@@ -6,10 +6,6 @@ export type NavigationItem = {
 };
 
 export const navigation: NavigationItem[] = [
-  // {
-  //   name: "세팅",
-  //   path: URL.SETTING,
-  // },
   {
     name: "표지",
     path: URL.COVER,
@@ -30,10 +26,6 @@ export const navigation: NavigationItem[] = [
     name: "혈액검사 결과",
     path: URL.BLOOD_EXAMINATION_RESULT,
   },
-  // {
-  //   name: "C반응성단백/항체가검사",
-  //   path: URL.C_REACTIVE_PROTEIN_EXAMINATION,
-  // },
   {
     name: "방사선검사",
     path: URL.RADIATION_EXAMINATION,

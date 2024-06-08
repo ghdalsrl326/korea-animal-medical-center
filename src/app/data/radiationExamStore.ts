@@ -11,3 +11,13 @@ export const radiationExamAtom = atom<RadiationExam>({
   thoraxAbdomenRadiologyResult: "",
   radiologyComment: "",
 });
+
+export const initialRadiationExam = {
+  radiographyImage1: null,
+  radiographyImage2: null,
+  radiographyImage3: null,
+  radiographyImage4: null,
+  radiographyImage5: null,
+  thoraxAbdomenRadiologyResult: "",
+  radiologyComment: "",
+};

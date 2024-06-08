@@ -11,3 +11,14 @@ export const healthExamSummaryAtom = atom<HealthExamSummary>({
   reproductiveSystem: "",
   neutered: "",
 });
+
+export const initialHealthExamSummary = {
+  vitalSigns: "",
+  superficialLymphNodes: "",
+  auscultationHeartLung: "",
+  nasalPharyngealCervical: "",
+  bcsNMCS: "",
+  musculoskeletalSystem: "",
+  reproductiveSystem: "",
+  neutered: "",
+};
