@@ -6,6 +6,8 @@ import { ResGetBloodExam } from "@/types/BloodExam";
 import { ResGetRadiationExam } from "@/types/RadiationExam";
 import { ResGetExamResult } from "@/types/ExamResult";
 import { ResGetMyInfo } from "@/types/Doctor";
+import { ReportMeta } from "@/types/ReportMeta";
+import { Setting } from "@/types/Setting";
 
 type ApiResponse =
   | ResGetQuestionnaire
@@ -70,10 +72,11 @@ export function isResGetExamResult(
 }
 
 interface DataContextType {
-  data: any;
+  data: Partial<Setting>;
   date: string;
   content?: ApiResponse;
   myInfo?: ResGetMyInfo;
+  additionalData?: ApiResponse;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -84,9 +87,12 @@ export const DataProvider = ({
   date,
   content,
   myInfo,
+  additionalData,
 }: any) => {
   return (
-    <DataContext.Provider value={{ data, date, content, myInfo }}>
+    <DataContext.Provider
+      value={{ data, date, content, myInfo, additionalData }}
+    >
       {children}
     </DataContext.Provider>
   );

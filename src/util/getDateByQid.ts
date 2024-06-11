@@ -1,7 +1,7 @@
 import { QuestionnaireMeta } from "@/types/QuestionnaireMeta";
 import dayjs from "dayjs";
 export const getDateByQid = (qid: string, qarray: QuestionnaireMeta[]) => {
-  const q = qarray.find((q) => q.id.toString() === qid);
+  const q = qarray.find((q) => q.id.toString() === qid.toString());
   if (!q) {
     return "";
   }

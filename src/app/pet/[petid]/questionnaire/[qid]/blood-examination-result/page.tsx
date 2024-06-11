@@ -13,9 +13,10 @@ import { useAtom } from "jotai";
 import { bloodExamResultAtom } from "@/app/data/bloodExamResultStore";
 import { configAtom } from "@/app/data/configStore";
 import dayjs from "dayjs";
-import { saveBloodExam } from "@/service/bloodExamClient";
+import { fetchLastBloodExam, saveBloodExam } from "@/service/bloodExamClient";
 import FloatButtonGroup from "@/components/FloatButtonGroup";
 import { useParams, useRouter } from "next/navigation";
+import { getDateByQid } from "@/util/getDateByQid";
 
 const page = () => {
   const { data, date, content: fetchedContent, myInfo } = useData();
@@ -40,31 +41,73 @@ const page = () => {
   }, [qid, setConfig]);
 
   useEffect(() => {
+    setContent(bloodExamResultAtom.init);
     if (fetchedContent && isResGetBloodExam(fetchedContent)) {
       setContent((prev) => ({
         ...prev,
-        firstDate: config.date,
-        pHFirst: fetchedContent?.result.vbgaResult.pH.toString() ?? "",
-        pCO2First: fetchedContent?.result.vbgaResult.pCO2.toString() ?? "",
-        pO2First: fetchedContent?.result.vbgaResult.pO2.toString() ?? "",
-        sodiumFirst: fetchedContent?.result.vbgaResult.sodium.toString() ?? "",
+        firstDate: date,
+        pHFirst: fetchedContent?.result.vbgaResult.pH?.toString() ?? "",
+        pCO2First: fetchedContent?.result.vbgaResult.pCO2?.toString() ?? "",
+        pO2First: fetchedContent?.result.vbgaResult.pO2?.toString() ?? "",
+        sodiumFirst: fetchedContent?.result.vbgaResult.sodium?.toString() ?? "",
         potassiumFirst:
-          fetchedContent?.result.vbgaResult.potassium.toString() ?? "",
+          fetchedContent?.result.vbgaResult.potassium?.toString() ?? "",
         chlorideFirst:
-          fetchedContent?.result.vbgaResult.chloride.toString() ?? "",
-        iCaFirst: fetchedContent?.result.vbgaResult.iCa.toString() ?? "",
-        hctFirst: fetchedContent?.result.vbgaResult.hct.toString() ?? "",
+          fetchedContent?.result.vbgaResult.chloride?.toString() ?? "",
+        iCaFirst: fetchedContent?.result.vbgaResult.iCa?.toString() ?? "",
+        hctFirst: fetchedContent?.result.vbgaResult.hct?.toString() ?? "",
         glucoseFirst:
-          fetchedContent?.result.vbgaResult.glucose.toString() ?? "",
+          fetchedContent?.result.vbgaResult.glucose?.toString() ?? "",
         lactateFirst:
-          fetchedContent?.result.vbgaResult.lactate.toString() ?? "",
+          fetchedContent?.result.vbgaResult.lactate?.toString() ?? "",
         anionGapFirst:
-          fetchedContent?.result.vbgaResult.anionGap.toString() ?? "",
+          fetchedContent?.result.vbgaResult.anionGap?.toString() ?? "",
         bicarbonateFirst:
-          fetchedContent?.result.vbgaResult.bicarbonate.toString() ?? "",
+          fetchedContent?.result.vbgaResult.bicarbonate?.toString() ?? "",
       }));
     }
     setOriginalContent(content);
+
+    if (data.questionnaire && data.questionnaire.length > 1) {
+      const currentQidIdx = data.questionnaire.findIndex(
+        (item) => item.id.toString() === qid
+      );
+      const lastqid = data.questionnaire[currentQidIdx + 1]?.id;
+
+      if (!lastqid) {
+        return;
+      }
+      fetchLastBloodExam(lastqid).then((lastFetchedContent) => {
+        setContent((prev) => ({
+          ...prev,
+          secondDate: getDateByQid(lastqid, data.questionnaire ?? []),
+          pHSecond: lastFetchedContent?.result?.vbgaResult.pH?.toString() ?? "",
+          pCO2Second:
+            lastFetchedContent?.result?.vbgaResult.pCO2?.toString() ?? "",
+          pO2Second:
+            lastFetchedContent?.result?.vbgaResult.pO2?.toString() ?? "",
+          sodiumSecond:
+            lastFetchedContent?.result?.vbgaResult.sodium?.toString() ?? "",
+          potassiumSecond:
+            lastFetchedContent?.result?.vbgaResult.potassium?.toString() ?? "",
+          chlorideSecond:
+            lastFetchedContent?.result?.vbgaResult.chloride?.toString() ?? "",
+          iCaSecond:
+            lastFetchedContent?.result?.vbgaResult.iCa?.toString() ?? "",
+          hctSecond:
+            lastFetchedContent?.result?.vbgaResult.hct?.toString() ?? "",
+          glucoseSecond:
+            lastFetchedContent?.result?.vbgaResult.glucose?.toString() ?? "",
+          lactateSecond:
+            lastFetchedContent?.result?.vbgaResult.lactate?.toString() ?? "",
+          anionGapSecond:
+            lastFetchedContent?.result?.vbgaResult.anionGap?.toString() ?? "",
+          bicarbonateSecond:
+            lastFetchedContent?.result?.vbgaResult.bicarbonate?.toString() ??
+            "",
+        }));
+      });
+    }
   }, [config.date]);
 
   useEffect(() => {

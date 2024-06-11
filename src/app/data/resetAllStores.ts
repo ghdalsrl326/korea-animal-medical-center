@@ -22,7 +22,7 @@ import {
 } from "@/app/data/radiationExamStore";
 import { configAtom, initialConfig } from "@/app/data/configStore";
 
-export function useResetAllStores() {
+export const useResetAllStores = () => {
   const setBloodExamResult = useSetAtom(bloodExamResultAtom);
   const setExamResult = useSetAtom(examResultAtom);
   const setHealthExamDetail = useSetAtom(healthExamDetailAtom);
@@ -31,7 +31,7 @@ export function useResetAllStores() {
   const setRadiationExam = useSetAtom(radiationExamAtom);
   const setConfig = useSetAtom(configAtom);
 
-  const resetAllStores = () => {
+  const resetAllStores = async () => {
     setBloodExamResult(initialBloodExamResult);
     setExamResult(initialExamResult);
     setHealthExamDetail(initialHealthExamDetail);
@@ -42,4 +42,4 @@ export function useResetAllStores() {
   };
 
   return resetAllStores;
-}
+};

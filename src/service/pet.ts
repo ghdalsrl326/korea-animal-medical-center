@@ -27,7 +27,7 @@ export async function fetchReportMeta(petID: string): Promise<Setting> {
     // 응답이 비어있을 가능성 처리
     const responseText = await response.text();
     const data = responseText ? JSON.parse(responseText) : {};
-    // console.log("Fetched Data:", data); // 데이터 로그 추가
+    console.log("Fetched Data:", data);
 
     return data;
   } catch (error) {

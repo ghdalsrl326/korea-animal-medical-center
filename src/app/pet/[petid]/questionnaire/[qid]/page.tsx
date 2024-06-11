@@ -101,9 +101,9 @@ const Page = () => {
   }, [content, originalContent]);
 
   const handleSaveClick = async () => {
-    if (isModified) {
+    if (isModified && data.id) {
       try {
-        const result = await saveQuestionnaire(content, data?.id);
+        const result = await saveQuestionnaire(content, data.id);
 
         if ("error" in result) {
           throw new Error(result.error);
